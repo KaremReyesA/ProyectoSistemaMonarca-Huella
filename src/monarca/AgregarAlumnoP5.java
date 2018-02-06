@@ -57,7 +57,7 @@ import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AgregarAlumnoP5 extends javax.swing.JPanel {
-
+    
     public AgregarAlumnoP5() {
         initComponents();
         try {
@@ -68,12 +68,13 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
         }
         lblAlumnoId.setVisible(false);
         lblid.setVisible(false);
-         Iniciar();
+        Iniciar();
         start();
         EstadoHuellas();
         btnFinalizar.setEnabled(false);
-      
+        
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -224,37 +225,62 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
         lblImagenHuella.setIcon(null);
         start();
         //Desconecta de la base de datos
-           stop();
+        stop();
+        agregarMensualidadAlumno(Integer.parseInt(lblid.getText()));
         con.desconectar();
-        
+
         //AbrePanel para ver datos del alumno
         VerDatosAlumno articulos = new VerDatosAlumno();
-        articulos.setSize(1070,730);
+        articulos.setSize(1070, 730);
         articulos.setLocation(0, 0);
-
-       rightPanelAdmin.removeAll();
+        
+        rightPanelAdmin.removeAll();
         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
         rightPanelAdmin.repaint();
     }//GEN-LAST:event_btnFinalizarActionPerformed
-
+    
+    void agregarMensualidadAlumno(int id) {
+        SimpleDateFormat mes1 = new SimpleDateFormat("MM");
+        SimpleDateFormat formateador2 = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+        java.util.Date fecha2 = new java.util.Date();
+        String fecha = formateador2.format(fecha2);
+        int mes = Integer.parseInt(mes1.format(fecha2));
+       
+        try {
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+//   
+            PreparedStatement modificarAlumno = c.prepareStatement(" INSERT INTO mensualidades(alumno_id, dia_pago, ultimo_pago) VALUES (?,?,?)");
+            
+            modificarAlumno.setInt(1, id);
+            modificarAlumno.setInt(2, mes);
+            modificarAlumno.setString(3, fecha);
+            
+            modificarAlumno.execute();
+            modificarAlumno.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     ConexionBD con = new ConexionBD();
     
-     void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
+    void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
             String fNacimiento, float peso, float altura,
             String tSangre, String direccion, String cinta,
             String tutor, String parentesco, String tCelular,
             String alergias, String enfermedades, String deporte,
             int instructor) {
-
+        
         try {
             Connection c = con.conectar();
             PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,"
                     + "peso,t_sangre,altura,direccion,cinta,nombre_tutor,"
                     + "parentesco,tutor_celular,alrgias,enfermedades,deportes,"
                     + "instructor_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
+            
             agregarAlumno.setString(1, nombre);
             agregarAlumno.setString(2, aPaterno);
             agregarAlumno.setString(3, aMaterno);
@@ -271,7 +297,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             agregarAlumno.setString(14, enfermedades);
             agregarAlumno.setString(15, deporte);
             agregarAlumno.setInt(16, instructor);
-
+            
             agregarAlumno.execute();
             agregarAlumno.close();
             JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
@@ -282,13 +308,13 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             con.desconectar();
         }
     }
-     
+    
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
     private DPFPEnrollment Reclutador = DPFPGlobal.getEnrollmentFactory().createEnrollment();
     private DPFPVerification Verificador = DPFPGlobal.getVerificationFactory().createVerification();
     private DPFPTemplate template;
     public static String TEMPLATE_PROPERTY = "template";
-
+    
     protected void Iniciar() {
         Lector.addDataListener(new DPFPDataAdapter() {
             @Override
@@ -300,7 +326,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-
+        
         Lector.addReaderStatusListener(new DPFPReaderStatusAdapter() {
             @Override
             public void readerConnected(final DPFPReaderStatusEvent e) {
@@ -310,7 +336,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                     }
                 });
             }
-
+            
             @Override
             public void readerDisconnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -320,7 +346,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-
+        
         Lector.addSensorListener(new DPFPSensorAdapter() {
             @Override
             public void fingerTouched(final DPFPSensorEvent e) {
@@ -329,7 +355,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                     }
                 });
             }
-
+            
             @Override
             public void fingerGone(final DPFPSensorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -338,7 +364,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-
+        
         Lector.addErrorListener(new DPFPErrorAdapter() {
             public void errorReader(final DPFPErrorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -349,15 +375,15 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             }
         });
     }
-
+    
     public DPFPFeatureSet featuresinscripcion;
     public DPFPFeatureSet featuresverificacion;
-
+    
     public void ProcesarCaptura(DPFPSample sample) {
         featuresinscripcion = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_ENROLLMENT);
-
+        
         featuresverificacion = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION);
-
+        
         if (featuresinscripcion != null) {
             try {
                 System.out.println("Las Caracteristicas de la Huella han sido creada");
@@ -376,20 +402,20 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                         btnFinalizar.setEnabled(true);
                         btnFinalizar.grabFocus();
                         break;
-
+                    
                     case TEMPLATE_STATUS_FAILED:
                         Reclutador.clear();
                         stop();
                         EstadoHuellas();
                         setTemplate(null);
-                        JOptionPane.showMessageDialog(AgregarAlumnoP5.this, "Oops! hubo un error, por favor intentalo de nuevo.","Registro de huella de alumno.", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(AgregarAlumnoP5.this, "Oops! hubo un error, por favor intentalo de nuevo.", "Registro de huella de alumno.", JOptionPane.ERROR_MESSAGE);
                         start();
                         break;
                 }
             }
         }
     }
-
+    
     public DPFPFeatureSet extraerCaracteristicas(DPFPSample sample, DPFPDataPurpose purpose) {
         DPFPFeatureExtraction extractor = DPFPGlobal.getFeatureExtractionFactory().createFeatureExtraction();
         try {
@@ -398,45 +424,45 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             return null;
         }
     }
-
+    
     public Image CrearImagenHuella(DPFPSample sample) {
         return DPFPGlobal.getSampleConversionFactory().createImage(sample);
     }
-
+    
     public void DibujarHuella(Image image) {
         lblImagenHuella.setIcon(new ImageIcon(
                 image.getScaledInstance(lblImagenHuella.getWidth(), lblImagenHuella.getHeight(), Image.SCALE_DEFAULT)));
         repaint();
     }
-
+    
     public void EstadoHuellas() {
-        EnviarTexto("Faltan " + Reclutador.getFeaturesNeeded()+" Capturas de la huella.");
+        EnviarTexto("Faltan " + Reclutador.getFeaturesNeeded() + " Capturas de la huella.");
     }
-
+    
     public void EnviarTexto(String string) {
         txtArea.append(string + "\n");
     }
-
+    
     public void start() {
         Lector.startCapture();
         EnviarTexto("El lector esta en funcionamiento. ");
     }
-
+    
     public void stop() {
         Lector.stopCapture();
         EnviarTexto("El lector no esta en funcionamiento. ");
     }
-
+    
     public DPFPTemplate getTemplate() {
         return template;
     }
-
+    
     public void setTemplate(DPFPTemplate template) {
         DPFPTemplate old = this.template;
         this.template = template;
         firePropertyChange(TEMPLATE_PROPERTY, old, template);
     }
-
+    
     public void guardarHuella() {
         SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
         java.util.Date fecha2 = new java.util.Date();
@@ -446,7 +472,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
         try {
             Connection c = con.conectar();
             PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO huellas_alumnos(huella, alumno_id) values(?,?)");
-
+            
             guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
             guardarStmt.setInt(2, Integer.parseInt(lblid.getText()));
             guardarStmt.execute();

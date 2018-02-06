@@ -119,7 +119,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         jLabel28 = new javax.swing.JLabel();
         rbEnfermedadNo1 = new javax.swing.JRadioButton();
         rbEnfermedadSi1 = new javax.swing.JRadioButton();
-        jButton3 = new javax.swing.JButton();
+        btnFinalizar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         lblAlergia = new javax.swing.JLabel();
         txtAlergia = new javax.swing.JTextField();
@@ -277,14 +277,14 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         });
         back.add(rbEnfermedadSi1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 570, -1, -1));
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setText("FINALIZAR INFORMACIÓN");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnFinalizar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnFinalizar.setText("FINALIZAR INFORMACIÓN");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnFinalizarActionPerformed(evt);
             }
         });
-        back.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 670, 270, 40));
+        back.add(btnFinalizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 670, 270, 40));
 
         jButton2.setBackground(new java.awt.Color(153, 153, 153));
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -422,7 +422,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 // TODO add your handling code here:
     }//GEN-LAST:event_rbEnfermedadSi1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
         try {
             String alergiaFile = txtAlergia.getText();
@@ -518,7 +518,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         }
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
@@ -634,9 +634,9 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     private javax.swing.JLabel VerifiqueEnfermedad;
     private javax.swing.JLabel VerifiquePeso;
     private javax.swing.JPanel back;
+    private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox<String> cbSangre1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

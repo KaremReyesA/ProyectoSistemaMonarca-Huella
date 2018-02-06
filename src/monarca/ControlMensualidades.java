@@ -2,10 +2,13 @@ package monarca;
 
 import db.ConexionBD;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -15,8 +18,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class ControlMensualidades extends javax.swing.JPanel {
 
@@ -44,7 +50,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
         String nombreMes = null;
 
         Connection c = conn.conectar();
-        ps = c.prepareStatement("SELECT concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno), "
+        ps = c.prepareStatement("SELECT mensualidades.id, concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno), "
                 + "mensualidades.dia_pago, mensualidades.ultimo_pago, mensualidades.dia_pago, mensualidades.ultimo_pago "
                 + "FROM alumnos INNER JOIN mensualidades ON alumnos.id = mensualidades.alumno_id "
                 + "WHERE mensualidades.activo=1 and alumnos.activo=1 AND alumnos.id = mensualidades.alumno_id");
@@ -82,7 +88,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
             for (int i = 0; i < filas.length; i++) {
                 //Estado
                 switch (i) {
-                    case 1:
+                    case 2:
                         //Estado
                         if (diferenciaMeses < 1 || (diferenciaMeses == 1 && diferenciaDias <= 7)) {
                             status = "Regular";
@@ -96,7 +102,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                             filas[i] = status;
                         }
                         break;
-                    case 2:
+                    case 3:
                         //Ultimo periodo de pago
 
                         switch (m) {
@@ -151,7 +157,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                         }
 
                         break;
-                    case 3:
+                    case 4:
                         //proximo periodo de pago
                         //Dia de pago
                         diaMensualidad = rs.getObject(i + 1).toString();
@@ -215,7 +221,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                         //mensualidad)
                         //Si es irregular, la fecha mas cercana a la actual
                         break;
-                    case 4:
+                    case 5:
                         //Total a pagar
 
                         if (status.equals("Regular")) {
@@ -280,8 +286,19 @@ public class ControlMensualidades extends javax.swing.JPanel {
         txtBusqueda = new javax.swing.JTextField();
         btnPagarMensualidades = new javax.swing.JButton();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
+        back.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                backFocusGained(evt);
+            }
+        });
         back.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TitlePanel.setBackground(new java.awt.Color(121, 72, 221));
@@ -329,14 +346,14 @@ public class ControlMensualidades extends javax.swing.JPanel {
         jtMensualidades.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jtMensualidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre completo", "Estado", "Último periodo pagado", "Fecha de próxima mensualidad", "Total a pagar"
+                "id", "Nombre completo", "Estado", "Último periodo pagado", "Fecha de próxima mensualidad", "Total a pagar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -350,10 +367,20 @@ public class ControlMensualidades extends javax.swing.JPanel {
         jtMensualidades.setGridColor(new java.awt.Color(255, 255, 255));
         jtMensualidades.setInheritsPopupMenu(true);
         jtMensualidades.setSelectionBackground(new java.awt.Color(84, 65, 118));
+        jtMensualidades.setSelectionForeground(new java.awt.Color(248, 243, 243));
         jtMensualidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jtMensualidades.setShowHorizontalLines(false);
         jtMensualidades.setShowVerticalLines(false);
+        jtMensualidades.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtMensualidadesFocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtMensualidades);
+        if (jtMensualidades.getColumnModel().getColumnCount() > 0) {
+            jtMensualidades.getColumnModel().getColumn(0).setResizable(false);
+            jtMensualidades.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 971, 310));
 
@@ -396,19 +423,62 @@ public class ControlMensualidades extends javax.swing.JPanel {
 //Cambiar fecha de adelanto a la seleccionada
 
 //Adelantar por meses sin cambiar el dia
-       
-   if (jtMensualidades.getSelectedRowCount() == 1) {
+        if (jtMensualidades.getSelectedRowCount() == 1) {
             Connection c = conn.conectar();
+            String fecha = null;
+            java.util.Date fecha2 = null;
+            java.util.Date fechaNva = null;
             int fila = jtMensualidades.getSelectedRow();
-            float pago = (float) jtMensualidades.getValueAt(fila, 4);
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a saldado la deuda de este recibo?", "Liquidar Adeudo", dialogButton);
-            if (dialogResult == 0) {
-                System.out.println("Yes option");
-            } else {
-                System.out.println("No Option");
-            }
+            String id = jtMensualidades.getValueAt(fila, 0).toString();
+            int meses;
+            SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
+            JSpinner spinner = new JSpinner(sModel);
+            int option = JOptionPane.showOptionDialog(null, spinner, "¿Cuantos meses desea pagar?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (option == JOptionPane.CANCEL_OPTION) {
+                System.out.println("Cancelar");
+            } else if (option == JOptionPane.OK_OPTION) {
+                meses = Integer.parseInt(spinner.getValue().toString());
+                int pago= meses*150;
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se han recibido $"+pago+"?", "Adelantar mensualidad", dialogButton);
+                if (dialogResult == 0) {
+                    System.out.println("Yes option");
+//               
+                    fecha = buscarFecha(Integer.parseInt(id));
+                    SimpleDateFormat formateador2 = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
 
+                    try {
+                        fecha2 = formateador2.parse(fecha);
+                        fechaNva = sumarRestarDiasFecha(fecha2,meses);
+                        fecha = formateador2.format(fechaNva);
+                        System.out.println(fecha2);
+                        System.out.println(fechaNva);
+                        System.out.println(fecha);
+                        PreparedStatement ps = null;
+                        ResultSet rs = null;
+                        ConexionBD conn = new ConexionBD();
+                        Connection con = conn.conectar();
+
+                        String sql = "UPDATE mensualidades "
+                                + "SET "
+                                + "ultimo_pago=? "
+                                + "WHERE id =? ";
+                        ps = con.prepareStatement(sql);
+                        ps.setString(1, fecha);
+                        ps.setInt(2, Integer.parseInt(id));
+
+                        ps.execute();
+                        JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+                    } catch (SQLException ex) {
+                        System.err.println(ex.toString());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ControlMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    System.out.println("No Option");
+
+                }
+            } 
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
@@ -418,13 +488,49 @@ public class ControlMensualidades extends javax.swing.JPanel {
         if (jtMensualidades.getSelectedRowCount() == 1) {
             Connection c = conn.conectar();
             int fila = jtMensualidades.getSelectedRow();
-            float pago = (float) jtMensualidades.getValueAt(fila, 4);
+            String fecha = null;
+            java.util.Date fecha2 = null;
+            java.util.Date fechaNva = null;
+            String id = jtMensualidades.getValueAt(fila, 0).toString();
+            String pago = jtMensualidades.getValueAt(fila, 5).toString();
+
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a saldado la deuda de este recibo?", "Liquidar Adeudo", dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a pagado la mensualidad?", "Pagar mensualidad", dialogButton);
             if (dialogResult == 0) {
                 System.out.println("Yes option");
+                fecha = buscarFecha(Integer.parseInt(id));
+                SimpleDateFormat formateador2 = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+
+                try {
+                    fecha2 = formateador2.parse(fecha);
+                    fechaNva = sumarRestarDiasFecha(fecha2, 1);
+                    fecha = formateador2.format(fechaNva);
+                    System.out.println(fecha2);
+                    System.out.println(fechaNva);
+                    System.out.println(fecha);
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
+                    ConexionBD conn = new ConexionBD();
+                    Connection con = conn.conectar();
+
+                    String sql = "UPDATE mensualidades "
+                            + "SET "
+                            + "ultimo_pago=? "
+                            + "WHERE id =? ";
+                    ps = con.prepareStatement(sql);
+                    ps.setString(1, fecha);
+                    ps.setInt(2, Integer.parseInt(id));
+
+                    ps.execute();
+                    JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+                } catch (SQLException ex) {
+                    System.err.println(ex.toString());
+                } catch (ParseException ex) {
+                    Logger.getLogger(ControlMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 System.out.println("No Option");
+                System.out.println("" + pago);
             }
 
         } else {
@@ -433,6 +539,54 @@ public class ControlMensualidades extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnPagarMensualidadesActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+       
+    }//GEN-LAST:event_formFocusGained
+
+    private void backFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_backFocusGained
+    
+    }//GEN-LAST:event_backFocusGained
+
+    private void jtMensualidadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtMensualidadesFocusGained
+       limpiarTabla(jtMensualidades);
+        try {
+            llenarTabla(jtMensualidades);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error:" + e.getMessage());
+            System.out.println("error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jtMensualidadesFocusGained
+
+    public java.util.Date sumarRestarDiasFecha(java.util.Date fecha, int dias) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe	
+        calendar.add(Calendar.MONTH, dias);  // numero de días a añadir, o restar en caso de días<0
+
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+
+    }
+
+    public String buscarFecha(int id) {
+        String fecha = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ConexionBD objCon = new ConexionBD();
+            Connection conn = objCon.conectar();
+
+            ps = conn.prepareStatement("SELECT ultimo_pago  FROM mensualidades WHERE id=?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                fecha = rs.getString("ultimo_pago");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+
+        return fecha;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
