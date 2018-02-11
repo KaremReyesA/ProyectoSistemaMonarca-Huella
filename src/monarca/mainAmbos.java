@@ -310,7 +310,7 @@ public class mainAmbos extends javax.swing.JFrame {
 
     private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
 
-         VerAdeudos adeudos = new VerAdeudos();
+         VerAdeudosForm adeudos = new VerAdeudosForm();
         adeudos.setSize(1070,730);
         adeudos.setLocation(0, 0);
 

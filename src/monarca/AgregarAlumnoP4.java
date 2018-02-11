@@ -335,12 +335,17 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         back.add(VerifiqueEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 620, 290, 50));
 
         NoEnfermedad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
-        back.add(NoEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 50, 40));
+        back.add(NoEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 590, 50, 40));
 
         SiEnfermedad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
         back.add(SiEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 50, 40));
 
         txtEnfermedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtEnfermedad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEnfermedadFocusLost(evt);
+            }
+        });
         back.add(txtEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 600, 220, 30));
 
         lblEnfermedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -424,100 +429,64 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
-        try {
-            String alergiaFile = txtAlergia.getText();
-
-            Connection c = con.conectar();
+           Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            String alergia = null;
-
-            //FALTA ALERGIA && ENFERMEDADES
+            String alergia = txtAlergia.getText();
+            String enfermedad = txtEnfermedad.getText();
+            
             if (rbAlergiasNo1.isSelected() == true) {
                 alergia = "Ninguno";
-                PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =? WHERE id=?");
-
-                modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
-                modificarAlumno.setString(2, spnPeso1.getValue().toString());
-                modificarAlumno.setString(3, spnAltura1.getValue().toString());
-
-                modificarAlumno.setString(4, alergia);
-                modificarAlumno.setString(5, labelID.getText());
-
-                modificarAlumno.execute();
-                modificarAlumno.close();
-                
-                    AgregarAlumnoP5 huella = new AgregarAlumnoP5();
-                    huella.lblAlumnoId.setText(labelID.getText());
-                    huella.setSize(1070,730);
-                    huella.setLocation(0, 0);
-
-                    rightPanelAdmin.removeAll();
-                    rightPanelAdmin.add(huella, BorderLayout.CENTER);
-                    rightPanelAdmin.revalidate();
-                    rightPanelAdmin.repaint();
-                
-//                System.err.println("MODIFICADO");
-//                JOptionPane.showMessageDialog(null, "Modificado");
             } else {
-                alergia = txtAlergia.getText();
+                
+                validarAlergia(alergia);                    
             }
+                
+            
+            if (rbEnfermedadNo1.isSelected() == true) {
+                enfermedad = "Ninguno";
+            } else {
+               
+                    validarEnfermedad(enfermedad);
+                
+            }
+            
+            if((rbEnfermedadSi1.isSelected() && SiEnfermedad.isVisible()) || 
+                (rbAlergiasSi1.isSelected() && SiAlergia.isVisible()) ||
+                   rbAlergiasNo1.isSelected() || rbEnfermedadNo1.isSelected()){
+                try {
+                    PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =?, enfermedades=? WHERE id=?");
 
-            if (rbAlergiasSi1.isSelected()) {
-                if (alergiaFile.isEmpty()) {
-                    Necesario.setVisible(true);
-                } else {
+                    modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
+                    modificarAlumno.setString(2, spnPeso1.getValue().toString());
+                    modificarAlumno.setString(3, spnPeso1.getValue().toString());
 
-                    if (alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
-                        SiAlergia.setVisible(true);
-                        VerifiqueAlergia.setVisible(false);
-                        NoAlergia.setVisible(false);
-                        Necesario.setVisible(false);
+                    modificarAlumno.setString(4, alergia);
+                    modificarAlumno.setString(5, enfermedad);
+                    modificarAlumno.setString(6, labelID.getText());
 
-                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =? WHERE id=?");
+                    modificarAlumno.execute();
+                    modificarAlumno.close();
+                //Cambiar a 5
+                AgregarAlumnoP5 pantalla = new AgregarAlumnoP5();
+                pantalla.setSize(1070, 730);
+                pantalla.setLocation(0, 0);
 
-                        modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
-                        modificarAlumno.setString(2, spnPeso1.getValue().toString());
-                        modificarAlumno.setString(3, spnPeso1.getValue().toString());
+                rightPanelAdmin.removeAll();
+                rightPanelAdmin.add(pantalla, BorderLayout.CENTER);
+                rightPanelAdmin.revalidate();
+                rightPanelAdmin.repaint();
 
-                        modificarAlumno.setString(4, alergia);
-                        modificarAlumno.setString(5, labelID.getText());
 
-                        modificarAlumno.execute();
-                        modificarAlumno.close();
-//                        System.err.println("MODIFICADO");
-//                        JOptionPane.showMessageDialog(null, "Modificado");
-
-                    AgregarAlumnoP5 huella = new AgregarAlumnoP5();
-//                    huella.lblAlumnoId.setText(labelID.getText());
-                    huella.setSize(1070,730);
-                    huella.setLocation(0, 0);
-
-                    rightPanelAdmin.removeAll();
-                    rightPanelAdmin.add(huella, BorderLayout.CENTER);
-                    rightPanelAdmin.revalidate();
-                    rightPanelAdmin.repaint();
-                      
-                       huella.setVisible(true);
-                       huella.lblid.setText(labelID.getText());
-                    } else {
-                        VerifiqueAlergia.setVisible(true);
-                        NoAlergia.setVisible(true);
-                        Necesario.setVisible(false);
-                        SiAlergia.setVisible(false);
-
+                } catch (SQLException ex) {
+                    System.out.println("error al guardar los datos: " + ex);
+                    JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+                } finally {
+                    con.desconectar();
                     }
-                }
-            }
-
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
-        }
-
-        // TODO add your handling code here:
+                
+                
+             }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -562,10 +531,16 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     private void spnPeso1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPeso1FocusLost
 
 
-       if((Integer)spnPeso1.getValue() == 55){
-       JOptionPane.showMessageDialog(null, "55");
-       }
+//       if((Integer)spnPeso1.getValue() == 55){
+//       JOptionPane.showMessageDialog(null, "55");
+//       }
     }//GEN-LAST:event_spnPeso1FocusLost
+
+    private void txtEnfermedadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEnfermedadFocusLost
+        validarEnfermedad(txtEnfermedad.getText());
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEnfermedadFocusLost
 
     ConexionBD con = new ConexionBD();
 
@@ -615,6 +590,51 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     }
 
+    
+    void validarAlergia(String alergia) {
+            if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+                SiAlergia.setVisible(true);
+                VerifiqueAlergia.setVisible(false);
+                NoAlergia.setVisible(false);
+                Necesario.setVisible(false);
+
+                if(alergia.isEmpty()){
+                    SiAlergia.setVisible(false);
+                    VerifiqueAlergia.setVisible(false);
+                    NoAlergia.setVisible(false);
+                    Necesario.setVisible(true);
+                }
+            } else{
+                SiAlergia.setVisible(false);
+                VerifiqueAlergia.setVisible(false);
+                NoAlergia.setVisible(true);
+                Necesario.setVisible(false);
+            }
+    }
+
+    
+    void validarEnfermedad(String enfermedad) {
+                
+           if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+                 SiEnfermedad.setVisible(true);
+            VerifiqueEnfermedad.setVisible(false);
+            NoEnfermedad.setVisible(false);
+            NecesarioEnferm.setVisible(false);
+
+                if(enfermedad.isEmpty()){
+                   SiEnfermedad.setVisible(false);
+            VerifiqueEnfermedad.setVisible(false);
+            NoEnfermedad.setVisible(false);
+            NecesarioEnferm.setVisible(true);
+                }
+            } else{
+                VerifiqueEnfermedad.setVisible(true);
+            NoEnfermedad.setVisible(true);
+            NecesarioEnferm.setVisible(false);
+            SiEnfermedad.setVisible(false);
+            }
+    }
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
     private javax.swing.ButtonGroup DeporteGroup;

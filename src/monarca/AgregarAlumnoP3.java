@@ -11,13 +11,15 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.AgregarAlumno.idNowModify;
 import static monarca.AgregarAlumno.labelID;
 import static monarca.AgregarAlumnoP2.inicial;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
 public class AgregarAlumnoP3 extends javax.swing.JPanel {
- public static int inicial = 0;
+    public static int inicial = 0;
+    
     public AgregarAlumnoP3() {
         initComponents();
 
@@ -34,6 +36,8 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         Connection c = con.conectar();
         ResultSet rs;
         PreparedStatement ps;
+        
+        if(idNowModify==null|| idNowModify.equals(0)){
         ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
 
         rs= ps.executeQuery();
@@ -51,15 +55,24 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                    
                 }else {
                      //Si tiene "si"
-                     rbDeporteSi.setSelected(true);
+                    rbDeporteSi.setSelected(true);
                     lblDeporte.setVisible(true);
-                    txtDeporte.setVisible(true);
-                   
-                    
+                    txtDeporte.setVisible(true); 
                 }
 
                }
-        }}
+        } else{
+            int numcontrol= Integer.parseInt(idNowModify);
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            if(rs.next()){
+                cbCinta.setSelectedItem(rs.getString("cinta"));
+                txtDeporte.setText(rs.getString("deportes"));
+            }
+        }
+    }
+    }
 
         // TODO add your handling code here:
      catch (SQLException ex) {

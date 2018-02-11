@@ -12,16 +12,21 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.AgregarAlumno.inicial;
+import static monarca.AgregarAlumno.labelID;
 import static monarca.AgregarAlumnoP2.inicial;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
 public class VerDatosAlumno extends javax.swing.JPanel {
 
-    public VerDatosAlumno() {
+public static String idNow;
+
+    public VerDatosAlumno() throws SQLException {
+      
         initComponents();
 
-        lblInstructorId.setVisible(false);
+       // lblIdAlumno.setVisible(false);
         
         btnPersonal.setOpaque(false);
         btnPersonal.setContentAreaFilled(false);
@@ -53,22 +58,24 @@ public class VerDatosAlumno extends javax.swing.JPanel {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-            
+          
+            int numcontrol= Integer.parseInt(idNow);
+             //Alumno existente
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
             rs= ps.executeQuery();
-            
+ 
             if(rs.next()){
-                if(rs.getString("direccion")!=null){
-                    inicial=1;
-                    lblNombre.setText(rs.getString("nombre"));
-                    lblApellidoP.setText(rs.getString("a_paterno"));
-                    lblApellidoM.setText(rs.getString("a_materno"));
-                    lblNacimiento.setText(rs.getString("fecha_nacimiento"));
-                  
-                   }
-            }}
+                lblNombre.setText(rs.getString("nombre"));
+                lblApellidoP.setText(rs.getString("a_paterno"));
+                lblApellidoM.setText(rs.getString("a_materno"));
+                lblNacimiento.setText(rs.getString("fecha_nacimiento"));
+                System.out.println("Se obtivo resultado");
+                   
+            }
+        }
             
-            // TODO add your handling code here:
+           //  TODO add your handling code here:
          catch (SQLException ex) {
             Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,7 +90,6 @@ public class VerDatosAlumno extends javax.swing.JPanel {
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblInstructorId = new javax.swing.JLabel();
         btnHuella = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnContacto = new javax.swing.JButton();
@@ -130,7 +136,6 @@ public class VerDatosAlumno extends javax.swing.JPanel {
         );
 
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 70));
-        back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
 
         btnHuella.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnHuella.setText("Huella Digital");
@@ -231,7 +236,20 @@ public class VerDatosAlumno extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-  VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
+    VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
+    articulos.setSize(1070,730);
+    articulos.setLocation(0, 0);
+    rightPanelAdmin.removeAll();
+    rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+    rightPanelAdmin.revalidate();
+    rightPanelAdmin.repaint();
+     
+        ///////////////////////////////////////////////////////////////////////////////
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        VerAlumnos articulos = new VerAlumnos();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
@@ -239,13 +257,6 @@ public class VerDatosAlumno extends javax.swing.JPanel {
         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
         rightPanelAdmin.repaint();
-      
-        ///////////////////////////////////////////////////////////////////////////////
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContactoActionPerformed
@@ -288,53 +299,7 @@ public class VerDatosAlumno extends javax.swing.JPanel {
     
     ConexionBD con = new ConexionBD();
     
-     void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, float peso, float altura,
-            String tSangre, String direccion, String cinta,
-            String tutor, String parentesco, String tCelular,
-            String alergias, String enfermedades, String deporte,
-            int instructor) {
-
-        try {
-            Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,"
-                    + "peso,t_sangre,altura,direccion,cinta,nombre_tutor,"
-                    + "parentesco,tutor_celular,alrgias,enfermedades,deportes,"
-                    + "instructor_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-            agregarAlumno.setString(1, nombre);
-            agregarAlumno.setString(2, aPaterno);
-            agregarAlumno.setString(3, aMaterno);
-            agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setFloat(5, peso);
-            agregarAlumno.setString(6, tSangre);
-            agregarAlumno.setFloat(7, altura);
-            agregarAlumno.setString(8, direccion);
-            agregarAlumno.setString(9, cinta);
-            agregarAlumno.setString(10, tutor);
-            agregarAlumno.setString(11, parentesco);
-            agregarAlumno.setString(12, tCelular);
-            agregarAlumno.setString(13, alergias);
-            agregarAlumno.setString(14, enfermedades);
-            agregarAlumno.setString(15, deporte);
-            agregarAlumno.setInt(16, instructor);
-
-            agregarAlumno.execute();
-            agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
-        }
-    }
-
-    void vaciar() {
-     
-        
-
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
@@ -358,7 +323,6 @@ public class VerDatosAlumno extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblApellidoM;
     private javax.swing.JLabel lblApellidoP;
-    public javax.swing.JLabel lblInstructorId;
     private javax.swing.JLabel lblNacimiento;
     private javax.swing.JLabel lblNombre;
     // End of variables declaration//GEN-END:variables

@@ -210,14 +210,14 @@ public class AgregarInstructorP4 extends javax.swing.JPanel {
         lblImagenHuella.setIcon(null);
         start();
         
-        VerDatosAlumno articulos = new VerDatosAlumno();
-        articulos.setSize(1070,730);
-        articulos.setLocation(0, 0);
-
-       rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+      //  VerDatosAlumno articulos = new VerDatosAlumno();
+//        articulos.setSize(1070,730);
+//        articulos.setLocation(0, 0);
+//
+//       rightPanelAdmin.removeAll();
+//        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+//        rightPanelAdmin.revalidate();
+//        rightPanelAdmin.repaint();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFinalizarActionPerformed
 

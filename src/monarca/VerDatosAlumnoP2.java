@@ -6,11 +6,16 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.VerDatosAlumno.idNow;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
+
 
 public class VerDatosAlumnoP2 extends javax.swing.JPanel {
 
@@ -40,7 +45,36 @@ public class VerDatosAlumnoP2 extends javax.swing.JPanel {
         btnHuella.setOpaque(false);
         btnHuella.setContentAreaFilled(false);
         btnHuella.setBorderPainted(false);
+        
+       try {
+            
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+          
+            int numcontrol= Integer.parseInt(idNow);
+             //Alumno existente
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+ 
+            if(rs.next()){
+                lblDomicilio.setText(rs.getString("direccion"));
+                lblTutor.setText(rs.getString("nombre_tutor"));
+                lblParentesco.setText(rs.getString("parentesco"));
+                lblTelefono.setText(rs.getString("tutor_celular"));
+                System.out.println("Se obtivo resultado");
+                   
+            }
+        }
+            
+           //  TODO add your handling code here:
+         catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -210,33 +244,48 @@ public class VerDatosAlumnoP2 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-VerDatosAlumno articulos = new VerDatosAlumno();
-        articulos.setSize(1070,730);
-        articulos.setLocation(0, 0);
-
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();      
-        ///////////////////////////////////////////////////////////////////////////////
+        try {
+            VerDatosAlumno articulos = new VerDatosAlumno();
+            articulos.setSize(1070,730);
+            articulos.setLocation(0, 0);
+            
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+            ///////////////////////////////////////////////////////////////////////////////
+        } catch (SQLException ex) {
+            Logger.getLogger(VerDatosAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
- VerDatosAlumno articulos = new VerDatosAlumno();
+ VerAlumnos articulos = new VerAlumnos();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
         rightPanelAdmin.removeAll();
         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+        rightPanelAdmin.repaint();       
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        // TODO add your handling code here:
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+        try {
+            VerDatosAlumno articulos = new VerDatosAlumno();
+            articulos.setSize(1070,730);
+            articulos.setLocation(0, 0);
+            
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+            
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(VerDatosAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnPersonalActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

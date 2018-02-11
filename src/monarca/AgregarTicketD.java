@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package monarca;
 
 import db.ConexionBD;
@@ -18,9 +14,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class AgregarTicketDetalles extends javax.swing.JFrame {
+/**
+ *
+ * @author Karem Ra
+ */
+public class AgregarTicketD extends javax.swing.JPanel {
 
-    DefaultTableModel tabla;
+     DefaultTableModel tabla;
     int folio;
 
     ConexionBD conn = new ConexionBD();
@@ -29,15 +29,14 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
 
-    public AgregarTicketDetalles() {
+    public AgregarTicketD() {
         initComponents();
-        lblInstructorId.setVisible(false);
+         lblInstructorId.setVisible(false);
         lblValCantidad.setVisible(false);
         lblValDescripcion.setVisible(false);
         lblValMarca.setVisible(false);
         lblValPrecio.setVisible(false);
         lblId.setText("2");
-
     }
 
     /**
@@ -49,7 +48,6 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -81,21 +79,6 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
         lblValPrecio = new javax.swing.JLabel();
         lblValCantidad = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
-                formWindowGainedFocus(evt);
-            }
-            public void windowLostFocus(java.awt.event.WindowEvent evt) {
-                formWindowLostFocus(evt);
-            }
-        });
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -187,20 +170,6 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jtVerArticulosPendientes);
-        if (jtVerArticulosPendientes.getColumnModel().getColumnCount() > 0) {
-            jtVerArticulosPendientes.getColumnModel().getColumn(0).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(0).setPreferredWidth(40);
-            jtVerArticulosPendientes.getColumnModel().getColumn(1).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(1).setPreferredWidth(50);
-            jtVerArticulosPendientes.getColumnModel().getColumn(2).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jtVerArticulosPendientes.getColumnModel().getColumn(3).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(3).setPreferredWidth(130);
-            jtVerArticulosPendientes.getColumnModel().getColumn(4).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(4).setPreferredWidth(95);
-            jtVerArticulosPendientes.getColumnModel().getColumn(5).setResizable(false);
-            jtVerArticulosPendientes.getColumnModel().getColumn(5).setPreferredWidth(95);
-        }
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 680, 260));
 
@@ -323,49 +292,45 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
         });
         back.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 220, 40));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1158, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 742, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-void vaciarCombos() {
-        lblCodigoProd.setText("");
-        txtDescripcion.setText("");
-        txtMarca.setText("");
-        spnCantidad.setValue(0);
-        spnPrecio.setValue(0);
-    }
+
+    private void jtVerArticulosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtVerArticulosPendientesMouseClicked
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ConexionBD objCon = new ConexionBD();
+            Connection conn = objCon.conectar();
+
+            int Fila = jtVerArticulosPendientes.getSelectedRow();
+            int codigo = Integer.parseInt(jtVerArticulosPendientes.getValueAt(Fila, 0).toString());
+
+            ps = conn.prepareStatement("SELECT id,nombre_producto,marca,cantidad,precio  FROM ticket_detalles WHERE id=?");
+            ps.setInt(1, codigo);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lblCodigoProd.setText(rs.getString("id"));
+                spnPrecio.setValue(rs.getFloat("precio"));
+                spnCantidad.setValue(rs.getInt("cantidad"));
+                txtDescripcion.setText(rs.getString("nombre_producto"));
+                txtMarca.setText(rs.getString("marca"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_jtVerArticulosPendientesMouseClicked
 
     private void btnEliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliActionPerformed
 
@@ -401,8 +366,8 @@ void vaciarCombos() {
                         Connection con = conn.conectar();
 
                         String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
-                                + "FROM ticket_detalles "
-                                + "WHERE ticket_id=" + id_ticket;
+                        + "FROM ticket_detalles "
+                        + "WHERE ticket_id=" + id_ticket;
                         ps = con.prepareStatement(sql);
                         rs = ps.executeQuery();
 
@@ -457,122 +422,25 @@ void vaciarCombos() {
         vaciarCombos();
     }//GEN-LAST:event_btnEliActionPerformed
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        float suma = 0;
-        try {
-
-            folio = Integer.parseInt(lblId.getText());
-            int id_ticket = folio;
-            DefaultTableModel modelo = new DefaultTableModel();
-            jtVerArticulosPendientes.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            ConexionBD conn = new ConexionBD();
-            Connection con = conn.conectar();
-
-            String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
-                    + "FROM ticket_detalles "
-                    + "WHERE ticket_id=" + id_ticket;
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
-            int cantidadColumnas = rsMd.getColumnCount();
-
-            modelo.addColumn("Codigo");
-            modelo.addColumn("Cantidad");
-            modelo.addColumn("Articulo");
-            modelo.addColumn("Marca");
-            modelo.addColumn("Precio");
-            modelo.addColumn("Precio Total");
-
-            int[] anchos = {30, 30, 200, 50, 50, 50};
-            for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
-                jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
-            }
-
-            while (rs.next()) {
-                Object[] filas = new Object[cantidadColumnas];
-                for (int i = 0; i < cantidadColumnas; i++) {
-                    if (i != (cantidadColumnas - 1)) {
-                        filas[i] = rs.getObject(i + 1);
-
-                    } else {
-                        float total = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
-                        filas[i] = total;
-                        suma = suma + total;
-                    }
-
-                }
-                modelo.addRow(filas);
-            }
-            lblTotal.setText("" + suma);
-        } catch (SQLException ex) {
-            System.err.println(ex.toString());
-        }
-    }//GEN-LAST:event_formWindowOpened
-
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        this.dispose();
+     //   this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void jtVerArticulosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtVerArticulosPendientesMouseClicked
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ConexionBD objCon = new ConexionBD();
-            Connection conn = objCon.conectar();
+    private void spnPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPrecioFocusLost
 
-            int Fila = jtVerArticulosPendientes.getSelectedRow();
-            int codigo = Integer.parseInt(jtVerArticulosPendientes.getValueAt(Fila, 0).toString());
+    }//GEN-LAST:event_spnPrecioFocusLost
 
-            ps = conn.prepareStatement("SELECT id,nombre_producto,marca,cantidad,precio  FROM ticket_detalles WHERE id=?");
-            ps.setInt(1, codigo);
-            rs = ps.executeQuery();
+    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
 
-            while (rs.next()) {
-                lblCodigoProd.setText(rs.getString("id"));
-                spnPrecio.setValue(rs.getFloat("precio"));
-                spnCantidad.setValue(rs.getInt("cantidad"));
-                txtDescripcion.setText(rs.getString("nombre_producto"));
-                txtMarca.setText(rs.getString("marca"));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.toString());
-        }
-    }//GEN-LAST:event_jtVerArticulosPendientesMouseClicked
-    public boolean estaVacio(String texto) {
-        if (texto.equals(null)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    }//GEN-LAST:event_txtMarcaFocusLost
 
-    public boolean esCero(float numero) {
-        if (numero != 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String nombre = lblNombre.getText();
-        String id = lblId.getText();
+    }//GEN-LAST:event_txtDescripcionFocusLost
 
-        AgregarArticuloTicket add = new AgregarArticuloTicket();
-        add.lblId.setText(id);
-        add.lblNombre.setText(nombre);
-        add.setVisible(true);
+    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
 
-
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formWindowLostFocus
+    }//GEN-LAST:event_spnCantidadFocusLost
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         int codigo=Integer.parseInt(lblCodigoProd.getText());
@@ -603,26 +471,19 @@ void vaciarCombos() {
         } else {
             lblValCantidad.setVisible(false);
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void spnPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPrecioFocusLost
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String nombre = lblNombre.getText();
+        String id = lblId.getText();
 
-    }//GEN-LAST:event_spnPrecioFocusLost
+        AgregarArticuloTicket add = new AgregarArticuloTicket();
+        add.lblId.setText(id);
+        add.lblNombre.setText(nombre);
+        add.setVisible(true);
 
-    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
-     
-    }//GEN-LAST:event_txtMarcaFocusLost
-
-    private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
-       
-    }//GEN-LAST:event_txtDescripcionFocusLost
-
-    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
-       
-    }//GEN-LAST:event_spnCantidadFocusLost
-
-    public void limpiarTabla(JTable tabla) {
+    }//GEN-LAST:event_btnAddActionPerformed
+public void limpiarTabla(JTable tabla) {
         try {
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             int filas = tabla.getRowCount();
@@ -634,113 +495,30 @@ void vaciarCombos() {
         }
     }
 
-    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {
-        limpiarTabla(jtVerArticulosPendientes);
-        float suma = 0;
-        try {
+void vaciarCombos() {
+        lblCodigoProd.setText("");
+        txtDescripcion.setText("");
+        txtMarca.setText("");
+        spnCantidad.setValue(0);
+        spnPrecio.setValue(0);
+    }
 
-            folio = Integer.parseInt(lblId.getText());
-            int id_ticket = folio;
-            DefaultTableModel modelo = new DefaultTableModel();
-            jtVerArticulosPendientes.setModel(modelo);
 
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            ConexionBD conn = new ConexionBD();
-            Connection con = conn.conectar();
-
-            String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
-                    + "FROM ticket_detalles "
-                    + "WHERE ticket_id=" + id_ticket;
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
-            int cantidadColumnas = rsMd.getColumnCount();
-
-            modelo.addColumn("Codigo");
-            modelo.addColumn("Cantidad");
-            modelo.addColumn("Articulo");
-            modelo.addColumn("Marca");
-            modelo.addColumn("Precio");
-            modelo.addColumn("Precio Total");
-
-            int[] anchos = {30, 30, 200, 50, 50, 50};
-            for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
-                jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
-            }
-
-            while (rs.next()) {
-                Object[] filas = new Object[cantidadColumnas];
-                for (int i = 0; i < cantidadColumnas; i++) {
-                    if (i != (cantidadColumnas - 1)) {
-                        filas[i] = rs.getObject(i + 1);
-
-                    } else {
-                        float total = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
-                        filas[i] = total;
-                        suma = suma + total;
-                    }
-
-                }
-                modelo.addRow(filas);
-            }
-            lblTotal.setText("" + suma);
-        } catch (SQLException ex) {
-            System.err.println(ex.toString());
+public boolean estaVacio(String texto) {
+        if (texto.equals(null)) {
+            return false;
+        } else {
+            return true;
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    public boolean esCero(float numero) {
+        if (numero != 0) {
+            return false;
+        } else {
+            return true;
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AgregarTicketDetalles().setVisible(true);
-            }
-        });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel back;
@@ -757,7 +535,6 @@ void vaciarCombos() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jtVerArticulosPendientes;
     private javax.swing.JLabel lblCodigoProd;

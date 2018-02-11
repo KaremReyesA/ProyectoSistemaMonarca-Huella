@@ -349,7 +349,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "id", "Nombre completo", "Estado", "Último periodo pagado", "Fecha de próxima mensualidad", "Total a pagar"
+                "Folio", "Nombre completo", "Estado", "Último periodo pagado", "Fecha de próxima mensualidad", "Total a pagar"
             }
         ) {
             boolean[] canEdit = new boolean [] {

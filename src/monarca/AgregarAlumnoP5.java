@@ -219,25 +219,29 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        //Guarda la huella
-        guardarHuella();
-        Reclutador.clear();
-        lblImagenHuella.setIcon(null);
-        start();
-        //Desconecta de la base de datos
-        stop();
-        agregarMensualidadAlumno(Integer.parseInt(lblid.getText()));
-        con.desconectar();
-
-        //AbrePanel para ver datos del alumno
-        VerDatosAlumno articulos = new VerDatosAlumno();
-        articulos.setSize(1070, 730);
-        articulos.setLocation(0, 0);
-        
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+        try {
+            //Guarda la huella
+            guardarHuella();
+            Reclutador.clear();
+            lblImagenHuella.setIcon(null);
+            start();
+            //Desconecta de la base de datos
+            stop();
+            agregarMensualidadAlumno(Integer.parseInt(lblid.getText()));
+            con.desconectar();
+            
+            //AbrePanel para ver datos del alumno
+            VerDatosAlumno articulos = new VerDatosAlumno();
+            articulos.setSize(1070, 730);
+            articulos.setLocation(0, 0);
+            
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+        } catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumnoP5.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
     
     void agregarMensualidadAlumno(int id) {

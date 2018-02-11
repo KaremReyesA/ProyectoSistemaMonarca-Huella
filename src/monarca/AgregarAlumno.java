@@ -23,6 +23,7 @@ import static monarca.mainAdmin.rightPanelAdmin;
 
 public class AgregarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
+public static String idNowModify;
 //If any key is typed, set message with error
     public AgregarAlumno() { 
         
@@ -56,6 +57,8 @@ public class AgregarAlumno extends javax.swing.JPanel {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
+            
+            if(idNowModify==null|| idNowModify.equals(0)){
             ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
             
             rs= ps.executeQuery();
@@ -77,7 +80,25 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     SiFecha.setVisible(true);
                     }
                    }
-            }}
+            }
+        
+        }else{
+           
+              int numcontrol= Integer.parseInt(idNowModify);
+             ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            
+            if(rs.next()){
+                    txtNombre.setText(rs.getString("nombre"));
+                    txtAPat.setText(rs.getString("a_paterno"));
+                    txtAMat.setText(rs.getString("a_materno"));
+                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
+                    labelID.setText(rs.getString("id"));
+            }
+           
+            }
+        }
             
             // TODO add your handling code here:
          catch (SQLException ex) {
@@ -526,7 +547,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
             agregarAlumno.execute();
             agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+            //JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
             System.out.println("error al guardar los datos: " + ex);
             JOptionPane.showMessageDialog(null, "Error al guardar los datos");

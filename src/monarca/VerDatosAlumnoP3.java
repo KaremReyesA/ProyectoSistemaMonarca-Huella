@@ -6,9 +6,13 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.VerDatosAlumno.idNow;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
@@ -40,6 +44,33 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
         btnHuella.setOpaque(false);
         btnHuella.setContentAreaFilled(false);
         btnHuella.setBorderPainted(false);
+        
+        
+         try {
+            
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+          
+            int numcontrol= Integer.parseInt(idNow);
+             //Alumno existente
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+ 
+            if(rs.next()){
+                lblCinta.setText(rs.getString("cinta"));
+                lblDeporte.setText(rs.getString("deportes"));
+               
+                System.out.println("Se obtivo resultado");
+                   
+            }
+        }
+            
+           //  TODO add your handling code here:
+         catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -58,9 +89,9 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
         btnDeporte = new javax.swing.JButton();
         btnMédica = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        lblDomicilio = new javax.swing.JLabel();
+        lblCinta = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        lblTutor = new javax.swing.JLabel();
+        lblDeporte = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -133,16 +164,16 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
         back.add(btnMédica, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 120, 190, 40));
         back.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, 200, 20));
 
-        lblDomicilio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 290, 30));
+        lblCinta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 290, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información Deportiva");
         jLabel13.setToolTipText("");
         back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, -1, -1));
 
-        lblTutor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblTutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 480, 290, 30));
+        lblDeporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblDeporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 480, 290, 30));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("ATRÁS");
@@ -205,20 +236,31 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
- VerDatosAlumno articulos = new VerDatosAlumno();
+        VerAlumnos articulos = new VerAlumnos();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
         rightPanelAdmin.removeAll();
         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+        rightPanelAdmin.repaint();        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        // TODO add your handling code here:
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+        try {
+            VerDatosAlumno articulos = new VerDatosAlumno();
+            articulos.setSize(1070,730);
+            articulos.setLocation(0, 0);
+            
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+            
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(VerDatosAlumnoP3.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnPersonalActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -325,8 +367,8 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel lblDomicilio;
+    private javax.swing.JLabel lblCinta;
+    private javax.swing.JLabel lblDeporte;
     public javax.swing.JLabel lblInstructorId;
-    private javax.swing.JLabel lblTutor;
     // End of variables declaration//GEN-END:variables
 }

@@ -473,7 +473,7 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdeudosActionPerformed
 
     private void btnAgregarAdeudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAdeudosActionPerformed
-        AgregarTicketDetalles adeudos = new AgregarTicketDetalles();
+        AgregarTicketD adeudos = new AgregarTicketD();
         adeudos.setSize(1070,730);
         adeudos.setLocation(0, 0);
 

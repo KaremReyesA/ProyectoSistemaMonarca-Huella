@@ -6,9 +6,13 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.VerDatosAlumno.idNow;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
@@ -40,6 +44,35 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         btnHuella.setOpaque(false);
         btnHuella.setContentAreaFilled(false);
         btnHuella.setBorderPainted(false);
+        
+         try {
+            
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+          
+            int numcontrol= Integer.parseInt(idNow);
+             //Alumno existente
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+ 
+            if(rs.next()){
+                lblSangre.setText(rs.getString("t_sangre"));
+                lblPeso.setText(rs.getString("peso"));
+                lblAltura.setText(rs.getString("altura"));
+                lblAlergias.setText(rs.getString("alrgias"));
+                lblEnfermedad.setText(rs.getString("enfermedades"));
+               
+                System.out.println("Se obtivo resultado");
+                   
+            }
+        }
+            
+           //  TODO add your handling code here:
+         catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -58,9 +91,9 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         btnDeporte = new javax.swing.JButton();
         btnMédica = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        lblDomicilio = new javax.swing.JLabel();
+        lblEnfermedad = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        lblTutor = new javax.swing.JLabel();
+        lblAltura = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -69,9 +102,9 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        lblTutor1 = new javax.swing.JLabel();
-        lblDomicilio1 = new javax.swing.JLabel();
-        lblDomicilio2 = new javax.swing.JLabel();
+        lblPeso = new javax.swing.JLabel();
+        lblSangre = new javax.swing.JLabel();
+        lblAlergias = new javax.swing.JLabel();
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -134,16 +167,16 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         back.add(btnMédica, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 120, 190, 40));
         back.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 170, 200, 20));
 
-        lblDomicilio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 550, 290, 30));
+        lblEnfermedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 550, 290, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información Médica");
         jLabel13.setToolTipText("");
         back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, -1, -1));
 
-        lblTutor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblTutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 80, 30));
+        lblAltura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 80, 30));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("ATRÁS");
@@ -192,14 +225,14 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         jLabel28.setText("¿El alumno tiene enfermedades?");
         back.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
 
-        lblTutor1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblTutor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 80, 30));
+        lblPeso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 80, 30));
 
-        lblDomicilio1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDomicilio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 270, 230, 30));
+        lblSangre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblSangre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 270, 230, 30));
 
-        lblDomicilio2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDomicilio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 290, 30));
+        lblAlergias.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        back.add(lblAlergias, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 290, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -227,20 +260,31 @@ VerDatosAlumnoP3 articulos = new VerDatosAlumnoP3();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
- VerDatosAlumno articulos = new VerDatosAlumno();
+ VerAlumnos articulos = new VerAlumnos();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
         rightPanelAdmin.removeAll();
         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+        rightPanelAdmin.repaint();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        // TODO add your handling code here:
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+        try {
+            VerDatosAlumno articulos = new VerDatosAlumno();
+            articulos.setSize(1070,730);
+            articulos.setLocation(0, 0);
+            
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+            
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(VerDatosAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnPersonalActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -331,11 +375,11 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel lblDomicilio;
-    private javax.swing.JLabel lblDomicilio1;
-    private javax.swing.JLabel lblDomicilio2;
+    private javax.swing.JLabel lblAlergias;
+    private javax.swing.JLabel lblAltura;
+    private javax.swing.JLabel lblEnfermedad;
     public javax.swing.JLabel lblInstructorId;
-    private javax.swing.JLabel lblTutor;
-    private javax.swing.JLabel lblTutor1;
+    private javax.swing.JLabel lblPeso;
+    private javax.swing.JLabel lblSangre;
     // End of variables declaration//GEN-END:variables
 }

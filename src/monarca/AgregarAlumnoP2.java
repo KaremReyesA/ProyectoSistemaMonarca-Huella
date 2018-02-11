@@ -11,9 +11,11 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static monarca.AgregarAlumno.idNowModify;
+import static monarca.AgregarAlumno.inicial;
+import static monarca.AgregarAlumno.labelID;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarAlumno.labelID;
 
 public class AgregarAlumnoP2 extends javax.swing.JPanel {
  public static int inicial = 0;
@@ -37,11 +39,13 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         
       
 /////////////////
-  try {
+        try {
             
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
+            
+            if(idNowModify==null|| idNowModify.equals(0)){
             ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
             
             rs= ps.executeQuery();
@@ -63,14 +67,33 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
                    }
             }
   
-  }
+            }
+        else{
+            int numcontrol= Integer.parseInt(idNowModify);
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            
+            if(rs.next()){
+                
+                txtaDireccion.setText(rs.getString("direccion"));
+                txtTutor1.setText(rs.getString("nombre_tutor"));
+                cbParentesco.setSelectedItem(rs.getString("parentesco"));
+                txtTelefono1.setText(rs.getString("tutor_celular"));
+  
+            }
+                
+        }
+    }
             
             // TODO add your handling code here:
-         catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+    catch (SQLException ex) {
+        Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
     }
+       
+   } //catch (SQLException ex) {
+//         Logger.getLogger(AgregarAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+//     }
     ConexionBD con = new ConexionBD();
      @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -12,13 +12,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class AgregarTicketDetalles extends javax.swing.JFrame {
+public class ModificarTicketDetallesForm extends javax.swing.JFrame {
 
     DefaultTableModel tabla;
     int folio;
@@ -29,14 +33,13 @@ public class AgregarTicketDetalles extends javax.swing.JFrame {
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
 
-    public AgregarTicketDetalles() {
+    public ModificarTicketDetallesForm() {
         initComponents();
         lblInstructorId.setVisible(false);
         lblValCantidad.setVisible(false);
         lblValDescripcion.setVisible(false);
         lblValMarca.setVisible(false);
         lblValPrecio.setVisible(false);
-        lblId.setText("2");
 
     }
 
@@ -514,6 +517,10 @@ void vaciarCombos() {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        float precioTotal = Integer.parseInt(lblTotal.getText());
+        float precioRestante = Integer.parseInt(lblTotalRestante.getText());
+        folio = Integer.parseInt(lblId.getText());
+        modificarTicket(folio, precioTotal, precioRestante);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
@@ -543,10 +550,10 @@ void vaciarCombos() {
         }
     }//GEN-LAST:event_jtVerArticulosPendientesMouseClicked
     public boolean estaVacio(String texto) {
-        if (texto.equals(null)) {
-            return false;
-        } else {
+        if (texto.equals("")) {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -557,6 +564,151 @@ void vaciarCombos() {
             return true;
         }
     }
+
+    public float AgregarArticulo(int codigo, String articulo, String marca, int cantidad, float precio) {
+        float preciototal = cantidad * precio;
+        try {
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "UPDATE ticket_detalles "
+                    + "SET "
+                    + "nombre_producto=?,"
+                    + "marca=?,"
+                    + "cantidad=?,"
+                    + "precio=?"
+                    + "WHERE id=" + codigo;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, articulo);
+            ps.setString(2, marca);
+            ps.setInt(3, cantidad);
+            ps.setFloat(4, precio);
+
+            ps.execute();
+            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+        return preciototal;
+    }
+
+    public void modificarTicket(int codigo, float adeudoTotal, float adeudoRestante) {
+
+        try {
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "UPDATE ticket "
+                    + "SET "
+                    + "monto_total=?,"
+                    + "monto_pendiente=?,"
+                    + "WHERE id=" + codigo;
+            ps = con.prepareStatement(sql);
+
+            ps.setFloat(3, adeudoTotal);
+            ps.setFloat(4, adeudoRestante);
+
+            ps.execute();
+            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int codigo = Integer.parseInt(lblCodigoProd.getText());
+        String articulo = txtDescripcion.getText();
+        String marca = txtMarca.getText();
+        int cantidad = (int) spnCantidad.getValue();
+        float suma = 0;
+        float precio = (float) spnPrecio.getValue();
+        if (estaVacio(marca)) {
+            lblValMarca.setVisible(true);
+        } else {
+            lblValMarca.setVisible(false);
+        }
+        if (estaVacio(articulo)) {
+            lblValDescripcion.setVisible(true);
+        } else {
+            lblValDescripcion.setVisible(false);
+        }
+        if (esCero(precio)) {
+            lblValPrecio.setVisible(true);
+        } else {
+            lblValPrecio.setVisible(false);
+        }
+        if (esCero(cantidad)) {
+            lblValCantidad.setVisible(true);
+        } else {
+            lblValCantidad.setVisible(false);
+        }
+        if (articulo.equals("") | marca.equals("") | cantidad == 0 | precio == 0) {
+            JOptionPane.showMessageDialog(null, "Revisar que los campos esten correctos");
+        } else {
+
+            limpiarTabla(jtVerArticulosPendientes);
+            try {
+
+                folio = Integer.parseInt(lblId.getText());
+                int id_ticket = folio;
+                DefaultTableModel modelo = new DefaultTableModel();
+                jtVerArticulosPendientes.setModel(modelo);
+
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                ConexionBD conn = new ConexionBD();
+                Connection con = conn.conectar();
+
+                String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
+                        + "FROM ticket_detalles "
+                        + "WHERE ticket_id=" + id_ticket;
+                ps = con.prepareStatement(sql);
+                rs = ps.executeQuery();
+
+                ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+                int cantidadColumnas = rsMd.getColumnCount();
+
+                modelo.addColumn("Codigo");
+                modelo.addColumn("Cantidad");
+                modelo.addColumn("Articulo");
+                modelo.addColumn("Marca");
+                modelo.addColumn("Precio");
+                modelo.addColumn("Precio Total");
+
+                int[] anchos = {30, 30, 200, 50, 50, 50};
+                for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
+                    jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+                }
+
+                while (rs.next()) {
+                    Object[] filas = new Object[cantidadColumnas];
+                    for (int i = 0; i < cantidadColumnas; i++) {
+                        if (i != (cantidadColumnas - 1)) {
+                            filas[i] = rs.getObject(i + 1);
+
+                        } else {
+                            float total = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
+                            filas[i] = total;
+                            suma = suma + total;
+                        }
+
+                    }
+                    modelo.addRow(filas);
+                }
+
+                lblTotal.setText("" + suma);
+            } catch (SQLException ex) {
+                System.err.println(ex.toString());
+            }
+        }
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String nombre = lblNombre.getText();
@@ -574,53 +726,21 @@ void vaciarCombos() {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowLostFocus
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        int codigo=Integer.parseInt(lblCodigoProd.getText());
-        String articulo = txtDescripcion.getText();
-        String marca = txtMarca.getText();
-        int cantidad = (int) spnCantidad.getValue();
-        float precio = (float) spnPrecio.getValue();
-        if (estaVacio(marca)) {
-            lblValMarca.setVisible(true);
-        } else {
-            lblValMarca.setVisible(false);
-        }
+    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
 
-        if (estaVacio(articulo)) {
-            lblValDescripcion.setVisible(true);
-        } else {
-            lblValDescripcion.setVisible(false);
-        }
-
-        if (esCero(precio)) {
-            lblValPrecio.setVisible(true);
-        } else {
-            lblValPrecio.setVisible(false);
-        }
-
-        if (esCero(cantidad)) {
-            lblValCantidad.setVisible(true);
-        } else {
-            lblValCantidad.setVisible(false);
-        }
-
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_spnCantidadFocusLost
 
     private void spnPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPrecioFocusLost
 
     }//GEN-LAST:event_spnPrecioFocusLost
 
-    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
-     
-    }//GEN-LAST:event_txtMarcaFocusLost
-
     private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
-       
+
     }//GEN-LAST:event_txtDescripcionFocusLost
 
-    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
-       
-    }//GEN-LAST:event_spnCantidadFocusLost
+    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
+
+    }//GEN-LAST:event_txtMarcaFocusLost
 
     public void limpiarTabla(JTable tabla) {
         try {
@@ -708,13 +828,13 @@ void vaciarCombos() {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarTicketDetallesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarTicketDetallesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarTicketDetallesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarTicketDetallesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -736,7 +856,7 @@ void vaciarCombos() {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarTicketDetalles().setVisible(true);
+                new ModificarTicketDetallesForm().setVisible(true);
             }
         });
     }
