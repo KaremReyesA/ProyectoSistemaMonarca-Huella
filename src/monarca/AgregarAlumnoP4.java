@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static monarca.AgregarAlumno.labelID;
+import static monarca.VerAlumnos.idNowModify;
 
 import static monarca.mainAdmin.rightPanelAdmin;
 
@@ -53,6 +54,8 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
+            
+           if(idNowModify==null|| idNowModify.equals(0)){
             ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
 
             rs = ps.executeQuery();
@@ -81,6 +84,48 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
                 }
             }
+            
+              } else{
+            String enfermedad=null, alergia=null;
+            
+            int numcontrol= Integer.parseInt(idNowModify);
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            if(rs.next()){
+                                 
+                cbSangre1.setSelectedItem(rs.getString("t_sangre"));
+                spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
+                spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
+                
+                
+                enfermedad= rs.getString("enfermedades");
+                alergia= rs.getString("alrgias");
+                 
+                if (enfermedad.equals("Ninguno")){
+                    System.out.println("Ningun deporte");
+                   NoEnfermedad();
+                    
+                }else{
+                    System.out.println("deportes "+ enfermedad);
+                   rbEnfermedadSi1.setSelected(true);
+                    SiEnfermedad();
+                    txtEnfermedad.setText(enfermedad);
+                }
+                
+                 if (alergia.equals("Ninguno")){
+                    System.out.println("Ningun deporte");
+                   NoAlergia();
+                    
+                }else{
+                    System.out.println("deportes "+ alergia);
+                    rbAlergiasSi1.setSelected(true);
+                    SiAlergia();
+                    txtAlergia.setText(alergia);
+                }
+                        
+            }
+        }
 
         } // TODO add your handling code here:
         catch (SQLException ex) {
@@ -593,10 +638,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     
     void validarAlergia(String alergia) {
             if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-                SiAlergia.setVisible(true);
-                VerifiqueAlergia.setVisible(false);
-                NoAlergia.setVisible(false);
-                Necesario.setVisible(false);
+               SiAlergia();
 
                 if(alergia.isEmpty()){
                     SiAlergia.setVisible(false);
@@ -605,35 +647,59 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                     Necesario.setVisible(true);
                 }
             } else{
-                SiAlergia.setVisible(false);
-                VerifiqueAlergia.setVisible(false);
-                NoAlergia.setVisible(true);
-                Necesario.setVisible(false);
+               NoAlergia();
             }
     }
 
     
     void validarEnfermedad(String enfermedad) {
                 
-           if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-                 SiEnfermedad.setVisible(true);
-            VerifiqueEnfermedad.setVisible(false);
-            NoEnfermedad.setVisible(false);
-            NecesarioEnferm.setVisible(false);
+            if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+                SiEnfermedad();
 
                 if(enfermedad.isEmpty()){
-                   SiEnfermedad.setVisible(false);
-            VerifiqueEnfermedad.setVisible(false);
-            NoEnfermedad.setVisible(false);
-            NecesarioEnferm.setVisible(true);
-                }
+                    SiEnfermedad.setVisible(false);
+                    VerifiqueEnfermedad.setVisible(false);
+                    NoEnfermedad.setVisible(false);
+                    NecesarioEnferm.setVisible(true);
+                    }
             } else{
-                VerifiqueEnfermedad.setVisible(true);
+               NoEnfermedad();
+            }
+    }
+    
+    void NoEnfermedad() {
+            VerifiqueEnfermedad.setVisible(true);
             NoEnfermedad.setVisible(true);
             NecesarioEnferm.setVisible(false);
             SiEnfermedad.setVisible(false);
-            }
+            txtEnfermedad.setVisible(false);
     }
+    
+    void SiEnfermedad() {
+            SiEnfermedad.setVisible(true);
+                VerifiqueEnfermedad.setVisible(false);
+                NoEnfermedad.setVisible(false);
+                NecesarioEnferm.setVisible(false);
+                txtEnfermedad.setVisible(true);
+    }
+    
+    void NoAlergia() {
+            SiAlergia.setVisible(false);
+                VerifiqueAlergia.setVisible(false);
+                NoAlergia.setVisible(true);
+                Necesario.setVisible(false);
+                txtAlergia.setVisible(false);
+    }
+    
+    void SiAlergia() {
+             SiAlergia.setVisible(true);
+                VerifiqueAlergia.setVisible(false);
+                NoAlergia.setVisible(false);
+                Necesario.setVisible(false);
+                txtAlergia.setVisible(true);
+    }
+
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;

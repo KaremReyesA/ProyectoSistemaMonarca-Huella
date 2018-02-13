@@ -20,10 +20,12 @@ import javax.swing.border.LineBorder;
 import librerias.Validaciones;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
+import static monarca.VerAlumnos.idNowModify;
+
 
 public class AgregarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
-public static String idNowModify;
+
 //If any key is typed, set message with error
     public AgregarAlumno() { 
         
@@ -380,15 +382,7 @@ public static String idNowModify;
             String nombre = txtNombre.getText();
             String aPaterno = txtAPat.getText();
             String aMaterno = txtAMat.getText();
-            
 
-            if (nombre.isEmpty()){
-                NombreRequerido.setVisible(true);
-            }
-
-            if (aPaterno.isEmpty()){
-                ApellidoPRequerido.setVisible(true);
-            }
 
             int anio = dtNacimiento.getCalendar().get(Calendar.YEAR);
             int mes = dtNacimiento.getCalendar().get(Calendar.MONTH) + 1;
@@ -399,7 +393,7 @@ public static String idNowModify;
             ValidarAPaterno(aPaterno);
             ValidarAMaterno(aMaterno);
             ///////    
-            if(inicial == 0){
+            if(inicial == 0&& (idNowModify==null|| idNowModify.equals(0))){
                 //PrimeraVez sin datos
                
                 if(!nombre.isEmpty() && !aPaterno.isEmpty() && IcoCorreNombre.isVisible()&& IcoCorreApellidoP.isVisible()){

@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.AgregarAlumno.idNowModify;
+import static monarca.VerAlumnos.idNowModify;
 import static monarca.AgregarAlumno.labelID;
 import static monarca.AgregarAlumnoP2.inicial;
 import static monarca.mainAmbos.rightPanel;
@@ -38,40 +38,55 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         PreparedStatement ps;
         
         if(idNowModify==null|| idNowModify.equals(0)){
-        ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+       
+            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
 
-        rs= ps.executeQuery();
+            rs= ps.executeQuery();
 
-        if(rs.next()){
-            if(rs.getString("deportes")!=null){
-                inicial=1;
-               
-                cbCinta.setSelectedItem(rs.getString("cinta"));
-                txtDeporte.setText(rs.getString("deportes"));
-                SiCinta.setVisible(true);
-                
-                if(txtDeporte.getText().equals("Ninguno")){
-                    rbDeporteNo.setSelected(true);
-                   
-                }else {
-                     //Si tiene "si"
-                    rbDeporteSi.setSelected(true);
-                    lblDeporte.setVisible(true);
-                    txtDeporte.setVisible(true); 
-                }
+            if(rs.next()){
+                if(rs.getString("deportes")!=null){
+                    inicial=1;
 
-               }
+                    cbCinta.setSelectedItem(rs.getString("cinta"));
+                    txtDeporte.setText(rs.getString("deportes"));
+                    SiCinta.setVisible(true);
+
+                    if(txtDeporte.getText().equals("Ninguno")){
+                        rbDeporteNo.setSelected(true);
+
+                    }else {
+                         //Si tiene "si"
+                        rbDeporteSi.setSelected(true);
+                        lblDeporte.setVisible(true);
+                        txtDeporte.setVisible(true); 
+                    }
+
+                   }
+            } 
         } else{
+            String dep=null;
+            
             int numcontrol= Integer.parseInt(idNowModify);
             ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
             ps.setInt(1,numcontrol);
             rs= ps.executeQuery();
             if(rs.next()){
+                                 
                 cbCinta.setSelectedItem(rs.getString("cinta"));
-                txtDeporte.setText(rs.getString("deportes"));
+                dep= rs.getString("deportes");
+                if (dep.equals("Ninguno")){
+                System.out.println("Ningun deporte");
+                NoDeporte();
+                    
+                }else{
+                    System.out.println("deportes "+ dep);
+                    rbDeporteSi.setSelected(true);
+                    SiDeporte();
+                    txtDeporte.setText(rs.getString("deportes"));
+                }
+                        
             }
         }
-    }
     }
 
         // TODO add your handling code here:
@@ -287,20 +302,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbDeporteNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteNoActionPerformed
-        lblDeporte.setVisible(false);
-        txtDeporte.setVisible(false);   
-        SiDeporte.setVisible(false);   
-        NoDeporte.setVisible(false);   
-        Verifique.setVisible(false);
-        Necesario.setVisible(false); 
+        NoDeporte();
     }//GEN-LAST:event_rbDeporteNoActionPerformed
 
     private void rbDeporteSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteSiActionPerformed
-    lblDeporte.setVisible(true);
-        txtDeporte.setVisible(true);    
-        txtDeporte.setText("");
-        
-        
+        SiDeporte();
     }//GEN-LAST:event_rbDeporteSiActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -497,6 +503,25 @@ JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TO
 
     }
 
+    
+    void NoDeporte() {
+       lblDeporte.setVisible(false);
+        txtDeporte.setVisible(false);   
+        SiDeporte.setVisible(false);   
+        NoDeporte.setVisible(false);   
+        Verifique.setVisible(false);
+        Necesario.setVisible(false); 
+        
+
+    }
+
+     void SiDeporte() {
+        lblDeporte.setVisible(true);
+        txtDeporte.setVisible(true);    
+        txtDeporte.setText("");
+     }
+        
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
     private javax.swing.ButtonGroup DeporteGroup;

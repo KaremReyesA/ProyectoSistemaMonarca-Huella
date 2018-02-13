@@ -41,9 +41,6 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         btnMédica.setBorderPainted(false);
         
       
-        btnHuella.setOpaque(false);
-        btnHuella.setContentAreaFilled(false);
-        btnHuella.setBorderPainted(false);
         
          try {
             
@@ -85,7 +82,6 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
-        btnHuella = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnContacto = new javax.swing.JButton();
         btnDeporte = new javax.swing.JButton();
@@ -136,10 +132,6 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 70));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
 
-        btnHuella.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnHuella.setText("Huella Digital");
-        back.add(btnHuella, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 120, 150, 40));
-
         btnPersonal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnPersonal.setText("Información Personal");
         btnPersonal.addActionListener(new java.awt.event.ActionListener() {
@@ -160,6 +152,11 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
 
         btnDeporte.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnDeporte.setText("Información deportiva");
+        btnDeporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeporteActionPerformed(evt);
+            }
+        });
         back.add(btnDeporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 190, 40));
 
         btnMédica.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -302,6 +299,17 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
         rightPanelAdmin.repaint();        // TODO add your handling code here:
     }//GEN-LAST:event_btnContactoActionPerformed
 
+    private void btnDeporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeporteActionPerformed
+ VerDatosAlumnoP3 articulos = new VerDatosAlumnoP3();
+        articulos.setSize(1070,730);
+        articulos.setLocation(0, 0);
+
+        rightPanelAdmin.removeAll();
+        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+        rightPanelAdmin.revalidate();
+        rightPanelAdmin.repaint();       
+    }//GEN-LAST:event_btnDeporteActionPerformed
+
     
     ConexionBD con = new ConexionBD();
     
@@ -361,7 +369,6 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
     private javax.swing.JPanel back;
     private javax.swing.JButton btnContacto;
     private javax.swing.JButton btnDeporte;
-    private javax.swing.JButton btnHuella;
     private javax.swing.JButton btnMédica;
     private javax.swing.JButton btnPersonal;
     private javax.swing.JButton jButton2;

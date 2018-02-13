@@ -24,10 +24,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerDatosAlumno.idNow;
-import static monarca.AgregarAlumno.idNowModify;
+
 
 public class VerAlumnos extends javax.swing.JPanel {
-
+public static String idNowModify;
     ConexionBD conn = new ConexionBD();
     ResultSet rs;
     PreparedStatement ps;
@@ -95,9 +95,7 @@ public class VerAlumnos extends javax.swing.JPanel {
                 long years = ChronoUnit.YEARS.between(start, end);
                
               filas[i] = years;
-                
-                
-             System.out.println(rs.getString("fecha_nacimiento")); // 17
+            
              
              
             }else{
@@ -270,7 +268,7 @@ public class VerAlumnos extends javax.swing.JPanel {
                 // int noControl = Integer.parseInt(jtAlumnos.getValueAt(fila, 0).toString());
                 String noControl = jtAlumnos.getValueAt(fila, 0).toString();
                 int noControlFinal= Integer.parseInt(noControl);
-                System.out.println("Numero de control "+noControl);
+               
                 idNow= (noControlFinal+"");
                 // lblIdAlumno.setText(noControlFinal+"");
                 //lblEsNuevo.setText("No");

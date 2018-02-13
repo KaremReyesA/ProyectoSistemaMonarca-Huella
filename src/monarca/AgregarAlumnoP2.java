@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.AgregarAlumno.idNowModify;
+import static monarca.VerAlumnos.idNowModify;
 import static monarca.AgregarAlumno.inicial;
 import static monarca.AgregarAlumno.labelID;
 import static monarca.mainAmbos.rightPanel;
@@ -82,6 +82,10 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
                 txtTelefono1.setText(rs.getString("tutor_celular"));
   
             }
+            
+                VerificaDomicilio(txtaDireccion.getText());
+                  VerificaTelefono(txtTelefono1.getText());
+                  VerificarTutor(txtTutor1.getText());
                 
         }
     }

@@ -46,9 +46,7 @@ public static String idNow;
         btnMédica.setBorderPainted(false);
         
       
-        btnHuella.setOpaque(false);
-        btnHuella.setContentAreaFilled(false);
-        btnHuella.setBorderPainted(false);
+      
         
         //Consulta para poner resultados
         //Consulta tipo busqueda
@@ -90,7 +88,6 @@ public static String idNow;
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnHuella = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnContacto = new javax.swing.JButton();
         btnDeporte = new javax.swing.JButton();
@@ -136,10 +133,6 @@ public static String idNow;
         );
 
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 70));
-
-        btnHuella.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnHuella.setText("Huella Digital");
-        back.add(btnHuella, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 120, 150, 40));
 
         btnPersonal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnPersonal.setText("Información Personal");
@@ -309,7 +302,6 @@ public static String idNow;
     private javax.swing.JPanel back;
     private javax.swing.JButton btnContacto;
     private javax.swing.JButton btnDeporte;
-    private javax.swing.JButton btnHuella;
     private javax.swing.JButton btnMédica;
     private javax.swing.JButton btnPersonal;
     private javax.swing.JButton jButton2;
