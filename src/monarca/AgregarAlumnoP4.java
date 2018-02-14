@@ -50,6 +50,9 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         NecesarioEnferm.setVisible(false);
         lblEnfermedad.setVisible(false);
         txtEnfermedad.setVisible(false);
+        
+      
+
 
         //Modificar datos en caso que se encuentre agregando un alumno 
         try {
@@ -106,11 +109,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                 alergia= rs.getString("alrgias");
                  
                 if (enfermedad.equals("Ninguno")){
-                    System.out.println("Ningun deporte");
+                     rbEnfermedadNo1.setSelected(true);
                    NoEnfermedad();
                     
                 }else{
-                    System.out.println("deportes "+ enfermedad);
+                   
                    rbEnfermedadSi1.setSelected(true);
                     SiEnfermedad();
                     txtEnfermedad.setText(enfermedad);
@@ -271,29 +274,34 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         back.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, -1, -1));
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel21.setText("Peso:");
-        back.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, -1, -1));
+        jLabel21.setText("Peso en kilogramos:");
+        back.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, -1));
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel23.setText("Altura:");
-        back.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 340, -1, -1));
+        jLabel23.setText("Altura en metros:");
+        back.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, -1, 20));
 
-        spnAltura1.setModel(new javax.swing.SpinnerNumberModel(1.5d, 0.5d, 2.7d, 0.01d));
+        spnAltura1.setModel(new javax.swing.SpinnerNumberModel(1.52d, null, null, 0.01d));
         spnAltura1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spnAltura1StateChanged(evt);
                 catchValueFromSpinner(evt);
             }
         });
-        back.add(spnAltura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 360, 60, 30));
+        back.add(spnAltura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 360, 60, 30));
 
-        spnPeso1.setModel(new javax.swing.SpinnerNumberModel(55.0d, 15.0d, 200.0d, 0.5d));
+        spnPeso1.setModel(new javax.swing.SpinnerNumberModel(55.0d, null, null, 0.5d));
+        spnPeso1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                catchValueofPesoSpinner(evt);
+            }
+        });
         spnPeso1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 spnPeso1FocusLost(evt);
             }
         });
-        back.add(spnPeso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 60, 30));
+        back.add(spnPeso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 60, 30));
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel25.setText("¿El alumno tiene alergias?");
@@ -433,10 +441,10 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         back.add(SiSangre, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 280, 50, 40));
 
         SiPeso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(SiPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 50, 40));
+        back.add(SiPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 350, 50, 40));
 
         SiAltura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(SiAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 350, 50, 40));
+        back.add(SiAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 350, 50, 40));
 
         VerifiqueAltura.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         VerifiqueAltura.setForeground(java.awt.Color.red);
@@ -606,12 +614,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtAlergiaFocusLost
 
     private void spnPeso1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPeso1FocusLost
-        verificarPeso();
-        
-
-//       if((Integer)spnPeso1.getValue() == 55){
-       JOptionPane.showMessageDialog(null, "FocusLost Peso");
-//       }
+    
     }//GEN-LAST:event_spnPeso1FocusLost
 
     private void txtEnfermedadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEnfermedadFocusLost
@@ -629,19 +632,22 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     }//GEN-LAST:event_cbSangre1ActionPerformed
 
     private void spnAltura1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnAltura1StateChanged
-//        Float value = (Float) spnAltura1.getValue();
-//        String s= value.toString();
-//        JOptionPane.showMessageDialog(null, s);
-
-        // TODO add your handling code here:
+//     
     }//GEN-LAST:event_spnAltura1StateChanged
 
     private void catchValueFromSpinner(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_catchValueFromSpinner
- Float value = (Float) spnAltura1.getValue();
-        String s= value.toString();
-        JOptionPane.showMessageDialog(null, s);
-        // TODO add your handling code here:
+   
+      String s= spnAltura1.getValue().toString();
+      Double altura= Double.parseDouble(s);
+        verificarAltura(altura);
+     
     }//GEN-LAST:event_catchValueFromSpinner
+
+    private void catchValueofPesoSpinner(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_catchValueofPesoSpinner
+        String s= spnPeso1.getValue().toString();
+        Double peso= Double.parseDouble(s);
+        verificarPeso(peso);
+    }//GEN-LAST:event_catchValueofPesoSpinner
 
     ConexionBD con = new ConexionBD();
 
@@ -751,16 +757,37 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                 Necesario.setVisible(false);
                 txtAlergia.setVisible(true);
     }
-    void verificarPeso() {
-            float peso= Float.parseFloat(spnPeso1.getValue().toString());
+    void verificarPeso(Double peso) {
             if(peso<20){
                 VerifiquePeso.setVisible(true);
+                SiPeso.setVisible(false);
                 System.out.println("Meneor a 20");
             }else if (peso>200){
                 VerifiquePeso.setVisible(true);
+                SiPeso.setVisible(false);
                  System.out.println("Mayor a 20");
             }
+            else{
+             VerifiquePeso.setVisible(false);
+             SiPeso.setVisible(true);
+            }
              System.out.println(peso +"");
+    }
+    
+    void verificarAltura(Double altura) {
+            if(altura<.50){
+                VerifiqueAltura.setVisible(true);
+                SiAltura.setVisible(false);
+                System.out.println("Meneor a 50 cm");
+            }else if (altura>2.7){
+                VerifiqueAltura.setVisible(true);
+                SiAltura.setVisible(false);
+                 System.out.println("Mayor a mayor a ");
+            }else{
+             VerifiqueAltura.setVisible(false);
+             SiAltura.setVisible(true);
+            }
+             System.out.println(altura +"");
     }
 
   
