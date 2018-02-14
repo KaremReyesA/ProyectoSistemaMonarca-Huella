@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -343,6 +344,11 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //Modificar
+
+
+        VerificaDomicilio(txtaDireccion.getText());
+        VerificarTutor(txtTutor1.getText());
+        VerificaTelefono(txtTelefono1.getText());
   if(!txtaDireccion.getText().isEmpty() && !txtTelefono1.getText().isEmpty()&&  !txtTutor1.getText().isEmpty()  
           && SiTutor.isVisible()&& SiTelefono.isVisible()){
                
@@ -389,7 +395,12 @@ try {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
             //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
-            AgregarAlumno articulos = new AgregarAlumno();
+            AgregarAlumno articulos = null;
+     try {
+         articulos = new AgregarAlumno();
+     } catch (ParseException ex) {
+         Logger.getLogger(AgregarAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+     }
                 articulos.setSize(1070,730);
                 articulos.setLocation(0, 0);
 

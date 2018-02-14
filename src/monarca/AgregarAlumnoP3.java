@@ -202,7 +202,12 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         jLabel18.setText("Grado de cinta actual del alumno");
         back.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 350, 210, 20));
 
-        cbCinta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanca", "Blanca Avanzada", "Amarilla", "Amarilla Avanzada", "Verde", "Verde Avanzada", "Azul", "Azul Avanzada", "Roja", "Roja Avanzada", "Negra" }));
+        cbCinta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanca", "Blanca Avanzada", "Amarilla", "Amarilla Avan.", "Verde", "Verde Avanzada", "Azul", "Azul Avanzada", "Roja", "Roja Avanzada", "Negra" }));
+        cbCinta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCintaActionPerformed(evt);
+            }
+        });
         back.add(cbCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, 200, 30));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -451,6 +456,10 @@ JOptionPane.showMessageDialog(null, "Los datos se perderán");
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
 JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
+
+    private void cbCintaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCintaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCintaActionPerformed
 
     
     ConexionBD con = new ConexionBD();

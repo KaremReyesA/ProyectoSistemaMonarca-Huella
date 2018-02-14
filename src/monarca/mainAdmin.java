@@ -2,6 +2,9 @@
 package monarca;
 
 import java.awt.BorderLayout;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static monarca.mainAmbos.rightPanel;
 public class mainAdmin extends javax.swing.JFrame {
@@ -418,7 +421,12 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsistenciasInstrucActionPerformed
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
-   AgregarAlumno asistencia = new AgregarAlumno();
+   AgregarAlumno asistencia = null;
+        try {
+            asistencia = new AgregarAlumno();
+        } catch (ParseException ex) {
+            Logger.getLogger(mainAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
 
@@ -487,6 +495,8 @@ public class mainAdmin extends javax.swing.JFrame {
   
     
     public static void main(String args[]) {
+        
+        //spnPeso1.addChangeListener(new SpinnerListener());
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Macintosh".equals(info.getName())) {
