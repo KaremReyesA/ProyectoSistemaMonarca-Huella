@@ -398,6 +398,7 @@ public class mainAdmin extends javax.swing.JFrame {
 
     private void btnAsistenciasAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasAlumnosActionPerformed
         TomarAsistencias asistenciaAlum = new TomarAsistencias();
+        asistenciaAlum.stop();
         asistenciaAlum.setSize(1070,730);
         asistenciaAlum.setLocation(0, 0);
         rightPanelAdmin.removeAll();

@@ -1,24 +1,17 @@
 package monarca;
 
-import com.sun.webkit.dom.EventImpl;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import librerias.Validaciones;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerAlumnos.idNowModify;
 

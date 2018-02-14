@@ -1,16 +1,9 @@
 package monarca;
 
-import db.ConexionBD;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
 
 import static monarca.mainAdmin.rightPanelAdmin;
+import static monarca.AgregarAlumno.labelID;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -35,15 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import db.ConexionBD;
-import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
-import java.awt.EventQueue;
-import java.awt.GraphicsDevice;
-import java.awt.Window;
-import java.awt.event.WindowEvent;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +36,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -478,7 +462,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO huellas_alumnos(huella, alumno_id) values(?,?)");
             
             guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
-            guardarStmt.setInt(2, Integer.parseInt(lblid.getText()));
+            guardarStmt.setInt(2, Integer.parseInt(labelID.getText()));
             guardarStmt.execute();
             guardarStmt.close();
 //            this.dispose();

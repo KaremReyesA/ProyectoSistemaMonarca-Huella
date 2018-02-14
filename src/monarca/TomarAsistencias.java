@@ -416,6 +416,12 @@ public class TomarAsistencias extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                formFocusLost(evt);
+            }
+        });
+
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
         back.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -581,6 +587,10 @@ public class TomarAsistencias extends javax.swing.JPanel {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusLost
 
     
      
