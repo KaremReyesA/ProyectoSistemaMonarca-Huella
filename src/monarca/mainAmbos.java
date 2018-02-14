@@ -2,6 +2,9 @@
 package monarca;
 
 import java.awt.BorderLayout;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static monarca.mainAdmin.rightPanelAdmin;
 public class mainAmbos extends javax.swing.JFrame {
@@ -356,7 +359,12 @@ public class mainAmbos extends javax.swing.JFrame {
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
         
-        AgregarAlumno asistencia = new AgregarAlumno();
+        AgregarAlumno asistencia = null;
+        try {
+            asistencia = new AgregarAlumno();
+        } catch (ParseException ex) {
+            Logger.getLogger(mainAmbos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
 

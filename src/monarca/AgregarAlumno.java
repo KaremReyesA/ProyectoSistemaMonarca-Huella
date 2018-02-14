@@ -1,6 +1,9 @@
 package monarca;
 
 import com.sun.webkit.dom.EventImpl;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.MinMaxDateEvaluator;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -27,7 +31,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
 
 //If any key is typed, set message with error
-    public AgregarAlumno() { 
+    public AgregarAlumno() throws ParseException { 
         
         initComponents();
 
@@ -49,8 +53,26 @@ public class AgregarAlumno extends javax.swing.JPanel {
         
         FechaRequerida.setVisible(false);
         SiFecha.setVisible(false);
+        //año, mes dia
+       
+        
+         Calendar cL = Calendar.getInstance();
+        cL.add(Calendar.YEAR, -10);
+//                JDateChooser dtNacimiento = new JDateChooser(cL.getTime());
+//        this.add(dtNacimiento);
+//        UtilDateModel model = new UtilDateModel();
+//model.setDate(1990, 8, 24);
+//        
+        String stringDate="1938/12/30";
+        String stringDate2="2002/12/30";
+       java.util.Date date1=  new java.util.Date(stringDate);
+       java.util.Date date2=  new java.util.Date(stringDate2);
+        // Date date2=(Date) new SimpleDateFormat("yyyy/MM/dd").parse(stringDate2);
+        
+        dtNacimiento.setSelectableDateRange(date1, date2);
         
         
+       
     //////////////////////////////////////////////////////
     
          
@@ -195,6 +217,11 @@ public class AgregarAlumno extends javax.swing.JPanel {
         txtAPat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtAPatMouseClicked(evt);
+            }
+        });
+        txtAPat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAPatActionPerformed(evt);
             }
         });
         back.add(txtAPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, 240, 30));
@@ -354,7 +381,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
         back.add(labelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 200, 50, 20));
 
         SiFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(SiFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 570, 50, 40));
+        back.add(SiFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 560, 50, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -379,21 +406,36 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try{
-            String nombre = txtNombre.getText();
-            String aPaterno = txtAPat.getText();
+    
+//    Calendar min = Calendar.getInstance();
+//    min.add(Calendar.DAY_OF_MONTH, -1);
+//    Calendar max = Calendar.getInstance();
+//    max.add(Calendar.DAY_OF_MONTH, 13);
+//    RangeEvaluator re = new RangeEvaluator();
+//    re.setMinSelectableDate(min.getTime());
+//    re.setMaxSelectableDate(max.getTime());
+//    JCalendar jc = new JCalendar();
+//    jc.getDayChooser().addDateEvaluator(re);
+//    jc.setCalendar(jc.getCalendar());
+          
+             String aPaterno = txtAPat.getText();
             String aMaterno = txtAMat.getText();
+            String nombre = txtNombre.getText();
+             ValidarNombre(nombre);
+          
+            ValidarAPaterno(aPaterno);
+            ValidarAMaterno(aMaterno);
 
 
             int anio = dtNacimiento.getCalendar().get(Calendar.YEAR);
             int mes = dtNacimiento.getCalendar().get(Calendar.MONTH) + 1;
             int dia = dtNacimiento.getCalendar().get(Calendar.DAY_OF_MONTH);
             String fNacimiento = String.valueOf(anio) + "/" + String.valueOf(mes) + "/" + String.valueOf(dia);
+           
             
-            ValidarNombre(nombre);
-            ValidarAPaterno(aPaterno);
-            ValidarAMaterno(aMaterno);
+            
             ///////    
-            if(inicial == 0&& (idNowModify==null|| idNowModify.equals(0))){
+            if(inicial == 0 && (idNowModify==null|| idNowModify.equals(0))){
                 //PrimeraVez sin datos
                
                 if(!nombre.isEmpty() && !aPaterno.isEmpty() && IcoCorreNombre.isVisible()&& IcoCorreApellidoP.isVisible()){
@@ -450,6 +492,13 @@ public class AgregarAlumno extends javax.swing.JPanel {
             }
         }catch(Exception a){
                 FechaRequerida.setVisible(true);  
+                 String aPaterno = txtAPat.getText();
+            String aMaterno = txtAMat.getText();
+            String nombre = txtNombre.getText();
+             ValidarNombre(nombre);
+          
+            ValidarAPaterno(aPaterno);
+            ValidarAMaterno(aMaterno);
         }
       
         
@@ -494,7 +543,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
     private void dtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyTyped
         //If any key is typed, set message with error
-         JOptionPane.showMessageDialog(null, "Ño2");
+        // JOptionPane.showMessageDialog(null, "Ño2");
         // TODO add your handling code here:
     }//GEN-LAST:event_dtNacimientoKeyTyped
 
@@ -503,7 +552,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
 //If any key is typed, set message with error
 
    
-      JOptionPane.showMessageDialog(null, "Ño");
+     // JOptionPane.showMessageDialog(null, "Ño");
    
     
 
@@ -512,7 +561,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
     private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
 
- JOptionPane.showMessageDialog(null, "Ño3");
+ //JOptionPane.showMessageDialog(null, "Ño3");
         // TODO add your handling code here:
     }//GEN-LAST:event_dtNacimientoKeyReleased
 
@@ -522,6 +571,12 @@ public class AgregarAlumno extends javax.swing.JPanel {
         ApellidoPRequerido.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAPatMouseClicked
+
+    private void txtAPatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAPatActionPerformed
+    ApellidoPRequerido.setVisible(true);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAPatActionPerformed
 
     ConexionBD con = new ConexionBD();
     
@@ -560,17 +615,23 @@ public class AgregarAlumno extends javax.swing.JPanel {
     
     void ValidarNombre(String nombre){
     
-      if(nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-             IcoCorreNombre.setVisible(true);
-             iconIncoNombre.setVisible(false);
-             IncoNombre.setVisible(false);
-             
-             if(nombre.isEmpty()){
+    if(nombre.isEmpty()){
              IcoCorreNombre.setVisible(false);
              iconIncoNombre.setVisible(false);
              IncoNombre.setVisible(false);
              NombreRequerido.setVisible(true);
              }
+    else if(nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+             IcoCorreNombre.setVisible(true);
+             iconIncoNombre.setVisible(false);
+             IncoNombre.setVisible(false);
+             
+//             if(nombre.isEmpty()){
+//             IcoCorreNombre.setVisible(false);
+//             iconIncoNombre.setVisible(false);
+//             IncoNombre.setVisible(false);
+//             NombreRequerido.setVisible(true);
+//             }
              
          } else{
              IcoCorreNombre.setVisible(false);
@@ -617,6 +678,12 @@ public class AgregarAlumno extends javax.swing.JPanel {
         }
     }
 
+     private static class RangeEvaluator extends MinMaxDateEvaluator {
+
+    public boolean isInvalid(Date date) {
+        return !super.isInvalid(date);
+    }
+}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

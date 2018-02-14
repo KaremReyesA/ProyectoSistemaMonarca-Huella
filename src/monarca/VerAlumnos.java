@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import static java.time.LocalDate.now;
@@ -304,7 +305,12 @@ public static String idNowModify;
           
           idNowModify= (noControlFinal+"");
           
-          AgregarAlumno ver = new AgregarAlumno();
+          AgregarAlumno ver = null;
+          try {
+              ver = new AgregarAlumno();
+          } catch (ParseException ex) {
+              Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+          }
           ver.setSize(1070,730);
           ver.setLocation(0, 0);
           

@@ -12,6 +12,9 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import static monarca.AgregarAlumno.labelID;
 import static monarca.VerAlumnos.idNowModify;
 
@@ -133,6 +136,19 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         }
 
     }
+    
+      public static void main(String args[]) {
+       JSpinner spnPeso1 = new JSpinner();
+
+        ChangeListener listener = new ChangeListener() {
+          public void stateChanged(ChangeEvent e) {
+            System.out.println("Source: " + e.getSource());
+          }
+        };
+
+      spnPeso1.addChangeListener(listener);
+        spnPeso1.setValue(new Float(100));
+      }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -243,6 +259,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 120, -1));
 
         cbSangre1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "O +", "O -", "A +", "A -", "B +", "B -", "AB +", "AB -" }));
+        cbSangre1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSangre1ActionPerformed(evt);
+            }
+        });
         back.add(cbSangre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, 110, 30));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -257,10 +278,16 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         jLabel23.setText("Altura:");
         back.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 340, -1, -1));
 
-        spnAltura1.setModel(new javax.swing.SpinnerNumberModel(1.65d, null, 2.3d, 0.01d));
+        spnAltura1.setModel(new javax.swing.SpinnerNumberModel(1.5d, 0.5d, 2.7d, 0.01d));
+        spnAltura1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnAltura1StateChanged(evt);
+                catchValueFromSpinner(evt);
+            }
+        });
         back.add(spnAltura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 360, 60, 30));
 
-        spnPeso1.setModel(new javax.swing.SpinnerNumberModel(55.0d, null, 150.0d, 0.5d));
+        spnPeso1.setModel(new javax.swing.SpinnerNumberModel(55.0d, 15.0d, 200.0d, 0.5d));
         spnPeso1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 spnPeso1FocusLost(evt);
@@ -349,6 +376,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         txtAlergia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtAlergiaFocusLost(evt);
+            }
+        });
+        txtAlergia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAlergiaActionPerformed(evt);
             }
         });
         back.add(txtAlergia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 480, 220, 30));
@@ -504,7 +536,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
                     modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
                     modificarAlumno.setString(2, spnPeso1.getValue().toString());
-                    modificarAlumno.setString(3, spnPeso1.getValue().toString());
+                    modificarAlumno.setString(3, spnAltura1.getValue().toString());
 
                     modificarAlumno.setString(4, alergia);
                     modificarAlumno.setString(5, enfermedad);
@@ -574,10 +606,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtAlergiaFocusLost
 
     private void spnPeso1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPeso1FocusLost
-
+        verificarPeso();
+        
 
 //       if((Integer)spnPeso1.getValue() == 55){
-//       JOptionPane.showMessageDialog(null, "55");
+       JOptionPane.showMessageDialog(null, "FocusLost Peso");
 //       }
     }//GEN-LAST:event_spnPeso1FocusLost
 
@@ -586,6 +619,29 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEnfermedadFocusLost
+
+    private void txtAlergiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlergiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAlergiaActionPerformed
+
+    private void cbSangre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSangre1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSangre1ActionPerformed
+
+    private void spnAltura1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnAltura1StateChanged
+//        Float value = (Float) spnAltura1.getValue();
+//        String s= value.toString();
+//        JOptionPane.showMessageDialog(null, s);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spnAltura1StateChanged
+
+    private void catchValueFromSpinner(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_catchValueFromSpinner
+ Float value = (Float) spnAltura1.getValue();
+        String s= value.toString();
+        JOptionPane.showMessageDialog(null, s);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_catchValueFromSpinner
 
     ConexionBD con = new ConexionBD();
 
@@ -631,11 +687,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         }
     }
 
-    void vaciar() {
-
-    }
-
-    
+  
     void validarAlergia(String alergia) {
             if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
                SiAlergia();
@@ -698,6 +750,17 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                 NoAlergia.setVisible(false);
                 Necesario.setVisible(false);
                 txtAlergia.setVisible(true);
+    }
+    void verificarPeso() {
+            float peso= Float.parseFloat(spnPeso1.getValue().toString());
+            if(peso<20){
+                VerifiquePeso.setVisible(true);
+                System.out.println("Meneor a 20");
+            }else if (peso>200){
+                VerifiquePeso.setVisible(true);
+                 System.out.println("Mayor a 20");
+            }
+             System.out.println(peso +"");
     }
 
   
