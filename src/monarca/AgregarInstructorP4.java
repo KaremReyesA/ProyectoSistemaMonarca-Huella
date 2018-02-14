@@ -1,15 +1,6 @@
 package monarca;
 
-import db.ConexionBD;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
@@ -33,18 +24,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import db.ConexionBD;
-import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-
-import java.util.Locale;
 
 public class AgregarInstructorP4 extends javax.swing.JPanel {
 

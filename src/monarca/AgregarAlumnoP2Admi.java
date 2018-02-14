@@ -1,13 +1,6 @@
 package monarca;
 
-import db.ConexionBD;
 import java.awt.BorderLayout;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
 import static monarca.mainAmbos.rightPanel;
 
 public class AgregarAlumnoP2Admi extends javax.swing.JPanel {

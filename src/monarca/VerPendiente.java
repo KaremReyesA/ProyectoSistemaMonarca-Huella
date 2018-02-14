@@ -1,12 +1,6 @@
 package monarca;
 
 import db.ConexionBD;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
 
 public class VerPendiente extends javax.swing.JPanel {
 

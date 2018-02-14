@@ -1,13 +1,7 @@
+
 package monarca;
 
-import db.ConexionBD;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
 
 public class VerInstructores extends javax.swing.JPanel {
 

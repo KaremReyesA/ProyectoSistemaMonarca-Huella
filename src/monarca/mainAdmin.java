@@ -411,7 +411,7 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsistenciasAlumnosActionPerformed
 
     private void btnAsistenciasInstrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasInstrucActionPerformed
-     VerAsistenciasInstructores asistenciaIns = new VerAsistenciasInstructores();
+     VerAsistenciasAlumnos asistenciaIns = new VerAsistenciasAlumnos();
         asistenciaIns.setSize(1070,730);
         asistenciaIns.setLocation(0, 0);
         rightPanelAdmin.removeAll();

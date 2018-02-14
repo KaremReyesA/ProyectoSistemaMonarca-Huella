@@ -6,9 +6,6 @@
 package monarca;
 
 import java.util.Calendar;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 /**
  *

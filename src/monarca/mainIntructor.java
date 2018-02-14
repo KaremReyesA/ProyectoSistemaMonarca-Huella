@@ -2,7 +2,6 @@
 package monarca;
 
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
 public class mainIntructor extends javax.swing.JFrame {
 
     public mainIntructor() {

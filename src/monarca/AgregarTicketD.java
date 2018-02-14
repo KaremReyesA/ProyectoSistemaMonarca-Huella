@@ -2,7 +2,6 @@
 package monarca;
 
 import db.ConexionBD;
-import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

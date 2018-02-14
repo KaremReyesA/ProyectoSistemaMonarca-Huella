@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import static monarca.mainAdmin.rightPanelAdmin;
 public class mainAmbos extends javax.swing.JFrame {
 
