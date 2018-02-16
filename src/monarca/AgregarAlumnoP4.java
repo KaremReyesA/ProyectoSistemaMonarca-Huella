@@ -58,37 +58,37 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             ResultSet rs;
             PreparedStatement ps;
             
-           if(idNowModify==null|| idNowModify.equals(0)){
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                if (rs.getString("alrgias") != null) {
-                    inicial = 1;
-
-                    cbSangre1.setSelectedItem(rs.getString("t_sangre"));
-                    spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
-                    spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
-                    txtAlergia.setText(rs.getString("alrgias"));
-
-                    //FALTA ENFERMEDADES
-                    //SiCinta.setVisible(true);
-                    if (txtAlergia.getText().equals("Ninguno")) {
-                        rbAlergiasNo1.setSelected(true);
-
-                    } else {
-                        //Si tiene "si"
-                        rbAlergiasSi1.setSelected(true);
-                        lblAlergia.setVisible(true);
-                        txtAlergia.setVisible(true);
-
-                    }
-
-                }
-            }
-            
-              } else{
+//           if(idNowModify==null || idNowModify.equals(0)){
+//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+//
+//            rs = ps.executeQuery();
+//
+//            if (rs.next()) {
+//                if (rs.getString("alrgias") != null) {
+//                    inicial = 1;
+//
+//                    cbSangre1.setSelectedItem(rs.getString("t_sangre"));
+//                    spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
+//                    spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
+//                    txtAlergia.setText(rs.getString("alrgias"));
+//
+//                    //FALTA ENFERMEDADES
+//                    //SiCinta.setVisible(true);
+//                    if (txtAlergia.getText().equals("Ninguno")) {
+//                        rbAlergiasNo1.setSelected(true);
+//
+//                    } else {
+//                        //Si tiene "si"
+//                        rbAlergiasSi1.setSelected(true);
+//                        lblAlergia.setVisible(true);
+//                        txtAlergia.setVisible(true);
+//
+//                    }
+//
+//                }
+//            }
+//            
+//              } else{
             String enfermedad=null, alergia=null;
             
             int numcontrol= Integer.parseInt(idNowModify);
@@ -97,16 +97,32 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             rs= ps.executeQuery();
             if(rs.next()){
                                  
+                String altu= rs.getString("altura");
+                String pes= rs.getString("peso");
+                 
                 cbSangre1.setSelectedItem(rs.getString("t_sangre"));
-                spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
-                spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
+                if( altu != null){ 
+                    spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
+                }
+                
+                if( pes != null){
+                    spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
+                  }
                 
                 
                 enfermedad= rs.getString("enfermedades");
                 alergia= rs.getString("alrgias");
-                 
-                if (enfermedad.equals("Ninguno")){
+                 if( enfermedad == null){
                      rbEnfermedadNo1.setSelected(true);
+                 }
+                 else if (enfermedad.equals("Ninguno")){
+                   rbEnfermedadNo1.setSelected(true);
+                    rbEnfermedadSi1.setSelected(false);
+                    VerifiqueEnfermedad.setVisible(true);
+                    NoEnfermedad.setVisible(true);
+                    NecesarioEnferm.setVisible(false);
+                    SiEnfermedad.setVisible(false);
+                    txtEnfermedad.setVisible(false);
                    NoEnfermedad();
                     
                 }else{
@@ -114,10 +130,15 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                    rbEnfermedadSi1.setSelected(true);
                     SiEnfermedad();
                     txtEnfermedad.setText(enfermedad);
+                    validarEnfermedad(enfermedad);
                 }
-                
-                 if (alergia.equals("Ninguno")){
-                    System.out.println("Ningun deporte");
+                if( alergia == null){
+                     rbAlergiasNo1.setSelected(true);
+                 }
+                else if (alergia.equals("Ninguno")){
+                  
+                rbAlergiasNo1.setSelected(true);
+                 
                    NoAlergia();
                     
                 }else{
@@ -125,10 +146,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                     rbAlergiasSi1.setSelected(true);
                     SiAlergia();
                     txtAlergia.setText(alergia);
+                     validarAlergia(alergia);
                 }
                         
             }
-        }
+       // }
 
         } // TODO add your handling code here:
         catch (SQLException ex) {
@@ -157,6 +179,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         DeporteGroup = new javax.swing.ButtonGroup();
         AlergiasGroup = new javax.swing.ButtonGroup();
         EnfermedadesGroup = new javax.swing.ButtonGroup();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -391,7 +414,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         back.add(txtAlergia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 480, 220, 30));
 
         SiAlergia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(SiAlergia, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 470, 50, 40));
+        back.add(SiAlergia, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 470, 50, 40));
 
         NoAlergia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
         back.add(NoAlergia, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 470, 50, 40));
@@ -511,31 +534,31 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
-           Connection c = con.conectar();
+            Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            String alergia = txtAlergia.getText();
-            String enfermedad = txtEnfermedad.getText();
             
-            if (rbAlergiasNo1.isSelected() == true) {
+            String alergia =null;
+            String enfermedad = null;
+            
+            if (rbAlergiasNo1.isSelected()==true) {
                 alergia = "Ninguno";
             } else {
-                
+               alergia = txtAlergia.getText();
                 validarAlergia(alergia);                    
             }
                 
             
-            if (rbEnfermedadNo1.isSelected() == true) {
+            if (rbEnfermedadNo1.isSelected()==true) {
                 enfermedad = "Ninguno";
             } else {
-               
+                enfermedad = txtEnfermedad.getText();
                     validarEnfermedad(enfermedad);
                 
             }
             
-            if((rbEnfermedadSi1.isSelected() && SiEnfermedad.isVisible()) || 
-                (rbAlergiasSi1.isSelected() && SiAlergia.isVisible()) ||
-                   rbAlergiasNo1.isSelected() || rbEnfermedadNo1.isSelected()){
+            if(!NoEnfermedad.isVisible() && !NoAlergia.isVisible()&& !VerifiquePeso.isVisible()&& !VerifiqueAltura.isVisible()
+            ){
                 try {
                     PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =?, enfermedades=? WHERE id=?");
 
@@ -549,15 +572,15 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
                     modificarAlumno.execute();
                     modificarAlumno.close();
-                //Cambiar a 5
-                AgregarAlumnoP5 pantalla = new AgregarAlumnoP5();
-                pantalla.setSize(1070, 730);
-                pantalla.setLocation(0, 0);
+                    //Cambiar a 5
+                    AgregarAlumnoP5 pantalla = new AgregarAlumnoP5();
+                    pantalla.setSize(1070, 730);
+                    pantalla.setLocation(0, 0);
 
-                rightPanelAdmin.removeAll();
-                rightPanelAdmin.add(pantalla, BorderLayout.CENTER);
-                rightPanelAdmin.revalidate();
-                rightPanelAdmin.repaint();
+                    rightPanelAdmin.removeAll();
+                    rightPanelAdmin.add(pantalla, BorderLayout.CENTER);
+                    rightPanelAdmin.revalidate();
+                    rightPanelAdmin.repaint();
 
 
                 } catch (SQLException ex) {
@@ -692,40 +715,47 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
   
     void validarAlergia(String alergia) {
-            if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-               SiAlergia();
-
-                if(alergia.isEmpty()){
+         if(alergia.isEmpty()){
                     SiAlergia.setVisible(false);
                     VerifiqueAlergia.setVisible(false);
                     NoAlergia.setVisible(false);
                     Necesario.setVisible(true);
                 }
+         else if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+               SiAlergia();
             } else{
-               NoAlergia();
+               SiAlergia.setVisible(false);
+                VerifiqueAlergia.setVisible(true);
+                NoAlergia.setVisible(true);
+                Necesario.setVisible(false);
+            
             }
+        // JOptionPane.showInputDialog("verificado");
     }
 
     
     void validarEnfermedad(String enfermedad) {
                 
-            if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-                SiEnfermedad();
-
-                if(enfermedad.isEmpty()){
+            if(enfermedad.isEmpty()){
                     SiEnfermedad.setVisible(false);
                     VerifiqueEnfermedad.setVisible(false);
                     NoEnfermedad.setVisible(false);
                     NecesarioEnferm.setVisible(true);
-                    }
+                    }else if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+                SiEnfermedad();
+
+                
             } else{
-               NoEnfermedad();
+               VerifiqueEnfermedad.setVisible(true);
+                NoEnfermedad.setVisible(true);
+                NecesarioEnferm.setVisible(false);
+                SiEnfermedad.setVisible(false);
             }
     }
     
     void NoEnfermedad() {
-            VerifiqueEnfermedad.setVisible(true);
-            NoEnfermedad.setVisible(true);
+            VerifiqueEnfermedad.setVisible(false);
+            NoEnfermedad.setVisible(false);
             NecesarioEnferm.setVisible(false);
             SiEnfermedad.setVisible(false);
             txtEnfermedad.setVisible(false);
@@ -742,7 +772,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     void NoAlergia() {
             SiAlergia.setVisible(false);
                 VerifiqueAlergia.setVisible(false);
-                NoAlergia.setVisible(true);
+                NoAlergia.setVisible(false);
                 Necesario.setVisible(false);
                 txtAlergia.setVisible(false);
     }
@@ -808,6 +838,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     private javax.swing.JLabel VerifiquePeso;
     private javax.swing.JPanel back;
     private javax.swing.JButton btnFinalizar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbSangre1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

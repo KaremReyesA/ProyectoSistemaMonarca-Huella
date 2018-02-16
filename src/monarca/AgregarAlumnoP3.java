@@ -60,8 +60,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                         lblDeporte.setVisible(true);
                         txtDeporte.setVisible(true); 
                     }
-
-                   }
+                }
             } 
         } else{
             String dep=null;
@@ -74,7 +73,10 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                                  
                 cbCinta.setSelectedItem(rs.getString("cinta"));
                 dep= rs.getString("deportes");
-                if (dep.equals("Ninguno")){
+                if(dep==null){
+                     rbDeporteNo.setSelected(true);
+                }
+                else if (dep.equals("Ninguno")){
                 System.out.println("Ningun deporte");
                 NoDeporte();
                     
@@ -83,13 +85,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                     rbDeporteSi.setSelected(true);
                     SiDeporte();
                     txtDeporte.setText(rs.getString("deportes"));
-                }
-                        
+                }   
             }
         }
     }
 
-        // TODO add your handling code here:
      catch (SQLException ex) {
         Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -383,10 +383,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                     
                     }
                     else{
-                   Verifique.setVisible(true);
-                   NoDeporte.setVisible(true);
-                     Necesario.setVisible(false);
-                      SiDeporte.setVisible(false);
+                        Verifique.setVisible(true);
+                        NoDeporte.setVisible(true);
+                         
+                        Necesario.setVisible(false);
+                        SiDeporte.setVisible(false);
 
                 }}
             }

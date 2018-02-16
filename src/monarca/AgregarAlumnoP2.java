@@ -42,30 +42,30 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
             ResultSet rs;
             PreparedStatement ps;
             
-            if(idNowModify==null|| idNowModify.equals(0)){
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-            
-            rs= ps.executeQuery();
-            
-            if(rs.next()){
-                if(rs.getString("direccion")!=null){
-                    inicial=1;
-                    txtaDireccion.setText(rs.getString("direccion"));
-                    txtTutor1.setText(rs.getString("nombre_tutor"));
-                    cbParentesco.setSelectedItem(rs.getString("parentesco"));
-                    txtTelefono1.setText(rs.getString("tutor_celular"));
-                    
-                    //Validar 
-                    
-                    VerificaDomicilio( txtaDireccion.getText());
-                    VerificaTelefono(txtTelefono1.getText());
-                    VerificarTutor(txtTutor1.getText());
-                    SiParentesco.setVisible(true);
-                   }
-            }
-  
-            }
-        else{
+//            if(idNowModify==null|| idNowModify.equals(0)){
+//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+//            
+//            rs= ps.executeQuery();
+//            
+//            if(rs.next()){
+//                if(rs.getString("direccion")!=null){
+//                    inicial=1;
+//                    txtaDireccion.setText(rs.getString("direccion"));
+//                    txtTutor1.setText(rs.getString("nombre_tutor"));
+//                    cbParentesco.setSelectedItem(rs.getString("parentesco"));
+//                    txtTelefono1.setText(rs.getString("tutor_celular"));
+//                    
+//                    //Validar 
+//                    
+//                    VerificaDomicilio( txtaDireccion.getText());
+//                    VerificaTelefono(txtTelefono1.getText());
+//                    VerificarTutor(txtTutor1.getText());
+//                    SiParentesco.setVisible(true);
+//                   }
+//            }
+//  
+//            }
+//        else{
             int numcontrol= Integer.parseInt(idNowModify);
             ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
             ps.setInt(1,numcontrol);
@@ -84,7 +84,7 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
                   VerificaTelefono(txtTelefono1.getText());
                   VerificarTutor(txtTutor1.getText());
                 
-        }
+      //  }
     }
             
             // TODO add your handling code here:
@@ -359,7 +359,7 @@ try {
             modificarAlumno.setString(2, txtTutor1.getText());
             modificarAlumno.setString(3, cbParentesco.getSelectedItem().toString());
             modificarAlumno.setString(4, txtTelefono1.getText());
-            modificarAlumno.setString(5, labelID.getText());
+            modificarAlumno.setString(5, idNowModify);
            
             modificarAlumno.execute();
             modificarAlumno.close();
