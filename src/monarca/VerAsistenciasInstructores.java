@@ -1,17 +1,143 @@
 package monarca;
 
+import db.ConexionBD;
 import java.awt.Font;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-public class VerAsistenciasInstructores extends javax.swing.JPanel {
+public final class VerAsistenciasInstructores extends javax.swing.JPanel {
 
     public VerAsistenciasInstructores() {
         initComponents();
-        jTable1.setFont(new Font("Vivaldi", Font.BOLD, 28));
-        
-    }
-    
+        limpiarTabla(jTable1);
+        jTable1.setFont(new Font("Arial", Font.PLAIN, 12));
+        SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
+        java.util.Date fecha1 = new java.util.Date();
+        java.util.Date fecha2 = sumarRestarDiasFecha(fecha1, -3);
 
-   
+        String fecha1F = formateador2.format(fecha1);
+        String fecha2F = formateador2.format(fecha2);
+        try {
+            llenarTabla(jTable1, fecha2F, fecha1F);
+        } catch (Exception ex) {
+            Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public java.util.Date sumarRestarDiasFecha(java.util.Date fecha, int dias) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe	
+        calendar.add(Calendar.MONTH, dias);  // numero de días a añadir, o restar en caso de días<0
+
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+
+    }
+
+    public static int numMax(String fecha1, String fecha2) throws java.sql.SQLException {
+        ResultSet rs;
+        PreparedStatement ps;
+        ResultSetMetaData rsm;
+        DefaultTableModel dtm;
+        ConexionBD conn = new ConexionBD();
+        int max = 0;
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("SELECT count(asistencias_instructores.instructor_id) asistencias  \n"
+                + "FROM asistencias_instructores \n"
+                + "WHERE fecha BETWEEN ? AND ? \n"
+                + "GROUP BY intructor_id\n"
+                + "HAVING COUNT(instructor_id)\n"
+                + "ORDER BY  asistencias DESC \n"
+                + "LIMIT 1");
+        ps.setString(1, fecha1);
+        ps.setString(2, fecha2);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            max = rs.getInt("asistencias");
+        }
+
+        return max;
+    }
+
+    public void llenarTabla(JTable tabla, String fecha1, String fecha2) throws Exception {
+        ResultSet rs;
+        PreparedStatement ps;
+        ResultSetMetaData rsm;
+        DefaultTableModel dtm;
+        ConexionBD conn = new ConexionBD();
+        int max;
+        max = numMax(fecha1, fecha2);
+        System.out.println("maximo " + max);
+        Connection c = conn.conectar();
+
+        ps = c.prepareStatement("SELECT instructores.id, "
+                + "concat_ws(' ',instructores.nombre, instructores.a_paterno, instructores.a_materno) nombre,"
+                + "count(asistencias_instructores.alumno_id) asistencias,"
+                + "instructores.activo  \n"
+                + "FROM instructores INNER JOIN asistencias_instructores ON asistencias_instructores.instructor_id=instructores.id\n"
+                + "WHERE fecha BETWEEN ? AND ? AND instructores.activo=1\n"
+                + "GROUP BY asistencias_instructores.instructor_id\n"
+                + "HAVING COUNT(asistencias_instructores.instructor_id)");
+        ps.setString(1, fecha1);
+        ps.setString(2, fecha2);
+        rs = ps.executeQuery();
+        rsm = rs.getMetaData();
+
+        ArrayList<Object[]> datos = new ArrayList<>();
+        while (rs.next()) {
+            Object[] filas = new Object[rsm.getColumnCount()];
+            for (int i = 0; i < filas.length; i++) {
+                switch (i) {
+                    case 2:
+                        filas[i] = rs.getObject(i + 1);
+                        if (Integer.parseInt(filas[i].toString()) > max) {
+                            max = Integer.parseInt(filas[i].toString());
+                        }
+                        break;
+                    case 3:
+
+                        float porcentaje = Float.parseFloat(rs.getObject(3).toString()) / max;
+                        System.out.println(porcentaje);
+                        filas[i] = Math.round(porcentaje * 100);
+                        break;
+                    default:
+                        filas[i] = rs.getObject(i + 1);
+                        break;
+                }
+            }
+            datos.add(filas);
+        }
+
+        dtm = (DefaultTableModel) tabla.getModel();
+        for (int i = 0; i < datos.size(); i++) {
+            dtm.addRow(datos.get(i));
+        }
+
+    }
+
+    public void limpiarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -29,8 +155,8 @@ public class VerAsistenciasInstructores extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        dtNacimiento = new com.toedter.calendar.JDateChooser();
-        dtNacimiento1 = new com.toedter.calendar.JDateChooser();
+        dtFechaInicio = new com.toedter.calendar.JDateChooser();
+        dtFechaFinal = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -133,11 +259,11 @@ public class VerAsistenciasInstructores extends javax.swing.JPanel {
         jLabel12.setText("Buscar segun fecha inicio de periodo");
         back.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, -1, -1));
 
-        dtNacimiento.setToolTipText("");
-        back.add(dtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 200, 30));
+        dtFechaInicio.setToolTipText("");
+        back.add(dtFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 200, 30));
 
-        dtNacimiento1.setToolTipText("");
-        back.add(dtNacimiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, 200, 30));
+        dtFechaFinal.setToolTipText("");
+        back.add(dtFechaFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, 200, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Search_30px.png"))); // NOI18N
         back.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, -1, -1));
@@ -147,6 +273,11 @@ public class VerAsistenciasInstructores extends javax.swing.JPanel {
         back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 130, -1, -1));
 
         jButton4.setText("BUSCAR");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         back.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, 150, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -163,9 +294,26 @@ public class VerAsistenciasInstructores extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-    
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
+
+        if (dtFechaInicio.getDate() != null && dtFechaFinal.getDate() != null) {
+            java.util.Date fecha1 = dtFechaInicio.getDate();
+            java.util.Date fecha2 = dtFechaFinal.getDate();
+
+            String fecha1F = formateador2.format(fecha1);
+            String fecha2F = formateador2.format(fecha2);
+            limpiarTabla(jTable1);
+            try {
+                llenarTabla(jTable1, fecha1F, fecha2F);
+            } catch (Exception ex) {
+                Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese las fechas que quiere revisar.");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
@@ -173,8 +321,8 @@ public class VerAsistenciasInstructores extends javax.swing.JPanel {
     private javax.swing.ButtonGroup EnfermedadesGroup;
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel back;
-    private com.toedter.calendar.JDateChooser dtNacimiento;
-    private com.toedter.calendar.JDateChooser dtNacimiento1;
+    private com.toedter.calendar.JDateChooser dtFechaFinal;
+    private com.toedter.calendar.JDateChooser dtFechaInicio;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
