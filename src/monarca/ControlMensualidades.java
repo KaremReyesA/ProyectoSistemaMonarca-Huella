@@ -504,9 +504,6 @@ public class ControlMensualidades extends javax.swing.JPanel {
                     fecha2 = formateador2.parse(fecha);
                     fechaNva = sumarRestarDiasFecha(fecha2, 1);
                     fecha = formateador2.format(fechaNva);
-                    System.out.println(fecha2);
-                    System.out.println(fechaNva);
-                    System.out.println(fecha);
                     PreparedStatement ps = null;
                     ResultSet rs = null;
                     ConexionBD conn = new ConexionBD();
