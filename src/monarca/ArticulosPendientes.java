@@ -1,17 +1,20 @@
 package monarca;
 
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 public class ArticulosPendientes extends javax.swing.JPanel {
+
+    private TableRowSorter trsFiltro;
 
     public ArticulosPendientes() {
         initComponents();
         jTable1.setFont(new Font("Vivaldi", Font.BOLD, 28));
-        
-    }
-    
 
-   
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -145,6 +148,11 @@ public class ArticulosPendientes extends javax.swing.JPanel {
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtBusqueda.setBorder(null);
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
         back.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 150, 260, 40));
         back.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 190, 330, 20));
 
@@ -162,9 +170,21 @@ public class ArticulosPendientes extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-    
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBusqueda.getText());
+                txtBusqueda.setText(cadena);
+                repaint();
+                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 0));
+            }
+        });
+
+        trsFiltro = new TableRowSorter(jTable1.getModel());
+        jTable1.setRowSorter(trsFiltro);        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;

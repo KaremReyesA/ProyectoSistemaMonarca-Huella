@@ -258,6 +258,11 @@ public class VerAdeudosForm extends javax.swing.JFrame {
         jtArtPend.setShowHorizontalLines(false);
         jtArtPend.setShowVerticalLines(false);
         jtArtPend.getTableHeader().setReorderingAllowed(false);
+        jtArtPend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtArtPendKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtArtPend);
         if (jtArtPend.getColumnModel().getColumnCount() > 0) {
             jtArtPend.getColumnModel().getColumn(0).setResizable(false);
@@ -438,6 +443,10 @@ public class VerAdeudosForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnModActionPerformed
+
+    private void jtArtPendKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtArtPendKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtArtPendKeyTyped
 
     /**
      * @param args the command line arguments

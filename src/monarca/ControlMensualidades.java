@@ -1,6 +1,8 @@
 package monarca;
 
 import db.ConexionBD;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +23,9 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JSpinner;
+import javax.swing.RowFilter;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.table.TableRowSorter;
 
 public class ControlMensualidades extends javax.swing.JPanel {
 
@@ -393,6 +397,11 @@ public class ControlMensualidades extends javax.swing.JPanel {
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtBusqueda.setBorder(null);
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
         back.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 150, 260, 40));
 
         btnPagarMensualidades.setText(" Pagar mensualidad o Atrasos");
@@ -437,9 +446,9 @@ public class ControlMensualidades extends javax.swing.JPanel {
                 System.out.println("Cancelar");
             } else if (option == JOptionPane.OK_OPTION) {
                 meses = Integer.parseInt(spinner.getValue().toString());
-                int pago= meses*150;
+                int pago = meses * 150;
                 int dialogButton = JOptionPane.YES_NO_OPTION;
-                int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se han recibido $"+pago+"?", "Adelantar mensualidad", dialogButton);
+                int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se han recibido $" + pago + "?", "Adelantar mensualidad", dialogButton);
                 if (dialogResult == 0) {
                     System.out.println("Yes option");
 //               
@@ -448,7 +457,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
 
                     try {
                         fecha2 = formateador2.parse(fecha);
-                        fechaNva = sumarRestarDiasFecha(fecha2,meses);
+                        fechaNva = sumarRestarDiasFecha(fecha2, meses);
                         fecha = formateador2.format(fechaNva);
                         System.out.println(fecha2);
                         System.out.println(fechaNva);
@@ -477,7 +486,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                     System.out.println("No Option");
 
                 }
-            } 
+            }
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
@@ -536,15 +545,15 @@ public class ControlMensualidades extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPagarMensualidadesActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-       
+
     }//GEN-LAST:event_formFocusGained
 
     private void backFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_backFocusGained
-    
+
     }//GEN-LAST:event_backFocusGained
 
     private void jtMensualidadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtMensualidadesFocusGained
-       limpiarTabla(jtMensualidades);
+        limpiarTabla(jtMensualidades);
         try {
             llenarTabla(jtMensualidades);
         } catch (Exception e) {
@@ -552,6 +561,21 @@ public class ControlMensualidades extends javax.swing.JPanel {
             System.out.println("error: " + e.getMessage());
         }
     }//GEN-LAST:event_jtMensualidadesFocusGained
+ private TableRowSorter trsFiltro;
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBusqueda.getText());
+                txtBusqueda.setText(cadena);
+                repaint();
+                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 1));
+            }
+        });
+
+        trsFiltro = new TableRowSorter(jtMensualidades.getModel());
+        jtMensualidades.setRowSorter(trsFiltro);         // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyTyped
 
     public java.util.Date sumarRestarDiasFecha(java.util.Date fecha, int dias) {
         Calendar calendar = Calendar.getInstance();

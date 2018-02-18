@@ -2,6 +2,8 @@ package monarca;
 
 import db.ConexionBD;
 import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerDatosAlumno.idNow;
 
@@ -236,6 +240,11 @@ public static String idNowModify;
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtBusqueda.setBorder(null);
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
         back.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 150, 260, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Search_30px.png"))); // NOI18N
@@ -319,6 +328,21 @@ public static String idNowModify;
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+private TableRowSorter trsFiltro;
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBusqueda.getText());
+                txtBusqueda.setText(cadena);
+                repaint();
+                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 1));
+            }
+        });
+
+        trsFiltro = new TableRowSorter(jtAlumnos.getModel());
+        jtAlumnos.setRowSorter(trsFiltro);             // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
