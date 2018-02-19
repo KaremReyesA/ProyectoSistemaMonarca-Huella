@@ -46,8 +46,6 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
             
              
             
-            
-            
             ps = c.prepareStatement("SELECT * FROM `instructores` ORDER BY `id` DESC LIMIT 1");
             
             rs= ps.executeQuery();
@@ -71,7 +69,7 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
             
             // TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }
@@ -250,7 +248,12 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
         });
         back1.add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 220, 30));
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Instructor y Administrador de Finanzas", "Administrsador General" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Instructor y Administrador de Finanzas", "Administrador General" }));
+        cbRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRolActionPerformed(evt);
+            }
+        });
         back1.add(cbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, 220, 30));
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -338,7 +341,7 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
 
     private void btnAnteriorP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorP3ActionPerformed
             //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
-            AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+            ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
                 articulos.setSize(1070,730);
                 articulos.setLocation(0, 0);
 
@@ -418,6 +421,10 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
             rightPanelAdmin.repaint();
     }
     }//GEN-LAST:event_btnContinuarP3ActionPerformed
+
+    private void cbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbRolActionPerformed
 
     
       void agregarUsuarioBD(String usuario, String pass, String rol) {

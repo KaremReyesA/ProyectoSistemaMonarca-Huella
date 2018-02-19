@@ -64,7 +64,7 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
             
            //  TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @SuppressWarnings("unchecked")
@@ -88,7 +88,6 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         lblAltura = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -161,7 +160,7 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         back.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 170, 200, 20));
 
         lblEnfermedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 550, 290, 30));
+        back.add(lblEnfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 550, 290, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información Médica");
@@ -169,7 +168,7 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
         back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, -1, -1));
 
         lblAltura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 80, 30));
+        back.add(lblAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 360, 80, 30));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("ATRÁS");
@@ -178,7 +177,7 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        back.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 630, 230, 40));
+        back.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 630, 230, 40));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("SALIR");
@@ -187,45 +186,36 @@ public class VerDatosAlumnoP4 extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        back.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 630, 140, 40));
+        back.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 630, 140, 40));
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setText("SIGUIENTE");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        back.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 630, 230, 40));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Tipo Sanguíneo:");
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 120, -1));
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel21.setText("Peso:");
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel21.setText("Peso en kilogramos:");
         back.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, -1, -1));
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel23.setText("Altura:");
-        back.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, -1, -1));
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel23.setText("Altura en metros:");
+        back.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 330, -1, -1));
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel25.setText("¿El alumno tiene alergias?");
         back.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, -1, -1));
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel28.setText("¿El alumno tiene enfermedades?");
         back.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
 
         lblPeso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 80, 30));
+        back.add(lblPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, 80, 30));
 
         lblSangre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblSangre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 270, 230, 30));
+        back.add(lblSangre, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 230, 30));
 
         lblAlergias.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblAlergias, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 290, 30));
+        back.add(lblAlergias, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 460, 290, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -279,10 +269,6 @@ VerDatosAlumnoP3 articulos = new VerDatosAlumnoP3();
             Logger.getLogger(VerDatosAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPersonalActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContactoActionPerformed
 VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
@@ -369,7 +355,6 @@ VerDatosAlumnoP2 articulos = new VerDatosAlumnoP2();
     private javax.swing.JButton btnPersonal;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel21;

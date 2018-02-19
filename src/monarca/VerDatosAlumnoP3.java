@@ -63,7 +63,7 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
             
            //  TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @SuppressWarnings("unchecked")
@@ -154,15 +154,15 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
         back.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, 200, 20));
 
         lblCinta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 290, 30));
+        back.add(lblCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, 290, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información Deportiva");
         jLabel13.setToolTipText("");
-        back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, -1, -1));
+        back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, -1, -1));
 
         lblDeporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDeporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 480, 290, 30));
+        back.add(lblDeporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, 290, 30));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("ATRÁS");
@@ -191,13 +191,13 @@ public class VerDatosAlumnoP3 extends javax.swing.JPanel {
         });
         back.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 630, 230, 40));
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel18.setText("Grado de cinta actual del alumno");
-        back.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, 210, 20));
+        back.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, 350, 20));
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("¿El alumno practica otro deporte?");
-        back.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 430, -1, 30));
+        back.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 450, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

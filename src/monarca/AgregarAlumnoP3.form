@@ -227,7 +227,7 @@
                 <StringItem index="0" value="Blanca"/>
                 <StringItem index="1" value="Blanca Avanzada"/>
                 <StringItem index="2" value="Amarilla"/>
-                <StringItem index="3" value="Amarilla Avan."/>
+                <StringItem index="3" value="Amarilla Avanzada"/>
                 <StringItem index="4" value="Verde"/>
                 <StringItem index="5" value="Verde Avanzada"/>
                 <StringItem index="6" value="Azul"/>
@@ -238,9 +238,6 @@
               </StringArray>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbCintaActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

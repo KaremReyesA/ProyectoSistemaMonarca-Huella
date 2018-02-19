@@ -63,7 +63,7 @@ public class VerDatosAlumnoP2 extends javax.swing.JPanel {
             
            //  TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -160,37 +160,37 @@ public class VerDatosAlumnoP2 extends javax.swing.JPanel {
         back.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 170, 200, 20));
 
         lblDomicilio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 290, 290, 30));
+        back.add(lblDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 450, 60));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información de Contacto");
         jLabel13.setToolTipText("");
         back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Tutor o contacto de emergencia:");
         back.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 340, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Parentesco:");
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 430, -1, 20));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Número telefónico");
         back.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setText("Domicilio");
         back.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, -1, -1));
 
         lblTutor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblTutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 380, 290, 30));
+        back.add(lblTutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, 290, 30));
 
         lblTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 560, 290, 30));
+        back.add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 560, 290, 30));
 
         lblParentesco.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblParentesco, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 470, 290, 30));
+        back.add(lblParentesco, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 460, 290, 40));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("ATRÁS");

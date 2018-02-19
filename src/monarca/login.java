@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class login extends javax.swing.JFrame {
     ConexionBD con= new ConexionBD();
+      public static String usuario_id = "", usuario_rol="";
     public login() {
         initComponents();
         lblAviso.setVisible(false);
@@ -122,11 +123,11 @@ public class login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     void accederSistema(String usuario, String password) {
-        mainAdmin ma = new mainAdmin();
-        mainAmbos m = new mainAmbos();
+        mainAdmin adminGeneral = new mainAdmin();
+        mainAmbos menuAmbos = new mainAmbos();
+        mainIntructor menuInstructor = new mainIntructor();
 
-        String id="";
-        int rol = 0;
+      
         String nombre = "";
         Connection c = con.conectar();
         PreparedStatement buscarUsuario;
@@ -138,34 +139,34 @@ public class login extends javax.swing.JFrame {
                     + "WHERE usuario='" + usuario + "' AND pass='" + password + "'");
             ResultSet rs = buscarUsuario.executeQuery();
             while (rs.next()) {
-                rol = rs.getInt("rol_id");
+                usuario_rol = rs.getString("rol");
                 nombre = rs.getString("usuario");
-                id= String.valueOf(rs.getInt("id"));
+                usuario_id= String.valueOf(rs.getInt("id"));
             }
-            switch (rol) {
-                case 1:
+            switch (usuario_rol) {
+                case "Administrador General":
                     JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
                     this.dispose();
-                    ma.setVisible(true);
-                    ma.lblUsuario.setText(nombre);
-                    ma.lblRolid.setText("1");
-                    ma.lblInstructorId.setText(id);
+                    adminGeneral.setVisible(true);
+                    adminGeneral.lblUsuario.setText(nombre);
+                    adminGeneral.lblRolid.setText("1");
+                    adminGeneral.lblInstructorId.setText(usuario_id);
                     break;
-                case 2:
+                case "Instructor y Administrador de Finanzas":
                     JOptionPane.showMessageDialog(null, "Bienvenido Instructor");
                     this.dispose();
-                    m.setVisible(true);
-                    m.lblUsuario.setText(nombre);
-                    m.lblRolid.setText("2");
-                    m.lblInstructorId.setText(id);
+                    menuAmbos.setVisible(true);
+                    menuAmbos.lblUsuario.setText(nombre);
+                    menuAmbos.lblRolid.setText("2");
+                    menuAmbos.lblInstructorId.setText(usuario_id);
                     break;
-                case 3:
+                case "Instructor":
                     JOptionPane.showMessageDialog(null, "Bienvenido Instructor");
                     this.dispose();
-                    ma.setVisible(true);
-                    ma.lblUsuario.setText(nombre);
-                    ma.lblRolid.setText("3");
-                    ma.lblInstructorId.setText(id);
+                    menuInstructor.setVisible(true);
+                    menuInstructor.lblUsuario.setText(nombre);
+                    menuInstructor.lblRolid.setText("3");
+                    menuInstructor.lblInstructorId.setText(usuario_id);
                     break;
                 default:
                     lblAviso.setVisible(true);

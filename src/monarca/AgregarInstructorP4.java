@@ -206,7 +206,7 @@ public class AgregarInstructorP4 extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
+ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 

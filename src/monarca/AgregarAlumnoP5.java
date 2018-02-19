@@ -3,7 +3,7 @@ package monarca;
 import java.awt.BorderLayout;
 
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarAlumno.labelID;
+import static monarca.ModificarAlumno.labelID;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -249,7 +249,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             modificarAlumno.execute();
             modificarAlumno.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

@@ -400,33 +400,25 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInstructoresActionPerformed
 
     private void btnAsistenciasAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasAlumnosActionPerformed
-        TomarAsistencias asistenciaAlum = new TomarAsistencias();
-        asistenciaAlum.stop();
-        asistenciaAlum.setSize(1070,730);
-        asistenciaAlum.setLocation(0, 0);
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(asistenciaAlum, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();   // TODO add your handling code here: // TODO add your handling code here:
-    }//GEN-LAST:event_btnAsistenciasAlumnosActionPerformed
-
-    private void btnAsistenciasInstrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasInstrucActionPerformed
-     VerAsistenciasAlumnos asistenciaIns = new VerAsistenciasAlumnos();
+  VerAsistenciasAlumnos asistenciaIns = new VerAsistenciasAlumnos();
         asistenciaIns.setSize(1070,730);
         asistenciaIns.setLocation(0, 0);
         rightPanelAdmin.removeAll();
         rightPanelAdmin.add(asistenciaIns, BorderLayout.CENTER);
         rightPanelAdmin.revalidate();
         rightPanelAdmin.repaint();   // TODO add your handling code here:
+
+
+      
+    }//GEN-LAST:event_btnAsistenciasAlumnosActionPerformed
+
+    private void btnAsistenciasInstrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasInstrucActionPerformed
+   
     }//GEN-LAST:event_btnAsistenciasInstrucActionPerformed
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
-   AgregarAlumno asistencia = null;
-        try {
-            asistencia = new AgregarAlumno();
-        } catch (ParseException ex) {
-            Logger.getLogger(mainAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+   AgregarAlumno asistencia = new AgregarAlumno();
+       
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
 
@@ -482,14 +474,14 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdeudosActionPerformed
 
     private void btnAgregarAdeudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAdeudosActionPerformed
-        AgregarTicketD adeudos = new AgregarTicketD();
-        adeudos.setSize(1070,730);
-        adeudos.setLocation(0, 0);
-
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+//        AgregarTicketD adeudos = new AgregarTicketD();
+//        adeudos.setSize(1070,730);
+//        adeudos.setLocation(0, 0);
+//
+//        rightPanelAdmin.removeAll();
+//        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
+//        rightPanelAdmin.revalidate();
+//        rightPanelAdmin.repaint();
     }//GEN-LAST:event_btnAgregarAdeudosActionPerformed
 
   

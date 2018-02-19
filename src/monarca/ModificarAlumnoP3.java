@@ -11,14 +11,16 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.AgregarAlumno.labelID;
-import static monarca.AgregarAlumnoP2.inicial;
+import static monarca.VerAlumnos.idNowModify;
+import static monarca.ModificarAlumno.labelID;
+import static monarca.ModificarAlumnoP2.inicial;
 import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
-public class AgregarAlumnoP3 extends javax.swing.JPanel {
- public static int inicial = 0;
-    public AgregarAlumnoP3() {
+public class ModificarAlumnoP3 extends javax.swing.JPanel {
+    public static int inicial = 0;
+    
+    public ModificarAlumnoP3() {
         initComponents();
 
         lblInstructorId.setVisible(false);
@@ -34,36 +36,62 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         Connection c = con.conectar();
         ResultSet rs;
         PreparedStatement ps;
-        ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+        
+        if(idNowModify==null|| idNowModify.equals(0)){
+       
+            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
 
-        rs= ps.executeQuery();
+            rs= ps.executeQuery();
 
-        if(rs.next()){
-            if(rs.getString("deportes")!=null){
-                inicial=1;
-               
-                cbCinta.setSelectedItem(rs.getString("cinta"));
-                txtDeporte.setText(rs.getString("deportes"));
-                SiCinta.setVisible(true);
-                
-                if(txtDeporte.getText().equals("Ninguno")){
-                    rbDeporteNo.setSelected(true);
-                   
-                }else {
-                     //Si tiene "si"
-                     rbDeporteSi.setSelected(true);
-                    lblDeporte.setVisible(true);
-                    txtDeporte.setVisible(true);
-                   
-                    
+            if(rs.next()){
+                if(rs.getString("deportes")!=null){
+                    inicial=1;
+
+                    cbCinta.setSelectedItem(rs.getString("cinta"));
+                    txtDeporte.setText(rs.getString("deportes"));
+                    SiCinta.setVisible(true);
+
+                    if(txtDeporte.getText().equals("Ninguno")){
+                        rbDeporteNo.setSelected(true);
+
+                    }else {
+                         //Si tiene "si"
+                        rbDeporteSi.setSelected(true);
+                        lblDeporte.setVisible(true);
+                        txtDeporte.setVisible(true); 
+                    }
                 }
+            } 
+        } else{
+            String dep=null;
+            
+            int numcontrol= Integer.parseInt(idNowModify);
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            if(rs.next()){
+                                 
+                cbCinta.setSelectedItem(rs.getString("cinta"));
+                dep= rs.getString("deportes");
+                if(dep==null){
+                     rbDeporteNo.setSelected(true);
+                }
+                else if (dep.equals("Ninguno")){
+                System.out.println("Ningun deporte");
+                NoDeporte();
+                    
+                }else{
+                    System.out.println("deportes "+ dep);
+                    rbDeporteSi.setSelected(true);
+                    SiDeporte();
+                    txtDeporte.setText(rs.getString("deportes"));
+                }   
+            }
+        }
+    }
 
-               }
-        }}
-
-        // TODO add your handling code here:
      catch (SQLException ex) {
-        Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -77,13 +105,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         cbCinta = new javax.swing.JComboBox<>();
@@ -99,6 +121,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         Verifique = new javax.swing.JLabel();
         Necesario = new javax.swing.JLabel();
         SiCinta = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -139,32 +166,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         );
 
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 70));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Huella Digital");
-        back.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 130, -1, -1));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
-
-        jProgressBar1.setValue(43);
-        back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 980, 20));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Información personal");
-        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Información de contacto");
-        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setText("Información deportiva");
-        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 130, -1, -1));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel11.setText("Información médica");
-        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 130, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información deportiva");
@@ -174,7 +176,12 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         jLabel18.setText("Grado de cinta actual del alumno");
         back.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 350, 210, 20));
 
-        cbCinta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanca", "Blanca Avanzada", "Amarilla", "Amarilla Avanzada", "Verde", "Verde Avanzada", "Azul", "Azul Avanzada", "Roja", "Roja Avanzada", "Negra" }));
+        cbCinta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanca", "Blanca Avanzada", "Amarilla", "Amarilla Avan.", "Verde", "Verde Avanzada", "Azul", "Azul Avanzada", "Roja", "Roja Avanzada", "Negra" }));
+        cbCinta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCintaActionPerformed(evt);
+            }
+        });
         back.add(cbCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, 200, 30));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -259,6 +266,28 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
         SiCinta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
         back.add(SiCinta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 380, 50, 40));
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Información personal");
+        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel9.setText("Información de contacto");
+        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel10.setText("Información deportiva");
+        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 130, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel11.setText("Información médica");
+        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 130, -1, -1));
+
+        jProgressBar1.setValue(52);
+        back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 980, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -274,20 +303,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbDeporteNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteNoActionPerformed
-        lblDeporte.setVisible(false);
-        txtDeporte.setVisible(false);   
-        SiDeporte.setVisible(false);   
-        NoDeporte.setVisible(false);   
-        Verifique.setVisible(false);
-        Necesario.setVisible(false); 
+        NoDeporte();
     }//GEN-LAST:event_rbDeporteNoActionPerformed
 
     private void rbDeporteSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteSiActionPerformed
-    lblDeporte.setVisible(true);
-        txtDeporte.setVisible(true);    
-        txtDeporte.setText("");
-        
-        
+        SiDeporte();
     }//GEN-LAST:event_rbDeporteSiActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -311,7 +331,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
 
                     modificarAlumno.execute();
                     modificarAlumno.close(); 
-                    AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
+                    ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
                             articulos.setSize(1070,730);
                             articulos.setLocation(0, 0);
 
@@ -348,7 +368,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                     modificarAlumno.execute();
                     modificarAlumno.close();
 //                   
-                             AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
+                             ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
                             articulos.setSize(1070,730);
                             articulos.setLocation(0, 0);
 
@@ -359,10 +379,11 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                     
                     }
                     else{
-                   Verifique.setVisible(true);
-                   NoDeporte.setVisible(true);
-                     Necesario.setVisible(false);
-                      SiDeporte.setVisible(false);
+                        Verifique.setVisible(true);
+                        NoDeporte.setVisible(true);
+                         
+                        Necesario.setVisible(false);
+                        SiDeporte.setVisible(false);
 
                 }}
             }
@@ -382,7 +403,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+        ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
@@ -432,6 +453,10 @@ JOptionPane.showMessageDialog(null, "Los datos se perderán");
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
 JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
+
+    private void cbCintaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCintaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCintaActionPerformed
 
     
     ConexionBD con = new ConexionBD();
@@ -484,6 +509,25 @@ JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TO
 
     }
 
+    
+    void NoDeporte() {
+       lblDeporte.setVisible(false);
+        txtDeporte.setVisible(false);   
+        SiDeporte.setVisible(false);   
+        NoDeporte.setVisible(false);   
+        Verifique.setVisible(false);
+        Necesario.setVisible(false); 
+        
+
+    }
+
+     void SiDeporte() {
+        lblDeporte.setVisible(true);
+        txtDeporte.setVisible(true);    
+        txtDeporte.setText("");
+     }
+        
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;
     private javax.swing.ButtonGroup DeporteGroup;
@@ -504,7 +548,6 @@ JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TO
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;

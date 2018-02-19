@@ -8,27 +8,20 @@ package monarca;
 import db.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author josue
  */
-public class AgregarArticuloTicket extends javax.swing.JFrame {
+public class AgregarTicketAgregarArticuloTicket extends javax.swing.JFrame {
 
     ConexionBD con = new ConexionBD();
-
-    /**
-     * Creates new form AgregarArticuloTicket
-     */
-    public AgregarArticuloTicket() {
+    public static int folio;
+    public AgregarTicketAgregarArticuloTicket() {
         initComponents();
-        ModificarTicketDetalles m=new ModificarTicketDetalles();
-        lblTotalRest.setText(""+m.totalRest);
+        System.out.println(folio);
     }
 
     /**
@@ -55,8 +48,6 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         lblId = new javax.swing.JLabel();
         spnPrecio = new javax.swing.JSpinner();
-        lbltotal = new javax.swing.JLabel();
-        lblTotalRest = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,7 +109,7 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel3.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 210, 180, 40));
 
-        spnCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnCantidad.setModel(new javax.swing.SpinnerNumberModel(10, 10, 30, 1));
         jPanel3.add(spnCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 80, 40));
 
         lblNombre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -136,12 +127,6 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
         spnPrecio.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 1.0f));
         jPanel3.add(spnPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, 80, 40));
 
-        lbltotal.setText("jLabel6");
-        jPanel3.add(lbltotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, -1, -1));
-
-        lblTotalRest.setText("jLabel6");
-        jPanel3.add(lblTotalRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, -1, -1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,23 +142,22 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        float suma=0;
         int cantidad;
-        float precio, total,nvoTotal;
+        float precio, total;
         String articulo, marca;
-        ModificarTicketDetalles m=new ModificarTicketDetalles();
+        
         
         cantidad = Integer.parseInt(spnCantidad.getValue().toString());
         articulo = txtArticulo.getText();
         marca = txtMarca.getText();
         precio = Float.parseFloat(spnPrecio.getValue().toString());
         total = precio * cantidad;
-        nvoTotal= total+Float.parseFloat(lbltotal.getText());
-        m.totalRest=nvoTotal;
+       
+       
         
         
         System.out.println(cantidad + " \n" + articulo + " \n" + marca + " \n" + precio + "\n" + total);
-        agregarArticuloDB(Integer.parseInt(lblId.getText()), cantidad, precio, articulo, marca);
+        agregarArticuloDB(folio, cantidad, precio, articulo, marca);
         
         
         this.dispose();
@@ -220,21 +204,23 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarArticuloTicket().setVisible(true);
+                new AgregarTicketAgregarArticuloTicket().setVisible(true);
             }
         });
     }
@@ -251,8 +237,6 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     public javax.swing.JLabel lblId;
     public javax.swing.JLabel lblNombre;
-    protected javax.swing.JLabel lblTotalRest;
-    protected javax.swing.JLabel lbltotal;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JSpinner spnPrecio;
     private javax.swing.JTextField txtArticulo;

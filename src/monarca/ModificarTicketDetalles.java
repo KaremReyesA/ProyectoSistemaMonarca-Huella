@@ -16,29 +16,30 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-/**
- *
- * @author Karem Ra
- */
-public class ModificarTicketDetalles extends javax.swing.JPanel {
 
-     DefaultTableModel tabla;
-    int folio;
+public class ModificarTicketDetalles extends javax.swing.JFrame {
+
+    public ModificarTicketDetalles() {
+        initComponents();
+        lblInstructorId.setVisible(false);
+        lblValCantidad.setVisible(false);
+        lblValDescripcion.setVisible(false);
+        lblValMarca.setVisible(false);
+        lblValPrecio.setVisible(false);
+        lblPrecioTotal.setVisible(false);
+
+    }
+
+    public static float totalRest;
+    public static float total;
+    DefaultTableModel tabla;
+    public static int folio;
 
     ConexionBD conn = new ConexionBD();
     ResultSet rs;
     PreparedStatement ps;
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
-    
-    public ModificarTicketDetalles() {
-        initComponents();
-         lblInstructorId.setVisible(false);
-        lblValCantidad.setVisible(false);
-        lblValDescripcion.setVisible(false);
-        lblValMarca.setVisible(false);
-        lblValPrecio.setVisible(false);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +50,7 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -80,6 +82,22 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
         lblValPrecio = new javax.swing.JLabel();
         lblValCantidad = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
+        lblPrecioTotal = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -171,8 +189,22 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jtVerArticulosPendientes);
+        if (jtVerArticulosPendientes.getColumnModel().getColumnCount() > 0) {
+            jtVerArticulosPendientes.getColumnModel().getColumn(0).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jtVerArticulosPendientes.getColumnModel().getColumn(1).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jtVerArticulosPendientes.getColumnModel().getColumn(2).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jtVerArticulosPendientes.getColumnModel().getColumn(3).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(3).setPreferredWidth(130);
+            jtVerArticulosPendientes.getColumnModel().getColumn(4).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(4).setPreferredWidth(95);
+            jtVerArticulosPendientes.getColumnModel().getColumn(5).setResizable(false);
+            jtVerArticulosPendientes.getColumnModel().getColumn(5).setPreferredWidth(95);
+        }
 
-        back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 680, 260));
+        back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 680, 260));
 
         lblNombre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblNombre.setText("@Nombre del alumno");
@@ -256,7 +288,7 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
                 btnGuardarActionPerformed(evt);
             }
         });
-        back.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 470, 280, 40));
+        back.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 480, 280, 40));
 
         lblCodigoProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         back.add(lblCodigoProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 140, 180, 20));
@@ -292,20 +324,206 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
             }
         });
         back.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 220, 40));
+        back.add(lblPrecioTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 450, 110, 20));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
+            .addGap(0, 1158, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 742, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+void vaciarCombos() {
+        lblCodigoProd.setText("");
+        txtDescripcion.setText("");
+        txtMarca.setText("");
+        spnCantidad.setValue(0);
+        spnPrecio.setValue(0);
+    }
+
+    private void btnEliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliActionPerformed
+
+        if (jtVerArticulosPendientes.getSelectedRowCount() == 1) {
+            float suma = 0;
+            Connection c = conn.conectar();
+            int fila = jtVerArticulosPendientes.getSelectedRow();
+            String codigo = jtVerArticulosPendientes.getValueAt(fila, 0).toString();
+            float monto = (float) jtVerArticulosPendientes.getValueAt(fila, 5);
+            String descripcion = jtVerArticulosPendientes.getValueAt(fila, 2).toString();
+            totalRest = totalRest - monto;
+            if (totalRest < 0) {
+                totalRest=totalRest+monto;
+                JOptionPane.showMessageDialog(null, "El precio del articulo es mayor que la deuda restante");
+            } else {
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(this, "¿Quiere eliminar " + descripcion + " este ticket?", "Liquidar Articulo", dialogButton);
+                if (dialogResult == 0) {
+                    System.out.println("Yes option");
+                    try {
+                        ps = c.prepareStatement("DELETE FROM ticket_detalles WHERE id=?");
+                        ps.setInt(1, Integer.parseInt(codigo));
+                        ps.execute();
+                        limpiarTabla(jtVerArticulosPendientes);
+                        try {
+
+                            DefaultTableModel modelo = new DefaultTableModel();
+                            jtVerArticulosPendientes.setModel(modelo);
+
+                            PreparedStatement ps = null;
+                            ResultSet rs = null;
+                            ConexionBD conn = new ConexionBD();
+                            Connection con = conn.conectar();
+
+                            String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
+                                    + "FROM ticket_detalles "
+                                    + "WHERE ticket_id=" + folio;
+                            ps = con.prepareStatement(sql);
+                            rs = ps.executeQuery();
+
+                            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+                            int cantidadColumnas = rsMd.getColumnCount();
+
+                            modelo.addColumn("Codigo");
+                            modelo.addColumn("Cantidad");
+                            modelo.addColumn("Articulo");
+                            modelo.addColumn("Marca");
+                            modelo.addColumn("Precio");
+                            modelo.addColumn("Precio Total");
+
+                            int[] anchos = {30, 30, 200, 50, 50, 50};
+                            for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
+                                jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+                            }
+
+                            while (rs.next()) {
+                                Object[] filas = new Object[cantidadColumnas];
+                                for (int i = 0; i < cantidadColumnas; i++) {
+                                    if (i != (cantidadColumnas - 1)) {
+                                        filas[i] = rs.getObject(i + 1);
+                                    } else {
+                                        float total2 = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
+                                        filas[i] = total2;
+                                        suma = suma + total2;
+                                    }
+
+                                }
+                                modelo.addRow(filas);
+                            }
+                            lblTotal.setText("" + suma);
+
+                            lblTotalRestante.setText("" + totalRest);
+
+                        } catch (SQLException ex) {
+                            System.err.println(ex.toString());
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println(ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println(ex);
+                    }
+
+                } else {
+                    System.out.println("No Option");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
+        }
+        vaciarCombos();
+    }//GEN-LAST:event_btnEliActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        float suma = 0;
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtVerArticulosPendientes.setModel(modelo);
+
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
+                    + "FROM ticket_detalles "
+                    + "WHERE ticket_id=" + folio;
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Codigo");
+            modelo.addColumn("Cantidad");
+            modelo.addColumn("Articulo");
+            modelo.addColumn("Marca");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Precio Total");
+
+            int[] anchos = {30, 30, 200, 50, 50, 50};
+            for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
+                jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+            }
+
+            while (rs.next()) {
+                Object[] filas = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    if (i != (cantidadColumnas - 1)) {
+                        filas[i] = rs.getObject(i + 1);
+
+                    } else {
+                        float total2 = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
+                        filas[i] = total2;
+                        suma = suma + total2;
+                    }
+
+                }
+                modelo.addRow(filas);
+            }
+            lblTotal.setText("" + suma);
+
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        float precioTotal = Float.parseFloat(lblTotal.getText());
+        
+        modificarTicket(folio, precioTotal);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void jtVerArticulosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtVerArticulosPendientesMouseClicked
         PreparedStatement ps = null;
@@ -316,7 +534,7 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
 
             int Fila = jtVerArticulosPendientes.getSelectedRow();
             int codigo = Integer.parseInt(jtVerArticulosPendientes.getValueAt(Fila, 0).toString());
-
+            float totalPrecio = (float) jtVerArticulosPendientes.getValueAt(Fila, 5);
             ps = conn.prepareStatement("SELECT id,nombre_producto,marca,cantidad,precio  FROM ticket_detalles WHERE id=?");
             ps.setInt(1, codigo);
             rs = ps.executeQuery();
@@ -327,272 +545,13 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
                 spnCantidad.setValue(rs.getInt("cantidad"));
                 txtDescripcion.setText(rs.getString("nombre_producto"));
                 txtMarca.setText(rs.getString("marca"));
+                lblPrecioTotal.setText("" + totalPrecio);
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
     }//GEN-LAST:event_jtVerArticulosPendientesMouseClicked
-
-    private void btnEliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliActionPerformed
-
-        if (jtVerArticulosPendientes.getSelectedRowCount() == 1) {
-            float suma = 0;
-            Connection c = conn.conectar();
-            int fila = jtVerArticulosPendientes.getSelectedRow();
-            String codigo = jtVerArticulosPendientes.getValueAt(fila, 0).toString();
-            String cantidad = jtVerArticulosPendientes.getValueAt(fila, 1).toString();
-            String descripcion = jtVerArticulosPendientes.getValueAt(fila, 2).toString();
-            String marca = jtVerArticulosPendientes.getValueAt(fila, 3).toString();
-            float precio = Float.parseFloat(jtVerArticulosPendientes.getValueAt(fila, 4).toString());
-
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Quiere eliminar " + descripcion + " este ticket?", "Liquidar Articulo", dialogButton);
-            if (dialogResult == 0) {
-                System.out.println("Yes option");
-                try {
-                    ps = c.prepareStatement("DELETE FROM ticket_detalles WHERE id=?");
-                    ps.setInt(1, Integer.parseInt(codigo));
-                    ps.execute();
-                    limpiarTabla(jtVerArticulosPendientes);
-                    try {
-
-                        folio = Integer.parseInt(lblId.getText());
-                        int id_ticket = folio;
-                        DefaultTableModel modelo = new DefaultTableModel();
-                        jtVerArticulosPendientes.setModel(modelo);
-
-                        PreparedStatement ps = null;
-                        ResultSet rs = null;
-                        ConexionBD conn = new ConexionBD();
-                        Connection con = conn.conectar();
-
-                        String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
-                        + "FROM ticket_detalles "
-                        + "WHERE ticket_id=" + id_ticket;
-                        ps = con.prepareStatement(sql);
-                        rs = ps.executeQuery();
-
-                        ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
-                        int cantidadColumnas = rsMd.getColumnCount();
-
-                        modelo.addColumn("Codigo");
-                        modelo.addColumn("Cantidad");
-                        modelo.addColumn("Articulo");
-                        modelo.addColumn("Marca");
-                        modelo.addColumn("Precio");
-                        modelo.addColumn("Precio Total");
-
-                        int[] anchos = {30, 30, 200, 50, 50, 50};
-                        for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
-                            jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
-                        }
-
-                        while (rs.next()) {
-                            Object[] filas = new Object[cantidadColumnas];
-                            for (int i = 0; i < cantidadColumnas; i++) {
-                                if (i != (cantidadColumnas - 1)) {
-                                    filas[i] = rs.getObject(i + 1);
-
-                                } else {
-                                    float total = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
-                                    filas[i] = total;
-                                    suma = suma + total;
-                                }
-
-                            }
-                            modelo.addRow(filas);
-                        }
-                        lblTotal.setText("" + suma);
-                    } catch (SQLException ex) {
-                        System.err.println(ex.toString());
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudosForm.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println(ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudosForm.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println(ex);
-                }
-            } else {
-                System.out.println("No Option");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
-        }
-        vaciarCombos();
-    }//GEN-LAST:event_btnEliActionPerformed
-
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        float precioTotal = Integer.parseInt(lblTotal.getText());
-        float precioRestante = Integer.parseInt(lblTotalRestante.getText());
-        folio = Integer.parseInt(lblId.getText());
-        modificarTicket(folio, precioTotal, precioRestante);
-       // this.dispose();
-    }//GEN-LAST:event_btnCerrarActionPerformed
-
-    private void spnPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPrecioFocusLost
-
-    }//GEN-LAST:event_spnPrecioFocusLost
-
-    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
-
-    }//GEN-LAST:event_txtMarcaFocusLost
-
-    private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
-
-    }//GEN-LAST:event_txtDescripcionFocusLost
-
-    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
-
-    }//GEN-LAST:event_spnCantidadFocusLost
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        int codigo = Integer.parseInt(lblCodigoProd.getText());
-        String articulo = txtDescripcion.getText();
-        String marca = txtMarca.getText();
-        int cantidad = (int) spnCantidad.getValue();
-        float suma = 0;
-        float precio = (float) spnPrecio.getValue();
-        if (estaVacio(marca)) {
-            lblValMarca.setVisible(true);
-        } else {
-            lblValMarca.setVisible(false);
-        }
-        if (estaVacio(articulo)) {
-            lblValDescripcion.setVisible(true);
-        } else {
-            lblValDescripcion.setVisible(false);
-        }
-        if (esCero(precio)) {
-            lblValPrecio.setVisible(true);
-        } else {
-            lblValPrecio.setVisible(false);
-        }
-        if (esCero(cantidad)) {
-            lblValCantidad.setVisible(true);
-        } else {
-            lblValCantidad.setVisible(false);
-        }
-        if (articulo.equals("") | marca.equals("") | cantidad == 0 | precio == 0) {
-            JOptionPane.showMessageDialog(null, "Revisar que los campos esten correctos");
-        } else {
-
-            limpiarTabla(jtVerArticulosPendientes);
-            try {
-
-                folio = Integer.parseInt(lblId.getText());
-                int id_ticket = folio;
-                DefaultTableModel modelo = new DefaultTableModel();
-                jtVerArticulosPendientes.setModel(modelo);
-
-                PreparedStatement ps = null;
-                ResultSet rs = null;
-                ConexionBD conn = new ConexionBD();
-                Connection con = conn.conectar();
-
-                String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
-                + "FROM ticket_detalles "
-                + "WHERE ticket_id=" + id_ticket;
-                ps = con.prepareStatement(sql);
-                rs = ps.executeQuery();
-
-                ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
-                int cantidadColumnas = rsMd.getColumnCount();
-
-                modelo.addColumn("Codigo");
-                modelo.addColumn("Cantidad");
-                modelo.addColumn("Articulo");
-                modelo.addColumn("Marca");
-                modelo.addColumn("Precio");
-                modelo.addColumn("Precio Total");
-
-                int[] anchos = {30, 30, 200, 50, 50, 50};
-                for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
-                    jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
-                }
-
-                while (rs.next()) {
-                    Object[] filas = new Object[cantidadColumnas];
-                    for (int i = 0; i < cantidadColumnas; i++) {
-                        if (i != (cantidadColumnas - 1)) {
-                            filas[i] = rs.getObject(i + 1);
-
-                        } else {
-                            float total = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
-                            filas[i] = total;
-                            suma = suma + total;
-                        }
-
-                    }
-                    modelo.addRow(filas);
-                }
-
-                lblTotal.setText("" + suma);
-            } catch (SQLException ex) {
-                System.err.println(ex.toString());
-            }
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String nombre = lblNombre.getText();
-        String id = lblId.getText();
-
-        AgregarArticuloTicket add = new AgregarArticuloTicket();
-        add.lblId.setText(id);
-        add.lblNombre.setText(nombre);
-        add.setVisible(true);
-
-    }//GEN-LAST:event_btnAddActionPerformed
-
- public void limpiarTabla(JTable tabla) {
-        try {
-            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-            int filas = tabla.getRowCount();
-            for (int i = 0; filas > i; i++) {
-                modelo.removeRow(0);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
-        }
-    }
- 
- void vaciarCombos() {
-        lblCodigoProd.setText("");
-        txtDescripcion.setText("");
-        txtMarca.setText("");
-        spnCantidad.setValue(0);
-        spnPrecio.setValue(0);
-    }
- 
-  public void modificarTicket(int codigo, float adeudoTotal, float adeudoRestante) {
-
-        try {
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            ConexionBD conn = new ConexionBD();
-            Connection con = conn.conectar();
-
-            String sql = "UPDATE ticket "
-                    + "SET "
-                    + "monto_total=?,"
-                    + "monto_pendiente=?,"
-                    + "WHERE id=" + codigo;
-            ps = con.prepareStatement(sql);
-
-            ps.setFloat(3, adeudoTotal);
-            ps.setFloat(4, adeudoRestante);
-
-            ps.execute();
-            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
-        } catch (SQLException ex) {
-            System.err.println(ex.toString());
-        }
-
-    }
-  
-  public boolean estaVacio(String texto) {
+    public boolean estaVacio(String texto) {
         if (texto.equals("")) {
             return true;
         } else {
@@ -608,7 +567,7 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
         }
     }
 
-    public float AgregarArticulo(int codigo, String articulo, String marca, int cantidad, float precio) {
+    public float ModificarArticulo(int codigo, String articulo, String marca, int cantidad, float precio) {
         float preciototal = cantidad * precio;
         try {
             PreparedStatement ps = null;
@@ -638,8 +597,270 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
         return preciototal;
     }
 
-  
- 
+    public void modificarTicket(int codigo, float adeudoTotal) {
+
+        try {
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "UPDATE `tickets` SET `monto_total`= ?,`monto_pendiente`= ? WHERE id=" + codigo;
+            ps = con.prepareStatement(sql);
+
+            ps.setFloat(1, adeudoTotal);
+            ps.setFloat(2, totalRest);
+
+            ps.execute();
+            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int codigo = Integer.parseInt(lblCodigoProd.getText());
+        String articulo = txtDescripcion.getText();
+        String marca = txtMarca.getText();
+        int cantidad = (int) spnCantidad.getValue();
+        float suma = 0;
+        float precio = (float) spnPrecio.getValue();
+        float totalNvo = cantidad * precio;
+        float diferencia = totalNvo - Float.parseFloat(lblPrecioTotal.getText());
+        totalRest = totalRest + diferencia;
+        if (totalRest < 0) {
+            totalRest=totalRest-diferencia;
+            JOptionPane.showMessageDialog(null, "El precio del articulo es mayor que la deuda restante");
+        } else {
+
+            if (estaVacio(marca)) {
+                lblValMarca.setVisible(true);
+            } else {
+                lblValMarca.setVisible(false);
+            }
+            if (estaVacio(articulo)) {
+                lblValDescripcion.setVisible(true);
+            } else {
+                lblValDescripcion.setVisible(false);
+            }
+            if (esCero(precio)) {
+                lblValPrecio.setVisible(true);
+            } else {
+                lblValPrecio.setVisible(false);
+            }
+            if (esCero(cantidad)) {
+                lblValCantidad.setVisible(true);
+            } else {
+                lblValCantidad.setVisible(false);
+            }
+            if (articulo.equals("") | marca.equals("") | cantidad == 0 | precio == 0) {
+                JOptionPane.showMessageDialog(null, "Revisar que los campos esten correctos");
+            } else {
+
+                ModificarArticulo(codigo, articulo, marca, cantidad, precio);
+
+                limpiarTabla(jtVerArticulosPendientes);
+                try {
+
+                    DefaultTableModel modelo = new DefaultTableModel();
+                    jtVerArticulosPendientes.setModel(modelo);
+
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
+                    ConexionBD conn = new ConexionBD();
+                    Connection con = conn.conectar();
+
+                    String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
+                            + "FROM ticket_detalles "
+                            + "WHERE ticket_id=" + folio;
+                    ps = con.prepareStatement(sql);
+                    rs = ps.executeQuery();
+
+                    ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+                    int cantidadColumnas = rsMd.getColumnCount();
+
+                    modelo.addColumn("Codigo");
+                    modelo.addColumn("Cantidad");
+                    modelo.addColumn("Articulo");
+                    modelo.addColumn("Marca");
+                    modelo.addColumn("Precio");
+                    modelo.addColumn("Precio Total");
+
+                    int[] anchos = {30, 30, 200, 50, 50, 50};
+                    for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
+                        jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+                    }
+
+                    while (rs.next()) {
+                        Object[] filas = new Object[cantidadColumnas];
+                        for (int i = 0; i < cantidadColumnas; i++) {
+                            if (i != (cantidadColumnas - 1)) {
+                                filas[i] = rs.getObject(i + 1);
+
+                            } else {
+                                float total2 = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
+                                filas[i] = total2;
+                                suma = suma + total2;
+                            }
+
+                        }
+                        modelo.addRow(filas);
+                    }
+                    lblTotal.setText("" + suma);
+                    lblTotalRestante.setText("" + totalRest);
+                    lblPrecioTotal.setText("" + totalNvo);
+
+                } catch (SQLException ex) {
+                    System.err.println(ex.toString());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String nombre = lblNombre.getText();
+        String id = lblId.getText();
+
+        AgregarArticuloTicket add = new AgregarArticuloTicket();
+        add.lblId.setText(id);
+        add.lblNombre.setText(nombre);
+        add.lbltotal.setText(lblTotalRestante.getText());
+        add.setVisible(true);
+
+
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
+
+    private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
+
+    }//GEN-LAST:event_spnCantidadFocusLost
+
+    private void spnPrecioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnPrecioFocusLost
+
+    }//GEN-LAST:event_spnPrecioFocusLost
+
+    private void txtDescripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionFocusLost
+
+    }//GEN-LAST:event_txtDescripcionFocusLost
+
+    private void txtMarcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusLost
+
+    }//GEN-LAST:event_txtMarcaFocusLost
+
+    public void limpiarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {
+        limpiarTabla(jtVerArticulosPendientes);
+        float suma = 0;
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtVerArticulosPendientes.setModel(modelo);
+
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "SELECT id,cantidad, nombre_producto, marca, precio,activo "
+                    + "FROM ticket_detalles "
+                    + "WHERE ticket_id=" + folio;
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Codigo");
+            modelo.addColumn("Cantidad");
+            modelo.addColumn("Articulo");
+            modelo.addColumn("Marca");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Precio Total");
+
+            int[] anchos = {30, 30, 200, 50, 50, 50};
+            for (int i = 0; i < jtVerArticulosPendientes.getColumnCount(); i++) {
+                jtVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+            }
+
+            while (rs.next()) {
+                Object[] filas = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    if (i != (cantidadColumnas - 1)) {
+                        filas[i] = rs.getObject(i + 1);
+
+                    } else {
+                        float total2 = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
+                        filas[i] = total2;
+                        suma = suma + total2;
+                    }
+
+                }
+                modelo.addRow(filas);
+            }
+            lblTotal.setText("" + suma);
+            lblTotalRestante.setText("" + totalRest);
+
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ModificarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ModificarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ModificarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ModificarTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ModificarTicketDetalles().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel TitlePanel;
@@ -657,12 +878,14 @@ public class ModificarTicketDetalles extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jtVerArticulosPendientes;
     private javax.swing.JLabel lblCodigoProd;
     public javax.swing.JLabel lblId;
     public javax.swing.JLabel lblInstructorId;
     public javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecioTotal;
     public javax.swing.JLabel lblTotal;
     public javax.swing.JLabel lblTotalRestante;
     private javax.swing.JLabel lblValCantidad;

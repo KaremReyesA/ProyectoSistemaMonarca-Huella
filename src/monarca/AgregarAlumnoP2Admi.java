@@ -184,7 +184,7 @@ public class AgregarAlumnoP2Admi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     AgregarAlumnoP3 articulos = new AgregarAlumnoP3();
+     ModificarAlumnoP3 articulos = new ModificarAlumnoP3();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 

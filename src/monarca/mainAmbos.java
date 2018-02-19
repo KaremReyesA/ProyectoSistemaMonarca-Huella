@@ -312,14 +312,14 @@ public class mainAmbos extends javax.swing.JFrame {
 
     private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
 
-         VerAdeudosForm adeudos = new VerAdeudosForm();
-        adeudos.setSize(1070,730);
-        adeudos.setLocation(0, 0);
-
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+//         VerAdeudosForm adeudos = new VerAdeudosForm();
+//        adeudos.setSize(1070,730);
+//        adeudos.setLocation(0, 0);
+//
+//        rightPanelAdmin.removeAll();
+//        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
+//        rightPanelAdmin.revalidate();
+//        rightPanelAdmin.repaint();
     }//GEN-LAST:event_btnArticulosActionPerformed
 
     private void btnMensualidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualidadesActionPerformed
@@ -358,9 +358,9 @@ public class mainAmbos extends javax.swing.JFrame {
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
         
-        AgregarAlumno asistencia = null;
+        ModificarAlumno asistencia = null;
         try {
-            asistencia = new AgregarAlumno();
+            asistencia = new ModificarAlumno();
         } catch (ParseException ex) {
             Logger.getLogger(mainAmbos.class.getName()).log(Level.SEVERE, null, ex);
         }

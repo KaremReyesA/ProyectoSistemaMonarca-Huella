@@ -47,7 +47,7 @@ public class AgregarInstructorP2 extends javax.swing.JPanel {
             
             // TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }

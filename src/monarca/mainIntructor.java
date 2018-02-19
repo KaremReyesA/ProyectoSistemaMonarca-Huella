@@ -2,6 +2,7 @@
 package monarca;
 
 import java.awt.BorderLayout;
+import static monarca.mainAdmin.rightPanelAdmin;
 public class mainIntructor extends javax.swing.JFrame {
 
     public mainIntructor() {
@@ -223,6 +224,15 @@ public class mainIntructor extends javax.swing.JFrame {
         rightPanel.add(asistencia, BorderLayout.CENTER);
         rightPanel.revalidate();
         rightPanel.repaint();        // TODO add your handling code here:
+        
+//          TomarAsistencias asistenciaAlum = new TomarAsistencias();
+//        asistenciaAlum.stop();
+//        asistenciaAlum.setSize(1070,730);
+//        asistenciaAlum.setLocation(0, 0);
+//        rightPanelAdmin.removeAll();
+//        rightPanelAdmin.add(asistenciaAlum, BorderLayout.CENTER);
+//        rightPanelAdmin.revalidate();
+//        rightPanelAdmin.repaint();   // TODO add your handling code here: // TODO add your handling code here:
     }//GEN-LAST:event_btnTomaAsistenciasActionPerformed
 
   

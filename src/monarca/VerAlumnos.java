@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerDatosAlumno.idNow;
+import static monarca.login.usuario_rol;
 
 
 public class VerAlumnos extends javax.swing.JPanel {
@@ -53,60 +54,118 @@ public static String idNowModify;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
       
-
-        ps = c.prepareStatement("SELECT id,concat_ws(' ',nombre, a_paterno, a_materno),fecha_nacimiento,cinta from alumnos where activo=1");
-        rs = ps.executeQuery();
-        rsm = rs.getMetaData();
-        ArrayList<Object[]> datos = new ArrayList<>();
-        while (rs.next()) {
-            Object[] filas = new Object[rsm.getColumnCount()];
-            for (int i = 0; i < filas.length; i++) {
-
-                //Folio Style
-            if(i==0){
-                folioN = rs.getString("id");
-                if( folioN.length()==1){
-                 filas[i] ="0000"+folioN;
-                }
-                 if( folioN.length()==2){
-                 filas[i] ="000"+folioN;
-                }
-                  if( folioN.length()==3){
-                 filas[i] ="00"+folioN;
-                }
-                   if( folioN.length()==4){
-                 filas[i] ="0"+folioN;
-                }
-                   if( folioN.length()==4){
-                 filas[i] = folioN;
-                }
-           
-            }else if (i==2){
-                //Calcular edad
-                stringDate = rs.getString("fecha_nacimiento");
-                String[] parts = stringDate.split("-");
-                int anioNacimiento = Integer.parseInt(parts[0]) ; // año
-                int mesNacimiento = Integer.parseInt(parts[1]); // mes
-                int diaNacimiento = Integer.parseInt(parts[2]);//día
-                
-                LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
-                LocalDate end = LocalDate.now();
-                long years = ChronoUnit.YEARS.between(start, end);
-               
-              filas[i] = years;
-            
+        if(usuario_rol.equals("Instructor")){
              
-             
-            }else{
+            ps = c.prepareStatement("SELECT alumnos.id,concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno),alumnos.fecha_nacimiento,alumnos.cinta from alumnos, usuarios where alumnos.activo=1 and alumnos.usuario_id=usuarios.id");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> datos = new ArrayList<>();
+            while (rs.next()) {
+                Object[] filas = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < filas.length; i++) {
 
-                filas[i] = rs.getObject(i + 1);}
+                    //Folio Style
+                if(i==0){
+                    folioN = rs.getString("id");
+                    if( folioN.length()==1){
+                     filas[i] ="0000"+folioN;
+                    }
+                     if( folioN.length()==2){
+                     filas[i] ="000"+folioN;
+                    }
+                      if( folioN.length()==3){
+                     filas[i] ="00"+folioN;
+                    }
+                       if( folioN.length()==4){
+                     filas[i] ="0"+folioN;
+                    }
+                       if( folioN.length()==4){
+                     filas[i] = folioN;
+                    }
+
+                }else if (i==2){
+                    //Calcular edad
+                    stringDate = rs.getString("fecha_nacimiento");
+                    String[] parts = stringDate.split("-");
+                    int anioNacimiento = Integer.parseInt(parts[0]) ; // año
+                    int mesNacimiento = Integer.parseInt(parts[1]); // mes
+                    int diaNacimiento = Integer.parseInt(parts[2]);//día
+
+                    LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
+                    LocalDate end = LocalDate.now();
+                    long years = ChronoUnit.YEARS.between(start, end);
+
+                  filas[i] = years;
+
+
+
+                }else{
+
+                    filas[i] = rs.getObject(i + 1);}
+                }
+                datos.add(filas);
             }
-            datos.add(filas);
+            dtm = (DefaultTableModel) tabla.getModel();
+            for (int i = 0; i < datos.size(); i++) {
+                dtm.addRow(datos.get(i));
+            }
+         
+        } else{
+            ps = c.prepareStatement("SELECT id,concat_ws(' ',nombre, a_paterno, a_materno),fecha_nacimiento,cinta from alumnos where activo=1");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> datos = new ArrayList<>();
+            while (rs.next()) {
+                Object[] filas = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < filas.length; i++) {
+
+                    //Folio Style
+                if(i==0){
+                    folioN = rs.getString("id");
+                    if( folioN.length()==1){
+                     filas[i] ="0000"+folioN;
+                    }
+                     if( folioN.length()==2){
+                     filas[i] ="000"+folioN;
+                    }
+                      if( folioN.length()==3){
+                     filas[i] ="00"+folioN;
+                    }
+                       if( folioN.length()==4){
+                     filas[i] ="0"+folioN;
+                    }
+                       if( folioN.length()==4){
+                     filas[i] = folioN;
+                    }
+
+                }else if (i==2){
+                    //Calcular edad
+                    stringDate = rs.getString("fecha_nacimiento");
+                    String[] parts = stringDate.split("-");
+                    int anioNacimiento = Integer.parseInt(parts[0]) ; // año
+                    int mesNacimiento = Integer.parseInt(parts[1]); // mes
+                    int diaNacimiento = Integer.parseInt(parts[2]);//día
+
+                    LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
+                    LocalDate end = LocalDate.now();
+                    long years = ChronoUnit.YEARS.between(start, end);
+
+                  filas[i] = years;
+
+
+
+                }else{
+
+                    filas[i] = rs.getObject(i + 1);}
+                }
+                datos.add(filas);
+            }
+            dtm = (DefaultTableModel) tabla.getModel();
+            for (int i = 0; i < datos.size(); i++) {
+                dtm.addRow(datos.get(i));
+            }
         }
-        dtm = (DefaultTableModel) tabla.getModel();
-        for (int i = 0; i < datos.size(); i++) {
-            dtm.addRow(datos.get(i));
-        }
+    
     }
 
     public void limpiarTabla(JTable tabla) {
@@ -308,9 +367,9 @@ public static String idNowModify;
           
           idNowModify= (noControlFinal+"");
           
-          AgregarAlumno ver = null;
+          ModificarAlumno ver = null;
           try {
-              ver = new AgregarAlumno();
+              ver = new ModificarAlumno();
           } catch (ParseException ex) {
               Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
           }

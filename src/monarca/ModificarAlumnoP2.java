@@ -3,22 +3,21 @@ package monarca;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.mainAmbos.rightPanel;
+import static monarca.VerAlumnos.idNowModify;
+import static monarca.ModificarAlumno.labelID;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarAlumno.labelID;
 
-public class AgregarAlumnoP2 extends javax.swing.JPanel {
+public class ModificarAlumnoP2 extends javax.swing.JPanel {
  public static int inicial = 0;
  public static String celular;
-    public AgregarAlumnoP2() {
+    public ModificarAlumnoP2() {
         initComponents();
 
         lblInstructorId.setVisible(false);
@@ -37,40 +36,65 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         
       
 /////////////////
-  try {
+        try {
             
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
             
+//            if(idNowModify==null|| idNowModify.equals(0)){
+//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+//            
+//            rs= ps.executeQuery();
+//            
+//            if(rs.next()){
+//                if(rs.getString("direccion")!=null){
+//                    inicial=1;
+//                    txtaDireccion.setText(rs.getString("direccion"));
+//                    txtTutor1.setText(rs.getString("nombre_tutor"));
+//                    cbParentesco.setSelectedItem(rs.getString("parentesco"));
+//                    txtTelefono1.setText(rs.getString("tutor_celular"));
+//                    
+//                    //Validar 
+//                    
+//                    VerificaDomicilio( txtaDireccion.getText());
+//                    VerificaTelefono(txtTelefono1.getText());
+//                    VerificarTutor(txtTutor1.getText());
+//                    SiParentesco.setVisible(true);
+//                   }
+//            }
+//  
+//            }
+//        else{
+            int numcontrol= Integer.parseInt(idNowModify);
+            ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
             rs= ps.executeQuery();
             
             if(rs.next()){
-                if(rs.getString("direccion")!=null){
-                    inicial=1;
-                    txtaDireccion.setText(rs.getString("direccion"));
-                    txtTutor1.setText(rs.getString("nombre_tutor"));
-                    cbParentesco.setSelectedItem(rs.getString("parentesco"));
-                    txtTelefono1.setText(rs.getString("tutor_celular"));
-                    
-                    //Validar 
-                    
-                    VerificaDomicilio( txtaDireccion.getText());
-                    VerificaTelefono(txtTelefono1.getText());
-                    VerificarTutor(txtTutor1.getText());
-                    SiParentesco.setVisible(true);
-                   }
-            }
+                
+                txtaDireccion.setText(rs.getString("direccion"));
+                txtTutor1.setText(rs.getString("nombre_tutor"));
+                cbParentesco.setSelectedItem(rs.getString("parentesco"));
+                txtTelefono1.setText(rs.getString("tutor_celular"));
   
-  }
+            }
+            
+                VerificaDomicilio(txtaDireccion.getText());
+                  VerificaTelefono(txtTelefono1.getText());
+                  VerificarTutor(txtTutor1.getText());
+                
+      //  }
+    }
             
             // TODO add your handling code here:
-         catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+    catch (SQLException ex) {
+        Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
     }
+       
+   } //catch (SQLException ex) {
+//         Logger.getLogger(ModificarAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+//     }
     ConexionBD con = new ConexionBD();
      @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -82,13 +106,7 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -111,6 +129,11 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         TutorRequer = new javax.swing.JLabel();
         txtTutor1 = new javax.swing.JTextField();
         txtTelefono1 = new javax.swing.JFormattedTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -140,33 +163,7 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         );
 
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 70));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Huella Digital");
-        back.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 130, -1, -1));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
-
-        jProgressBar1.setValue(20);
-        back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 980, 20));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Información personal");
-        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Información de contacto");
-        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel10.setText("Información deportiva");
-        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, -1, -1));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel11.setText("Información médica");
-        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 130, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información de contacto");
@@ -297,14 +294,35 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         });
         back.add(txtTelefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 570, 210, 30));
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Información personal");
+        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel9.setText("Información de contacto");
+        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel10.setText("Información deportiva");
+        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 130, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel11.setText("Información médica");
+        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 130, -1, -1));
+
+        jProgressBar1.setValue(25);
+        back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 980, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 1081, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,6 +334,11 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //Modificar
+
+
+        VerificaDomicilio(txtaDireccion.getText());
+        VerificarTutor(txtTutor1.getText());
+        VerificaTelefono(txtTelefono1.getText());
   if(!txtaDireccion.getText().isEmpty() && !txtTelefono1.getText().isEmpty()&&  !txtTutor1.getText().isEmpty()  
           && SiTutor.isVisible()&& SiTelefono.isVisible()){
                
@@ -330,7 +353,7 @@ try {
             modificarAlumno.setString(2, txtTutor1.getText());
             modificarAlumno.setString(3, cbParentesco.getSelectedItem().toString());
             modificarAlumno.setString(4, txtTelefono1.getText());
-            modificarAlumno.setString(5, labelID.getText());
+            modificarAlumno.setString(5, idNowModify);
            
             modificarAlumno.execute();
             modificarAlumno.close();
@@ -347,7 +370,7 @@ try {
 
 
 
-        AgregarAlumnoP3 articulos = new AgregarAlumnoP3();
+        ModificarAlumnoP3 articulos = new ModificarAlumnoP3();
         articulos.setSize(1070,730);
         articulos.setLocation(0, 0);
 
@@ -362,7 +385,12 @@ try {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
             //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
-            AgregarAlumno articulos = new AgregarAlumno();
+            ModificarAlumno articulos = null;
+     try {
+         articulos = new ModificarAlumno();
+     } catch (ParseException ex) {
+         Logger.getLogger(ModificarAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+     }
                 articulos.setSize(1070,730);
                 articulos.setLocation(0, 0);
 
@@ -474,7 +502,6 @@ try {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;

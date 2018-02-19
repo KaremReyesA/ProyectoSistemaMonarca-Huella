@@ -6,7 +6,6 @@
 package monarca;
 
 import db.ConexionBD;
-import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,16 +14,12 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import static monarca.mainAdmin.rightPanelAdmin;
 
-/**
- *
- * @author Karem Ra
- */
-public class VerTicketDetalles extends javax.swing.JPanel {
+public class VerTicketDetalles extends javax.swing.JFrame {
 
-     DefaultTableModel tabla;
+    DefaultTableModel tabla;
     int folio;
 
     ConexionBD conn = new ConexionBD();
@@ -32,10 +27,10 @@ public class VerTicketDetalles extends javax.swing.JPanel {
     PreparedStatement ps;
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
- 
+
     public VerTicketDetalles() {
         initComponents();
-         lblInstructorId.setVisible(false);
+        lblInstructorId.setVisible(false);
 
     }
 
@@ -48,6 +43,7 @@ public class VerTicketDetalles extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         back = new javax.swing.JPanel();
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -64,6 +60,13 @@ public class VerTicketDetalles extends javax.swing.JPanel {
         btnCerrar = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         lblTotalRestante = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -160,6 +163,13 @@ public class VerTicketDetalles extends javax.swing.JPanel {
         TableVerArticulosPendientes.setShowVerticalLines(false);
         TableVerArticulosPendientes.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableVerArticulosPendientes);
+        if (TableVerArticulosPendientes.getColumnModel().getColumnCount() > 0) {
+            TableVerArticulosPendientes.getColumnModel().getColumn(0).setResizable(false);
+            TableVerArticulosPendientes.getColumnModel().getColumn(1).setResizable(false);
+            TableVerArticulosPendientes.getColumnModel().getColumn(2).setResizable(false);
+            TableVerArticulosPendientes.getColumnModel().getColumn(3).setResizable(false);
+            TableVerArticulosPendientes.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 680, 260));
 
@@ -197,18 +207,41 @@ public class VerTicketDetalles extends javax.swing.JPanel {
         lblTotalRestante.setText("@Resta");
         back.add(lblTotalRestante, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 490, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)
+            .addGap(0, 1158, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 742, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
@@ -217,7 +250,7 @@ public class VerTicketDetalles extends javax.swing.JPanel {
 
     private void btnLiquidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidarActionPerformed
         Connection c=conn.conectar();
-        VerAdeudosForm A=new VerAdeudosForm();
+        VerAdeudos A=new VerAdeudos();
         String nombre = lblNombre.getText();
         int ticket_id=Integer.parseInt(lblId.getText());
         int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -231,33 +264,112 @@ public class VerTicketDetalles extends javax.swing.JPanel {
                 A.limpiarTabla(A.jtArtPend);
                 A.llenarTabla(A.jtArtPend);
             } catch (SQLException ex) {
-                Logger.getLogger(VerAdeudosForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             } catch (Exception ex) {
-                Logger.getLogger(VerAdeudosForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             }
             JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);
         }
+
     }//GEN-LAST:event_btnLiquidarActionPerformed
 
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-     //   this.dispose();
-     
-     VerAdeudos ver = new VerAdeudos();
-            
-                ver.setSize(1070,730);
-                ver.setLocation(0, 0);
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            folio = Integer.parseInt(lblId.getText());
+            int id_ticket = folio;
+            DefaultTableModel modelo = new DefaultTableModel();
+            TableVerArticulosPendientes.setModel(modelo);
 
-                rightPanelAdmin.removeAll();
-                rightPanelAdmin.add(ver, BorderLayout.CENTER);
-                rightPanelAdmin.revalidate();
-                rightPanelAdmin.repaint();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            ConexionBD conn = new ConexionBD();
+            Connection con = conn.conectar();
+
+            String sql = "SELECT cantidad, nombre_producto, marca, precio,activo "
+                    + "FROM ticket_detalles "
+                    + "WHERE ticket_id=" + id_ticket;
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Cantidad");
+            modelo.addColumn("Articulo");
+            modelo.addColumn("Marca");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Precio Total");
+
+            int[] anchos = {30, 200, 50, 50, 50};
+            for (int i = 0; i < TableVerArticulosPendientes.getColumnCount(); i++) {
+                TableVerArticulosPendientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+            }
+
+            while (rs.next()) {
+                Object[] filas = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    if (i != (cantidadColumnas - 1)) {
+                        filas[i] = rs.getObject(i + 1);
+                    } else {
+                        double total = Double.parseDouble(rs.getObject(1).toString()) * Double.parseDouble(rs.getObject(4).toString());
+                        filas[i] = total;
+                    }
+
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+ this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VerTicketDetalles().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTable TableVerArticulosPendientes;
+    private javax.swing.JTable TableVerArticulosPendientes;
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel back;
     private javax.swing.JButton btnAbonar;
@@ -267,9 +379,10 @@ public class VerTicketDetalles extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel lblId;
-    public javax.swing.JLabel lblInstructorId;
+    private javax.swing.JLabel lblInstructorId;
     public javax.swing.JLabel lblNombre;
     public javax.swing.JLabel lblTotal;
     public javax.swing.JLabel lblTotalRestante;

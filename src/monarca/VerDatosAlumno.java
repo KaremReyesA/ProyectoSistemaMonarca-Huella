@@ -67,7 +67,7 @@ public static String idNow;
             
            //  TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @SuppressWarnings("unchecked")
@@ -163,26 +163,26 @@ public static String idNow;
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información personal");
-        back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, -1, -1));
+        back.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Apellido paterno:");
-        back.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, -1));
+        back.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Apellido materno:");
-        back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, -1, 20));
+        back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, -1, 20));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Fecha de nacimiento:");
-        back.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 510, -1, -1));
+        back.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 510, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setText("Nombre:");
-        back.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, -1, -1));
+        back.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, -1, -1));
 
         lblApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        back.add(lblApellidoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 290, 30));
+        back.add(lblApellidoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 370, 290, 30));
 
         lblNacimiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         back.add(lblNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 550, 290, 30));

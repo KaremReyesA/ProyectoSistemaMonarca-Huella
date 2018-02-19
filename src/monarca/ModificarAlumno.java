@@ -1,6 +1,7 @@
 package monarca;
 
-import com.sun.webkit.dom.EventImpl;
+
+import com.toedter.calendar.MinMaxDateEvaluator;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,23 +10,22 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import librerias.Validaciones;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.login.usuario_id;
+import static monarca.VerAlumnos.idNowModify;
 
-public class AgregarAlumno extends javax.swing.JPanel {
+
+public class ModificarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
+  public static int ID = 0;
+
 //If any key is typed, set message with error
-    public AgregarAlumno() { 
+    public ModificarAlumno() throws ParseException { 
         
         initComponents();
 
@@ -47,10 +47,10 @@ public class AgregarAlumno extends javax.swing.JPanel {
         
         FechaRequerida.setVisible(false);
         SiFecha.setVisible(false);
+        //año, mes dia
+       
         
-        
-        
-           Calendar cL = Calendar.getInstance();
+         Calendar cL = Calendar.getInstance();
         cL.add(Calendar.YEAR, -10);
         
         String stringDate="1938/12/30";
@@ -61,8 +61,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
         
         dtNacimiento.setSelectableDateRange(date1, date2);
        
-        
-    //////////////////////////////////////////////////////
+    ///////////////////////////
     
          
         try {
@@ -70,32 +69,56 @@ public class AgregarAlumno extends javax.swing.JPanel {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
             
+//            if(idNowModify==null|| idNowModify.equals(0)){
+//                
+//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+//            
+//            rs= ps.executeQuery();
+//            
+//            if(rs.next()){
+//                if(rs.getString("enfermedades")==null){
+//                    inicial=1;
+//                    txtNombre.setText(rs.getString("nombre"));
+//                    txtAPat.setText(rs.getString("a_paterno"));
+//                    txtAMat.setText(rs.getString("a_materno"));
+//                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
+//                    labelID.setText(rs.getString("id"));
+//                      
+//                    ValidarNombre(txtNombre.getText());
+//                    ValidarAPaterno(txtAPat.getText());
+//                    ValidarAMaterno(txtAMat.getText());
+//                    
+//                    idNowModify = labelID.getText().toString();
+//                    
+//                    if(dtNacimiento.getDate()!=null){
+//                    SiFecha.setVisible(true);
+//                    FechaRequerida.setVisible(false);
+//                    }
+//                   }
+//            }
+//        
+//        }else{
+           
+              int numcontrol= Integer.parseInt(idNowModify);
+             ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
+            ps.setInt(1,numcontrol);
             rs= ps.executeQuery();
             
             if(rs.next()){
-                if(rs.getString("enfermedades")==null){
-                    inicial=1;
                     txtNombre.setText(rs.getString("nombre"));
                     txtAPat.setText(rs.getString("a_paterno"));
                     txtAMat.setText(rs.getString("a_materno"));
                     dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
                     labelID.setText(rs.getString("id"));
-                      
-                    ValidarNombre(txtNombre.getText());
-                    ValidarAPaterno(txtAPat.getText());
-                    ValidarAMaterno(txtAMat.getText());
-                     
-                    if(dtNacimiento.getDate()!=null){
-                    SiFecha.setVisible(true);
-                    }
-                   }
-            }}
+            }
+           
+            }
+//        }
             
             // TODO add your handling code here:
          catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -115,11 +138,11 @@ public class AgregarAlumno extends javax.swing.JPanel {
         txtAPat = new javax.swing.JTextField();
         txtAMat = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
+        dtNacimiento = new com.toedter.calendar.JDateChooser();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -141,7 +164,6 @@ public class AgregarAlumno extends javax.swing.JPanel {
         FechaRequerida = new javax.swing.JLabel();
         labelID = new javax.swing.JLabel();
         SiFecha = new javax.swing.JLabel();
-        dtNacimiento = new com.toedter.calendar.JDateChooser();
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -188,6 +210,11 @@ public class AgregarAlumno extends javax.swing.JPanel {
                 txtAPatMouseClicked(evt);
             }
         });
+        txtAPat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAPatActionPerformed(evt);
+            }
+        });
         back.add(txtAPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, 240, 30));
 
         txtAMat.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -207,11 +234,6 @@ public class AgregarAlumno extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Apellido materno:");
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 460, -1, 20));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Huella Digital");
-        back.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 130, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Fecha de nacimiento:");
@@ -240,26 +262,45 @@ public class AgregarAlumno extends javax.swing.JPanel {
         jLabel14.setText("Nombre:");
         back.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, -1, -1));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
+
+        dtNacimiento.setToolTipText("");
+        dtNacimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dtNacimientoMouseClicked(evt);
+            }
+        });
+        dtNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyTyped(evt);
+            }
+        });
+        back.add(dtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 570, 250, 30));
         back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 980, 20));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Información personal");
-        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
         jLabel9.setText("Información de contacto");
-        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
+        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(153, 153, 153));
         jLabel10.setText("Información deportiva");
-        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 130, -1, -1));
+        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 130, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(153, 153, 153));
         jLabel11.setText("Información médica");
-        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 130, -1, -1));
+        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 130, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información personal");
@@ -326,26 +367,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
         back.add(labelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 200, 50, 20));
 
         SiFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(SiFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 570, 50, 40));
-
-        dtNacimiento.setToolTipText("");
-        dtNacimiento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                dtNacimientoMouseClicked(evt);
-            }
-        });
-        dtNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyTyped(evt);
-            }
-        });
-        back.add(dtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 570, 250, 30));
+        back.add(SiFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 560, 50, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -370,35 +392,37 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try{
-            String nombre = txtNombre.getText();
+    
+          
             String aPaterno = txtAPat.getText();
             String aMaterno = txtAMat.getText();
+            String nombre = txtNombre.getText();
             
-
-            if (nombre.isEmpty()){
-                NombreRequerido.setVisible(true);
-            }
-
-            if (aPaterno.isEmpty()){
-                ApellidoPRequerido.setVisible(true);
-            }
-
+            
             int anio = dtNacimiento.getCalendar().get(Calendar.YEAR);
             int mes = dtNacimiento.getCalendar().get(Calendar.MONTH) + 1;
             int dia = dtNacimiento.getCalendar().get(Calendar.DAY_OF_MONTH);
             String fNacimiento = String.valueOf(anio) + "/" + String.valueOf(mes) + "/" + String.valueOf(dia);
-            
+
             ValidarNombre(nombre);
+          
             ValidarAPaterno(aPaterno);
             ValidarAMaterno(aMaterno);
+            ValidarFecha(fNacimiento);
+            
             ///////    
-            if(inicial == 0){
+            if(inicial == 0 && (idNowModify==null|| idNowModify.equals(0))){
                 //PrimeraVez sin datos
                
                 if(!nombre.isEmpty() && !aPaterno.isEmpty() && IcoCorreNombre.isVisible()&& IcoCorreApellidoP.isVisible()){
-                    agregarAlumnoBD(nombre, aPaterno, aMaterno, fNacimiento, usuario_id);
+                   if(dtNacimiento.getDate()!=null){
+                    SiFecha.setVisible(true);
                     
-                    AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+                      FechaRequerida.setVisible(false);
+                    
+                    agregarAlumnoBD(nombre, aPaterno, aMaterno, fNacimiento);
+                    
+                    ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
                     articulos.setSize(1070,730);
                     articulos.setLocation(0, 0);
 
@@ -406,28 +430,33 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     rightPanelAdmin.add(articulos, BorderLayout.CENTER);
                     rightPanelAdmin.revalidate();
                     rightPanelAdmin.repaint();
-                }
+                }}
 
                 
             } else{
                 
                 if(!nombre.isEmpty() && !aPaterno.isEmpty()&& IcoCorreNombre.isVisible() && IcoCorreApellidoP.isVisible()){
-                    ///Modificar y luego cambiar  
+                    if(dtNacimiento.getDate()!=null){
+                    SiFecha.setVisible(true);
+                    FechaRequerida.setVisible(false);
+                    
+                //ptionPane.showConfirmDialog(dtNacimiento, "1");
+                    ///Modificar    y luego cambiar  
                     try {
 
                         Connection c = con.conectar();
                         ResultSet rs;
                         PreparedStatement ps;
 
-                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET nombre=?, a_paterno =?, a_materno =?, fecha_nacimiento=?, usuario_id=? WHERE id=?");
+                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET nombre=?, a_paterno =?, a_materno =?, fecha_nacimiento=? WHERE id=?");
 
                         modificarAlumno.setString(1, txtNombre.getText());
                         modificarAlumno.setString(2, txtAPat.getText());
                         modificarAlumno.setString(3, txtAMat.getText());
                         modificarAlumno.setString(4, fNacimiento);
-                        modificarAlumno.setInt(5, Integer.parseInt(usuario_id));
-                        modificarAlumno.setString(6, labelID.getText());
-
+                        modificarAlumno.setString(5, labelID.getText());
+                         idNowModify = labelID.getText().toString();
+           // JOptionPane.showConfirmDialog(dtNacimiento, "2");
                         modificarAlumno.execute();
                         modificarAlumno.close();
                         System.err.println("MODIFICADO");
@@ -438,7 +467,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     } finally {
                         con.desconectar();
                     }
-                    AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+                    ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
                     articulos.setSize(1070,730);
                     articulos.setLocation(0, 0);
 
@@ -446,10 +475,19 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     rightPanelAdmin.add(articulos, BorderLayout.CENTER);
                     rightPanelAdmin.revalidate();
                     rightPanelAdmin.repaint();
-                }
+                }}
             }
         }catch(Exception a){
-                FechaRequerida.setVisible(true);  
+            JOptionPane.showConfirmDialog(dtNacimiento, a);
+            System.out.println(a);
+            //FechaRequerida.setVisible(true);  
+            String aPaterno = txtAPat.getText();
+            String aMaterno = txtAMat.getText();
+            String nombre = txtNombre.getText();
+             ValidarNombre(nombre);
+          
+            ValidarAPaterno(aPaterno);
+            ValidarAMaterno(aMaterno);
         }
       
         
@@ -481,10 +519,40 @@ public class AgregarAlumno extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAMatFocusLost
 
+    private void dtNacimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtNacimientoMouseClicked
+        FechaRequerida.setVisible(false);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoMouseClicked
+
     private void txtNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNombreMouseClicked
         NombreRequerido.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreMouseClicked
+
+    private void dtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyTyped
+        //If any key is typed, set message with error
+        // JOptionPane.showMessageDialog(null, "Ño2");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyTyped
+
+    private void dtNacimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyPressed
+
+//If any key is typed, set message with error
+
+   
+     // JOptionPane.showMessageDialog(null, "Ño");
+   
+    
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyPressed
+
+    private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
+
+ //JOptionPane.showMessageDialog(null, "Ño3");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyReleased
 
     private void txtAPatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAPatMouseClicked
 
@@ -493,51 +561,31 @@ public class AgregarAlumno extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAPatMouseClicked
 
-    private void dtNacimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtNacimientoMouseClicked
-        FechaRequerida.setVisible(false);
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoMouseClicked
-
-    private void dtNacimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyPressed
-
-        //If any key is typed, set message with error
-
-        // JOptionPane.showMessageDialog(null, "Ño");
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoKeyPressed
-
-    private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
-
-        //JOptionPane.showMessageDialog(null, "Ño3");
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoKeyReleased
-
-    private void dtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyTyped
+    private void txtAPatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAPatActionPerformed
+    ApellidoPRequerido.setVisible(true);
         
-    }//GEN-LAST:event_dtNacimientoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAPatActionPerformed
 
     ConexionBD con = new ConexionBD();
     
      void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, String usuario_id) {
+            String fNacimiento) {
 
         try {
             Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,usuario_id) "
-                    + "VALUES (?,?,?,?,?)");
+            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento) "
+                    + "VALUES (?,?,?,?)");
 
             agregarAlumno.setString(1, nombre);
             agregarAlumno.setString(2, aPaterno);
             agregarAlumno.setString(3, aMaterno);
             agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setInt(5, Integer.parseInt(usuario_id));
            
 
             agregarAlumno.execute();
             agregarAlumno.close();
-           // JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+            //JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
             System.out.println("error al guardar los datos: " + ex);
             JOptionPane.showMessageDialog(null, "Error al guardar los datos");
@@ -556,17 +604,23 @@ public class AgregarAlumno extends javax.swing.JPanel {
     
     void ValidarNombre(String nombre){
     
-      if(nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-             IcoCorreNombre.setVisible(true);
-             iconIncoNombre.setVisible(false);
-             IncoNombre.setVisible(false);
-             
-             if(nombre.isEmpty()){
+    if(nombre.isEmpty()){
              IcoCorreNombre.setVisible(false);
              iconIncoNombre.setVisible(false);
              IncoNombre.setVisible(false);
              NombreRequerido.setVisible(true);
              }
+    else if(nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+             IcoCorreNombre.setVisible(true);
+             iconIncoNombre.setVisible(false);
+             IncoNombre.setVisible(false);
+             
+//             if(nombre.isEmpty()){
+//             IcoCorreNombre.setVisible(false);
+//             iconIncoNombre.setVisible(false);
+//             IncoNombre.setVisible(false);
+//             NombreRequerido.setVisible(true);
+//             }
              
          } else{
              IcoCorreNombre.setVisible(false);
@@ -612,7 +666,27 @@ public class AgregarAlumno extends javax.swing.JPanel {
             NoApellidoMate.setVisible(true);
         }
     }
+     
+     
+     void ValidarFecha(String fecha){
+    
+        if(fecha.matches("[yyyy/MM/dd]*")){
+            JOptionPane.showInputDialog("fecha bn");
+       
+            if(fecha.isEmpty()){
+                  JOptionPane.showInputDialog("fecha vacia");
+            }
+        } else{
+            // JOptionPane.showInputDialog("mal");
+        }
+    }
 
+     private static class RangeEvaluator extends MinMaxDateEvaluator {
+
+    public boolean isInvalid(Date date) {
+        return !super.isInvalid(date);
+    }
+}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -644,7 +718,6 @@ public class AgregarAlumno extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;
