@@ -53,10 +53,10 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         ConexionBD conn = new ConexionBD();
         int max = 0;
         Connection c = conn.conectar();
-        ps = c.prepareStatement("SELECT count(asistencias_instructores.instructor_id) asistencias  \n"
-                + "FROM asistencias_instructores \n"
+        ps = c.prepareStatement("SELECT count(instructor_id) asistencias \n"
+                + "FROM asistencias_instructores\n"
                 + "WHERE fecha BETWEEN ? AND ? \n"
-                + "GROUP BY intructor_id\n"
+                + "GROUP BY instructor_id\n"
                 + "HAVING COUNT(instructor_id)\n"
                 + "ORDER BY  asistencias DESC \n"
                 + "LIMIT 1");
@@ -82,11 +82,9 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         System.out.println("maximo " + max);
         Connection c = conn.conectar();
 
-        ps = c.prepareStatement("SELECT instructores.id, "
-                + "concat_ws(' ',instructores.nombre, instructores.a_paterno, instructores.a_materno) nombre,"
-                + "count(asistencias_instructores.alumno_id) asistencias,"
-                + "instructores.activo  \n"
-                + "FROM instructores INNER JOIN asistencias_instructores ON asistencias_instructores.instructor_id=instructores.id\n"
+        ps = c.prepareStatement("SELECT instructores.id,concat_ws(' ',instructores.nombre, instructores.apellido_paterno, instructores.apellido_materno) nombre,\n"
+                + "count(asistencias_instructores.instructor_id) asistencias,instructores.activo \n"
+                + "FROM usuarios as instructores INNER JOIN asistencias_instructores ON asistencias_instructores.instructor_id=instructores.id\n"
                 + "WHERE fecha BETWEEN ? AND ? AND instructores.activo=1\n"
                 + "GROUP BY asistencias_instructores.instructor_id\n"
                 + "HAVING COUNT(asistencias_instructores.instructor_id)");
@@ -202,36 +200,36 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         jTable1.setFont(new java.awt.Font("Tekton Pro Ext", 0, 36)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre completo", "Número de asistencias", "Porcentaje"
+                "ID", "Nombre completo", "Número de asistencias", "Porcentaje"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -249,6 +247,9 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         jTable1.setShowHorizontalLines(false);
         jTable1.setShowVerticalLines(false);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 710, 320));
 
