@@ -2,23 +2,16 @@ package monarca;
 
 import db.ConexionBD;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
-
+import javax.swing.table.DefaultTableModel;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarAlumno.labelID;
-
-import static monarca.VerAlumnos.idNowModify;
-import static monarca.VerDatosAlumno.idNow;
 
 public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
@@ -50,9 +43,9 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         NecesarioEnferm.setVisible(false);
         lblEnfermedad.setVisible(false);
         txtEnfermedad.setVisible(false);
-        
-          CuidadoPeso.setVisible(false);
-          CuidadoAltura.setVisible(false);
+
+        CuidadoPeso.setVisible(false);
+        CuidadoAltura.setVisible(false);
 
         //Modificar datos en caso que se encuentre agregando un alumno 
         try {
@@ -71,7 +64,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                     cbSangre1.setSelectedItem(rs.getString("t_sangre"));
                     spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
                     spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
-                   
+
                     if (txtAlergia.getText().equals("Ninguno")) {
                         rbAlergiasNo1.setSelected(true);
 
@@ -80,11 +73,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                         rbAlergiasSi1.setSelected(true);
                         lblAlergia.setVisible(true);
                         txtAlergia.setVisible(true);
-                         txtAlergia.setText(rs.getString("alrgias"));
+                        txtAlergia.setText(rs.getString("alrgias"));
 
                     }
-                    
-                     if (txtEnfermedad.getText().equals("Ninguno")) {
+
+                    if (txtEnfermedad.getText().equals("Ninguno")) {
                         rbEnfermedadNo1.setSelected(true);
 
                     } else {
@@ -95,7 +88,6 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                         txtEnfermedad.setText(rs.getString("enfermedades"));
 
                     }
-
 
                 }
             }
@@ -461,180 +453,85 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-         Connection c = con.conectar();
-            ResultSet rs;
-            PreparedStatement ps;
-            
-            String alergia =null;
-            String enfermedad = null;
-            
-            if (rbAlergiasNo1.isSelected()==true) {
-                alergia = "Ninguno";
-            } else {
-               alergia = txtAlergia.getText();
-                validarAlergia(alergia);                    
+        Connection c = con.conectar();
+        ResultSet rs;
+        PreparedStatement ps;
+
+        String alergia = null;
+        String enfermedad = null;
+
+        if (rbAlergiasNo1.isSelected() == true) {
+            alergia = "Ninguno";
+        } else {
+            alergia = txtAlergia.getText();
+            validarAlergia(alergia);
+        }
+
+        if (rbEnfermedadNo1.isSelected() == true) {
+            enfermedad = "Ninguno";
+        } else {
+            enfermedad = txtEnfermedad.getText();
+            validarEnfermedad(enfermedad);
+
+        }
+        // !NoEnfermedad.isVisible() && !NoAlergia.isVisible()
+
+        if ((rbAlergiasSi1.isSelected() && SiAlergia.isVisible())
+                || (rbEnfermedadSi1.isSelected() && SiEnfermedad.isVisible())
+                || (rbEnfermedadNo1.isSelected() && rbAlergiasNo1.isSelected())
+                ) {
+            try {
+                PreparedStatement modificarAlumno = c.prepareStatement(
+                        "UPDATE alumnos "
+                        + "SET t_sangre=?,"
+                        + " peso =?,"
+                        + " altura =?,"
+                        + " alrgias =?,"
+                        + " enfermedades=?"
+                        + " WHERE id=?");
+
+                modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
+                modificarAlumno.setString(2, spnPeso1.getValue().toString());
+                modificarAlumno.setString(3, spnAltura1.getValue().toString());
+
+                modificarAlumno.setString(4, alergia);
+                modificarAlumno.setString(5, enfermedad);
+                modificarAlumno.setInt(6, obtenerId());
+
+                modificarAlumno.execute();
+                modificarAlumno.close();
+                //  JOptionPane.showInputDialog("ALumno guardado con éxito");
+                //Cambiar a 5
+
+                AgregarAlumnoP5 pantalla = new AgregarAlumnoP5();
+                pantalla.setSize(1070, 730);
+                pantalla.setLocation(0, 0);
+
+                rightPanelAdmin.removeAll();
+                rightPanelAdmin.add(pantalla, BorderLayout.CENTER);
+                rightPanelAdmin.revalidate();
+                rightPanelAdmin.repaint();
+
+            } catch (SQLException ex) {
+                System.out.println("error al guardar los datos: " + ex);
+                JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+                ModificarAlumnoP4 ag = new ModificarAlumnoP4();
+                ag.setSize(1070, 730);
+                ag.setLocation(0, 0);
+                rightPanelAdmin.removeAll();
+                rightPanelAdmin.add(ag, BorderLayout.CENTER);
+                rightPanelAdmin.revalidate();
+                rightPanelAdmin.repaint();
+
+            } catch (RuntimeException j) {
+
+                //  JOptionPane.showMessageDialog(null, "Verifique la conectividad del detector");
+            } finally {
+                con.desconectar();
             }
-                
-            
-            if (rbEnfermedadNo1.isSelected()==true) {
-                enfermedad = "Ninguno";
-            } else {
-                enfermedad = txtEnfermedad.getText();
-                validarEnfermedad(enfermedad);
-                
-            }
-                  // !NoEnfermedad.isVisible() && !NoAlergia.isVisible()
 
-            if( (rbAlergiasSi1.isSelected() && SiAlergia.isVisible()) ||
-                (rbEnfermedadSi1.isSelected() && SiEnfermedad.isVisible())
-                    ){
-                idNow = labelID.getText();
-                try {
-                    PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =?, enfermedades=? WHERE id=?");
+        }
 
-                    modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
-                    modificarAlumno.setString(2, spnPeso1.getValue().toString());
-                    modificarAlumno.setString(3, spnAltura1.getValue().toString());
-
-                    modificarAlumno.setString(4, alergia);
-                    modificarAlumno.setString(5, enfermedad);
-                    modificarAlumno.setString(6, idNow);
-
-                    modificarAlumno.execute();
-                    modificarAlumno.close();
-                  //  JOptionPane.showInputDialog("ALumno guardado con éxito");
-                    //Cambiar a 5
-                     
-                    
-                   AgregarAlumnoP5 pantalla = new AgregarAlumnoP5();
-                    pantalla.setSize(1070, 730);
-                    pantalla.setLocation(0, 0);
-
-                    rightPanelAdmin.removeAll();
-                    rightPanelAdmin.add(pantalla, BorderLayout.CENTER);
-                    rightPanelAdmin.revalidate();
-                    rightPanelAdmin.repaint();
-                    
-                  
-                } catch (SQLException ex) {
-                    System.out.println("error al guardar los datos: " + ex);
-                    JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-                     ModificarAlumnoP4 ag = new ModificarAlumnoP4();
-                    ag.setSize(1070, 730);
-                    ag.setLocation(0, 0);
-                    rightPanelAdmin.removeAll();
-                     rightPanelAdmin.add(ag, BorderLayout.CENTER);
-                      rightPanelAdmin.revalidate();
-                     rightPanelAdmin.repaint();
-
-                } catch(RuntimeException j){
-                
-                  //  JOptionPane.showMessageDialog(null, "Verifique la conectividad del detector");
-                }
-                finally {
-                    con.desconectar();
-                    }
-                
-                
-             }
-        
-        
-        
-//        try {
-//            String alergiaFile = txtAlergia.getText();
-//
-//            Connection c = con.conectar();
-//            ResultSet rs;
-//            PreparedStatement ps;
-//            String alergia = null;
-//
-//            //FALTA ALERGIA && ENFERMEDADES
-//            if (rbAlergiasNo1.isSelected() == true) {
-//                alergia = "Ninguno";
-//                PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =?, enfermedades=? WHERE id=?");
-//
-//                modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
-//                modificarAlumno.setString(2, spnPeso1.getValue().toString());
-//                modificarAlumno.setString(3, spnAltura1.getValue().toString());
-//
-//                modificarAlumno.setString(4, alergia);
-//                modificarAlumno.setString(4, enfer);
-//                modificarAlumno.setString(5, labelID.getText());
-//
-//                modificarAlumno.execute();
-//                modificarAlumno.close();
-//                
-//                    AgregarAlumnoP5 huella = new AgregarAlumnoP5();
-//                    huella.lblAlumnoId.setText(labelID.getText());
-//                    huella.setSize(1070,730);
-//                    huella.setLocation(0, 0);
-//
-//                    rightPanelAdmin.removeAll();
-//                    rightPanelAdmin.add(huella, BorderLayout.CENTER);
-//                    rightPanelAdmin.revalidate();
-//                    rightPanelAdmin.repaint();
-//                
-////                System.err.println("MODIFICADO");
-////                JOptionPane.showMessageDialog(null, "Modificado");
-//            } else {
-//                alergia = txtAlergia.getText();
-//            }
-//
-//            if (rbAlergiasSi1.isSelected()) {
-//                if (alergiaFile.isEmpty()) {
-//                    Necesario.setVisible(true);
-//                } else {
-//
-//                    if (alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
-//                        SiAlergia.setVisible(true);
-//                        VerifiqueAlergia.setVisible(false);
-//                        NoAlergia.setVisible(false);
-//                        Necesario.setVisible(false);
-//
-//                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =? WHERE id=?");
-//
-//                        modificarAlumno.setString(1, cbSangre1.getSelectedItem().toString());
-//                        modificarAlumno.setString(2, spnPeso1.getValue().toString());
-//                        modificarAlumno.setString(3, spnPeso1.getValue().toString());
-//
-//                        modificarAlumno.setString(4, alergia);
-//                        modificarAlumno.setString(5, labelID.getText());
-//
-//                        modificarAlumno.execute();
-//                        modificarAlumno.close();
-////                        System.err.println("MODIFICADO");
-////                        JOptionPane.showMessageDialog(null, "Modificado");
-//
-//                    AgregarAlumnoP5 huella = new AgregarAlumnoP5();
-////                    huella.lblAlumnoId.setText(labelID.getText());
-//                    huella.setSize(1070,730);
-//                    huella.setLocation(0, 0);
-//
-//                    rightPanelAdmin.removeAll();
-//                    rightPanelAdmin.add(huella, BorderLayout.CENTER);
-//                    rightPanelAdmin.revalidate();
-//                    rightPanelAdmin.repaint();
-//                      
-//                       huella.setVisible(true);
-//                       huella.lblid.setText(labelID.getText());
-//                    } else {
-//                        VerifiqueAlergia.setVisible(true);
-//                        NoAlergia.setVisible(true);
-//                        Necesario.setVisible(false);
-//                        SiAlergia.setVisible(false);
-//
-//                    }
-//                }
-//            }
-//
-//        } catch (SQLException ex) {
-//            System.out.println("error al guardar los datos: " + ex);
-//            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-//        } finally {
-//            con.desconectar();
-//        }
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -682,15 +579,15 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     private void spnAltura1catchValueFromSpinner(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnAltura1catchValueFromSpinner
 
-        String s= spnAltura1.getValue().toString();
-        Double altura= Double.parseDouble(s);
+        String s = spnAltura1.getValue().toString();
+        Double altura = Double.parseDouble(s);
         verificarAltura(altura);
 
     }//GEN-LAST:event_spnAltura1catchValueFromSpinner
 
     private void spnPeso1catchValueofPesoSpinner(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnPeso1catchValueofPesoSpinner
-        String s= spnPeso1.getValue().toString();
-        Double peso= Double.parseDouble(s);
+        String s = spnPeso1.getValue().toString();
+        Double peso = Double.parseDouble(s);
         verificarPeso(peso);
     }//GEN-LAST:event_spnPeso1catchValueofPesoSpinner
 
@@ -700,159 +597,134 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
     ConexionBD con = new ConexionBD();
 
-    void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, float peso, float altura,
-            String tSangre, String direccion, String cinta,
-            String tutor, String parentesco, String tCelular,
-            String alergias, String enfermedades, String deporte,
-            int instructor) {
-
-        try {
-            Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,"
-                    + "peso,t_sangre,altura,direccion,cinta,nombre_tutor,"
-                    + "parentesco,tutor_celular,alrgias,enfermedades,deportes,"
-                    + "instructor_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-            agregarAlumno.setString(1, nombre);
-            agregarAlumno.setString(2, aPaterno);
-            agregarAlumno.setString(3, aMaterno);
-            agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setFloat(5, peso);
-            agregarAlumno.setString(6, tSangre);
-            agregarAlumno.setFloat(7, altura);
-            agregarAlumno.setString(8, direccion);
-            agregarAlumno.setString(9, cinta);
-            agregarAlumno.setString(10, tutor);
-            agregarAlumno.setString(11, parentesco);
-            agregarAlumno.setString(12, tCelular);
-            agregarAlumno.setString(13, alergias);
-            agregarAlumno.setString(14, enfermedades);
-            agregarAlumno.setString(15, deporte);
-            agregarAlumno.setInt(16, instructor);
-
-            agregarAlumno.execute();
-            agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
+    void verificarPeso(Double peso) {
+        if (peso < 20) {
+            VerifiquePeso.setVisible(true);
+            SiPeso.setVisible(true);
+            CuidadoPeso.setVisible(true);
+            System.out.println("Meneor a 20");
+        } else if (peso > 200) {
+            VerifiquePeso.setVisible(true);
+            CuidadoPeso.setVisible(true);
+            SiPeso.setVisible(false);
+            System.out.println("Mayor a 20");
+        } else {
+            VerifiquePeso.setVisible(false);
+            CuidadoPeso.setVisible(false);
+            SiPeso.setVisible(true);
         }
+        System.out.println(peso + "");
     }
 
-     void verificarPeso(Double peso) {
-            if(peso<20){
-                VerifiquePeso.setVisible(true);
-                SiPeso.setVisible(true);
-                CuidadoPeso.setVisible(true);
-                System.out.println("Meneor a 20");
-            }else if (peso>200){
-                VerifiquePeso.setVisible(true);
-                CuidadoPeso.setVisible(true);
-                SiPeso.setVisible(false);
-                 System.out.println("Mayor a 20");
-            }
-            else{
-             VerifiquePeso.setVisible(false);
-             CuidadoPeso.setVisible(false);
-             SiPeso.setVisible(true);
-            }
-             System.out.println(peso +"");
-    }
-    
     void verificarAltura(Double altura) {
-            if(altura<.50){
-                VerifiqueAltura.setVisible(true);
-                CuidadoAltura.setVisible(true);
-                SiAltura.setVisible(false);
-                System.out.println("Meneor a 50 cm");
-            }else if (altura>2.7){
-                VerifiqueAltura.setVisible(true);
-                CuidadoAltura.setVisible(true);
-                SiAltura.setVisible(false);
-                 System.out.println("Mayor a mayor a ");
-            }else{
-             VerifiqueAltura.setVisible(false);
-             CuidadoAltura.setVisible(false);
-             SiAltura.setVisible(true);
-            }
-             System.out.println(altura +"");
+        if (altura < .50) {
+            VerifiqueAltura.setVisible(true);
+            CuidadoAltura.setVisible(true);
+            SiAltura.setVisible(false);
+            System.out.println("Meneor a 50 cm");
+        } else if (altura > 2.7) {
+            VerifiqueAltura.setVisible(true);
+            CuidadoAltura.setVisible(true);
+            SiAltura.setVisible(false);
+            System.out.println("Mayor a mayor a ");
+        } else {
+            VerifiqueAltura.setVisible(false);
+            CuidadoAltura.setVisible(false);
+            SiAltura.setVisible(true);
+        }
+        System.out.println(altura + "");
     }
-    
-    
+
     void validarAlergia(String alergia) {
-         if(alergia.isEmpty() || alergia.equals("")){
-                    SiAlergia.setVisible(false);
-                    VerifiqueAlergia.setVisible(false);
-                    NoAlergia.setVisible(false);
-                    Necesario.setVisible(true);
-                }
-         else if(alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-               SiAlergia();
-            } else{
-               SiAlergia.setVisible(false);
-                VerifiqueAlergia.setVisible(true);
-                NoAlergia.setVisible(true);
-                Necesario.setVisible(false);
-            
-            }
+        if (alergia.isEmpty() || alergia.equals("")) {
+            SiAlergia.setVisible(false);
+            VerifiqueAlergia.setVisible(false);
+            NoAlergia.setVisible(false);
+            Necesario.setVisible(true);
+        } else if (alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+            SiAlergia();
+        } else {
+            SiAlergia.setVisible(false);
+            VerifiqueAlergia.setVisible(true);
+            NoAlergia.setVisible(true);
+            Necesario.setVisible(false);
+
+        }
         // JOptionPane.showInputDialog("verificado");
     }
 
-    
     void validarEnfermedad(String enfermedad) {
-                
-            if(enfermedad.isEmpty()|| enfermedad.equals("")){
-                    SiEnfermedad.setVisible(false);
-                    VerifiqueEnfermedad.setVisible(false);
-                    NoEnfermedad.setVisible(false);
-                    NecesarioEnferm.setVisible(true);
-                    }else if(enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-                SiEnfermedad();
 
-                
-            } else{
-               VerifiqueEnfermedad.setVisible(true);
-                NoEnfermedad.setVisible(true);
-                NecesarioEnferm.setVisible(false);
-                SiEnfermedad.setVisible(false);
-            }
-    }
-    
-        void NoEnfermedad() {
+        if (enfermedad.isEmpty() || enfermedad.equals("")) {
+            SiEnfermedad.setVisible(false);
             VerifiqueEnfermedad.setVisible(false);
             NoEnfermedad.setVisible(false);
+            NecesarioEnferm.setVisible(true);
+        } else if (enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+            SiEnfermedad();
+
+        } else {
+            VerifiqueEnfermedad.setVisible(true);
+            NoEnfermedad.setVisible(true);
             NecesarioEnferm.setVisible(false);
             SiEnfermedad.setVisible(false);
-            txtEnfermedad.setVisible(false);
-    }
-    
-    void SiEnfermedad() {
-            SiEnfermedad.setVisible(true);
-                VerifiqueEnfermedad.setVisible(false);
-                NoEnfermedad.setVisible(false);
-                NecesarioEnferm.setVisible(false);
-                txtEnfermedad.setVisible(true);
-    }
-    
-    void NoAlergia() {
-            SiAlergia.setVisible(false);
-                VerifiqueAlergia.setVisible(false);
-                NoAlergia.setVisible(false);
-                Necesario.setVisible(false);
-                txtAlergia.setVisible(false);
-    }
-    
-    void SiAlergia() {
-             SiAlergia.setVisible(true);
-                VerifiqueAlergia.setVisible(false);
-                NoAlergia.setVisible(false);
-                Necesario.setVisible(false);
-                txtAlergia.setVisible(true);
+        }
     }
 
+    void NoEnfermedad() {
+        VerifiqueEnfermedad.setVisible(false);
+        NoEnfermedad.setVisible(false);
+        NecesarioEnferm.setVisible(false);
+        SiEnfermedad.setVisible(false);
+        txtEnfermedad.setVisible(false);
+    }
+
+    void SiEnfermedad() {
+        SiEnfermedad.setVisible(true);
+        VerifiqueEnfermedad.setVisible(false);
+        NoEnfermedad.setVisible(false);
+        NecesarioEnferm.setVisible(false);
+        txtEnfermedad.setVisible(true);
+    }
+
+    void NoAlergia() {
+        SiAlergia.setVisible(false);
+        VerifiqueAlergia.setVisible(false);
+        NoAlergia.setVisible(false);
+        Necesario.setVisible(false);
+        txtAlergia.setVisible(false);
+    }
+
+    void SiAlergia() {
+        SiAlergia.setVisible(true);
+        VerifiqueAlergia.setVisible(false);
+        NoAlergia.setVisible(false);
+        Necesario.setVisible(false);
+        txtAlergia.setVisible(true);
+    }
+
+    public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ResultSetMetaData rsm;
+        DefaultTableModel dtm;
+        ConexionBD conn = new ConexionBD();
+
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM alumnos\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;

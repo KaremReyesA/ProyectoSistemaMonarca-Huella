@@ -1,26 +1,18 @@
 package monarca;
 
-import com.sun.webkit.dom.EventImpl;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import librerias.Validaciones;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.login.usuario_id;
 
 public class AgregarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
@@ -64,40 +56,40 @@ public class AgregarAlumno extends javax.swing.JPanel {
         
     //////////////////////////////////////////////////////
     
-         
-        try {
-            
-            Connection c = con.conectar();
-            ResultSet rs;
-            PreparedStatement ps;
-            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-            
-            rs= ps.executeQuery();
-            
-            if(rs.next()){
-                if( rs.getString("enfermedades")==null || ((rs.getString("enfermedades")).equals("")))
-                      {
-                    inicial=1;
-                    txtNombre.setText(rs.getString("nombre"));
-                    txtAPat.setText(rs.getString("a_paterno"));
-                    txtAMat.setText(rs.getString("a_materno"));
-                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
-                    labelID.setText(rs.getString("id"));
-                      
-                    ValidarNombre(txtNombre.getText());
-                    ValidarAPaterno(txtAPat.getText());
-                    ValidarAMaterno(txtAMat.getText());
-                     
-                    if(dtNacimiento.getDate()!=null){
-                    SiFecha.setVisible(true);
-                    }
-                   }
-            }}
-            
-            // TODO add your handling code here:
-         catch (SQLException ex) {
-            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//         
+//        try {
+//            
+//            Connection c = con.conectar();
+//            ResultSet rs;
+//            PreparedStatement ps;
+//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+//            
+//            rs= ps.executeQuery();
+//            
+//            if(rs.next()){
+//                if( rs.getString("enfermedades")==null || ((rs.getString("enfermedades")).equals("")))
+//                      {
+//                    inicial=1;
+//                    txtNombre.setText(rs.getString("nombre"));
+//                    txtAPat.setText(rs.getString("a_paterno"));
+//                    txtAMat.setText(rs.getString("a_materno"));
+//                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
+//                    labelID.setText(rs.getString("id"));
+//                      
+//                    ValidarNombre(txtNombre.getText());
+//                    ValidarAPaterno(txtAPat.getText());
+//                    ValidarAMaterno(txtAMat.getText());
+//                     
+//                    if(dtNacimiento.getDate()!=null){
+//                    SiFecha.setVisible(true);
+//                    }
+//                   }
+//            }}
+//            
+//            // TODO add your handling code here:
+//         catch (SQLException ex) {
+//            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 //        catch (NullPointerException ex) {
 //            
 //            JOptionPane.showInputDialog("no");

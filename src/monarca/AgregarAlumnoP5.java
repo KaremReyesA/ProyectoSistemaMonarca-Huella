@@ -3,7 +3,7 @@ package monarca;
 import java.awt.BorderLayout;
 
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.ModificarAlumno.labelID;
+import static monarca.VerDatosAlumno.idNow;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -32,16 +32,17 @@ import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 public class AgregarAlumnoP5 extends javax.swing.JPanel {
-    
+
     public AgregarAlumnoP5() {
         initComponents();
         try {
@@ -56,7 +57,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
         start();
         EstadoHuellas();
         btnFinalizar.setEnabled(false);
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -211,9 +212,10 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             start();
             //Desconecta de la base de datos
             stop();
-            agregarMensualidadAlumno(Integer.parseInt(lblid.getText()));
-            con.desconectar();
+            agregarMensualidadAlumno(obtenerId());
             
+            idNow=""+obtenerId();
+
             //AbrePanel para ver datos del alumno
             VerDatosAlumno articulos = new VerDatosAlumno();
             articulos.setSize(1070, 730);
@@ -225,84 +227,47 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             rightPanelAdmin.repaint();
         } catch (SQLException ex) {
             Logger.getLogger(AgregarAlumnoP5.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+        con.desconectar();
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
-    
+
     void agregarMensualidadAlumno(int id) {
         SimpleDateFormat mes1 = new SimpleDateFormat("MM");
         SimpleDateFormat formateador2 = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
         java.util.Date fecha2 = new java.util.Date();
         String fecha = formateador2.format(fecha2);
         int mes = Integer.parseInt(mes1.format(fecha2));
-       
+
         try {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
 //   
-            PreparedStatement modificarAlumno = c.prepareStatement(" INSERT INTO mensualidades(alumno_id, dia_pago, ultimo_pago) VALUES (?,?,?)");
-            
+            PreparedStatement modificarAlumno = c.prepareStatement(
+                    " INSERT INTO mensualidades"
+                    + "(alumno_id, dia_pago, ultimo_pago) "
+                    + "VALUES (?,?,?)");
+
             modificarAlumno.setInt(1, id);
             modificarAlumno.setInt(2, mes);
             modificarAlumno.setString(3, fecha);
-            
+
             modificarAlumno.execute();
             modificarAlumno.close();
         } catch (SQLException ex) {
             Logger.getLogger(ModificarAlumnoP4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     ConexionBD con = new ConexionBD();
-    
-    void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, float peso, float altura,
-            String tSangre, String direccion, String cinta,
-            String tutor, String parentesco, String tCelular,
-            String alergias, String enfermedades, String deporte,
-            int instructor) {
-        
-        try {
-            Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,"
-                    + "peso,t_sangre,altura,direccion,cinta,nombre_tutor,"
-                    + "parentesco,tutor_celular,alrgias,enfermedades,deportes,"
-                    + "instructor_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            
-            agregarAlumno.setString(1, nombre);
-            agregarAlumno.setString(2, aPaterno);
-            agregarAlumno.setString(3, aMaterno);
-            agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setFloat(5, peso);
-            agregarAlumno.setString(6, tSangre);
-            agregarAlumno.setFloat(7, altura);
-            agregarAlumno.setString(8, direccion);
-            agregarAlumno.setString(9, cinta);
-            agregarAlumno.setString(10, tutor);
-            agregarAlumno.setString(11, parentesco);
-            agregarAlumno.setString(12, tCelular);
-            agregarAlumno.setString(13, alergias);
-            agregarAlumno.setString(14, enfermedades);
-            agregarAlumno.setString(15, deporte);
-            agregarAlumno.setInt(16, instructor);
-            
-            agregarAlumno.execute();
-            agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
-        }
-    }
-    
+
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
     private DPFPEnrollment Reclutador = DPFPGlobal.getEnrollmentFactory().createEnrollment();
     private DPFPVerification Verificador = DPFPGlobal.getVerificationFactory().createVerification();
     private DPFPTemplate template;
     public static String TEMPLATE_PROPERTY = "template";
-    
+
     protected void Iniciar() {
         Lector.addDataListener(new DPFPDataAdapter() {
             @Override
@@ -314,7 +279,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-        
+
         Lector.addReaderStatusListener(new DPFPReaderStatusAdapter() {
             @Override
             public void readerConnected(final DPFPReaderStatusEvent e) {
@@ -324,7 +289,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                     }
                 });
             }
-            
+
             @Override
             public void readerDisconnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -334,7 +299,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-        
+
         Lector.addSensorListener(new DPFPSensorAdapter() {
             @Override
             public void fingerTouched(final DPFPSensorEvent e) {
@@ -343,7 +308,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                     }
                 });
             }
-            
+
             @Override
             public void fingerGone(final DPFPSensorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -352,7 +317,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                 });
             }
         });
-        
+
         Lector.addErrorListener(new DPFPErrorAdapter() {
             public void errorReader(final DPFPErrorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
@@ -363,15 +328,15 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             }
         });
     }
-    
+
     public DPFPFeatureSet featuresinscripcion;
     public DPFPFeatureSet featuresverificacion;
-    
+
     public void ProcesarCaptura(DPFPSample sample) {
         featuresinscripcion = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_ENROLLMENT);
-        
+
         featuresverificacion = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION);
-        
+
         if (featuresinscripcion != null) {
             try {
                 System.out.println("Las Caracteristicas de la Huella han sido creada");
@@ -390,7 +355,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
                         btnFinalizar.setEnabled(true);
                         btnFinalizar.grabFocus();
                         break;
-                    
+
                     case TEMPLATE_STATUS_FAILED:
                         Reclutador.clear();
                         stop();
@@ -403,7 +368,7 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             }
         }
     }
-    
+
     public DPFPFeatureSet extraerCaracteristicas(DPFPSample sample, DPFPDataPurpose purpose) {
         DPFPFeatureExtraction extractor = DPFPGlobal.getFeatureExtractionFactory().createFeatureExtraction();
         try {
@@ -412,45 +377,68 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
             return null;
         }
     }
-    
+
     public Image CrearImagenHuella(DPFPSample sample) {
         return DPFPGlobal.getSampleConversionFactory().createImage(sample);
     }
-    
+
     public void DibujarHuella(Image image) {
         lblImagenHuella.setIcon(new ImageIcon(
                 image.getScaledInstance(lblImagenHuella.getWidth(), lblImagenHuella.getHeight(), Image.SCALE_DEFAULT)));
         repaint();
     }
-    
+
     public void EstadoHuellas() {
         EnviarTexto("Faltan " + Reclutador.getFeaturesNeeded() + " Capturas de la huella.");
     }
-    
+
     public void EnviarTexto(String string) {
         txtArea.append(string + "\n");
     }
-    
+
     public void start() {
         Lector.startCapture();
         EnviarTexto("El lector esta en funcionamiento. ");
     }
-    
+
     public void stop() {
         Lector.stopCapture();
         EnviarTexto("El lector no esta en funcionamiento. ");
     }
-    
+
     public DPFPTemplate getTemplate() {
         return template;
     }
-    
+
     public void setTemplate(DPFPTemplate template) {
         DPFPTemplate old = this.template;
         this.template = template;
         firePropertyChange(TEMPLATE_PROPERTY, old, template);
     }
-    
+
+    public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ResultSetMetaData rsm;
+        DefaultTableModel dtm;
+        ConexionBD conn = new ConexionBD();
+
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM alumnos\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
+
     public void guardarHuella() {
         SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
         java.util.Date fecha2 = new java.util.Date();
@@ -459,12 +447,11 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
         Integer tamañoHuella = template.serialize().length;
         try {
             Connection c = con.conectar();
-            PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO huellas_alumnos(huella, alumno_id) values(?,?)");
-            
-            guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
-            guardarStmt.setInt(2, Integer.parseInt(labelID.getText()));
-            guardarStmt.execute();
-            guardarStmt.close();
+            try (PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO huellas_alumnos(huella, alumno_id) values(?,?)")) {
+                guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
+                guardarStmt.setInt(2, obtenerId());
+                guardarStmt.execute();
+            }
 //            this.dispose();
             JOptionPane.showMessageDialog(null, "Huella Guardada Correctamente");
         } catch (SQLException ex) {
@@ -497,5 +484,5 @@ public class AgregarAlumnoP5 extends javax.swing.JPanel {
     private javax.swing.JPanel panHuellas;
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
-  
+
 }

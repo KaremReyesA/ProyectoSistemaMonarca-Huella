@@ -200,6 +200,7 @@ public class mainIntructor extends javax.swing.JFrame {
     TomarAsistencias asistencia = new TomarAsistencias();
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
+        asistencia.stop();
 
         rightPanelInstructores.removeAll();
         rightPanelInstructores.add(asistencia, BorderLayout.CENTER);

@@ -324,10 +324,10 @@ public class mainAmbos extends javax.swing.JFrame {
         mensualidades.setSize(1070,730);
         mensualidades.setLocation(0, 0);
 
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(mensualidades, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();        // TODO add your handling code here:
+        rightPanel.removeAll();
+        rightPanel.add(mensualidades, BorderLayout.CENTER);
+        rightPanel.revalidate();
+        rightPanel.repaint();        // TODO add your handling code here:
     }//GEN-LAST:event_btnMensualidadesActionPerformed
 
     private void btnAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasActionPerformed
@@ -345,6 +345,7 @@ public class mainAmbos extends javax.swing.JFrame {
     TomarAsistencias asistencia = new TomarAsistencias();
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
+        asistencia.stop();
 
         rightPanel.removeAll();
         rightPanel.add(asistencia, BorderLayout.CENTER);
@@ -354,20 +355,22 @@ public class mainAmbos extends javax.swing.JFrame {
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
         
-        ModificarAlumno asistencia = null;
         try {
-            asistencia = new ModificarAlumno();
+            ModificarAlumno asistencia =  new ModificarAlumno();
+            
+            
+            
+            asistencia.setSize(1070,730);
+            asistencia.setLocation(0, 0);
+            
+            rightPanel.removeAll();
+            rightPanel.add(asistencia, BorderLayout.CENTER);
+            rightPanel.revalidate();
+            rightPanel.repaint();
+            // TODO add your handling code here:
         } catch (ParseException ex) {
             Logger.getLogger(mainAmbos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        asistencia.setSize(1070,730);
-        asistencia.setLocation(0, 0);
-
-        rightPanel.removeAll();
-        rightPanel.add(asistencia, BorderLayout.CENTER);
-        rightPanel.revalidate();
-        rightPanel.repaint();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarAlumActionPerformed
 
     private void btnAgregarArticuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarArticuActionPerformed

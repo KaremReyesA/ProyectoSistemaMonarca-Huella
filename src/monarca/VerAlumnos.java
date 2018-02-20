@@ -25,9 +25,9 @@ import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerDatosAlumno.idNow;
 import static monarca.login.usuario_rol;
 
-
 public class VerAlumnos extends javax.swing.JPanel {
-public static String idNowModify;
+
+    public static String idNowModify;
     ConexionBD conn = new ConexionBD();
     ResultSet rs;
     PreparedStatement ps;
@@ -37,7 +37,7 @@ public static String idNowModify;
 
     public VerAlumnos() {
         initComponents();
-        idNowModify=null;
+        idNowModify = null;
         limpiarTabla(jtAlumnos);
         try {
             llenarTabla(jtAlumnos);
@@ -52,10 +52,9 @@ public static String idNowModify;
 
         Connection c = conn.conectar();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        
-      
-        if(usuario_rol.equals("Instructor")){
-             
+
+        if (usuario_rol.equals("Instructor")) {
+
             ps = c.prepareStatement("SELECT alumnos.id,concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno),alumnos.fecha_nacimiento,alumnos.cinta from alumnos, usuarios where alumnos.activo=1 and alumnos.usuario_id=usuarios.id");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -65,43 +64,42 @@ public static String idNowModify;
                 for (int i = 0; i < filas.length; i++) {
 
                     //Folio Style
-                if(i==0){
-                    folioN = rs.getString("id");
-                    if( folioN.length()==1){
-                     filas[i] ="0000"+folioN;
+                    if (i == 0) {
+                        folioN = rs.getString("id");
+                        if (folioN.length() == 1) {
+                            filas[i] = "0000" + folioN;
+                        }
+                        if (folioN.length() == 2) {
+                            filas[i] = "000" + folioN;
+                        }
+                        if (folioN.length() == 3) {
+                            filas[i] = "00" + folioN;
+                        }
+                        if (folioN.length() == 4) {
+                            filas[i] = "0" + folioN;
+                        }
+                        if (folioN.length() == 4) {
+                            filas[i] = folioN;
+                        }
+
+                    } else if (i == 2) {
+                        //Calcular edad
+                        stringDate = rs.getString("fecha_nacimiento");
+                        String[] parts = stringDate.split("-");
+                        int anioNacimiento = Integer.parseInt(parts[0]); // año
+                        int mesNacimiento = Integer.parseInt(parts[1]); // mes
+                        int diaNacimiento = Integer.parseInt(parts[2]);//día
+
+                        LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
+                        LocalDate end = LocalDate.now();
+                        long years = ChronoUnit.YEARS.between(start, end);
+
+                        filas[i] = years;
+
+                    } else {
+
+                        filas[i] = rs.getObject(i + 1);
                     }
-                     if( folioN.length()==2){
-                     filas[i] ="000"+folioN;
-                    }
-                      if( folioN.length()==3){
-                     filas[i] ="00"+folioN;
-                    }
-                       if( folioN.length()==4){
-                     filas[i] ="0"+folioN;
-                    }
-                       if( folioN.length()==4){
-                     filas[i] = folioN;
-                    }
-
-                }else if (i==2){
-                    //Calcular edad
-                    stringDate = rs.getString("fecha_nacimiento");
-                    String[] parts = stringDate.split("-");
-                    int anioNacimiento = Integer.parseInt(parts[0]) ; // año
-                    int mesNacimiento = Integer.parseInt(parts[1]); // mes
-                    int diaNacimiento = Integer.parseInt(parts[2]);//día
-
-                    LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
-                    LocalDate end = LocalDate.now();
-                    long years = ChronoUnit.YEARS.between(start, end);
-
-                  filas[i] = years;
-
-
-
-                }else{
-
-                    filas[i] = rs.getObject(i + 1);}
                 }
                 datos.add(filas);
             }
@@ -109,8 +107,8 @@ public static String idNowModify;
             for (int i = 0; i < datos.size(); i++) {
                 dtm.addRow(datos.get(i));
             }
-         
-        } else{
+
+        } else {
             ps = c.prepareStatement("SELECT id,concat_ws(' ',nombre, a_paterno, a_materno),fecha_nacimiento,cinta from alumnos where activo=1");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -120,43 +118,42 @@ public static String idNowModify;
                 for (int i = 0; i < filas.length; i++) {
 
                     //Folio Style
-                if(i==0){
-                    folioN = rs.getString("id");
-                    if( folioN.length()==1){
-                     filas[i] ="0000"+folioN;
+                    if (i == 0) {
+                        folioN = rs.getString("id");
+                        if (folioN.length() == 1) {
+                            filas[i] = "0000" + folioN;
+                        }
+                        if (folioN.length() == 2) {
+                            filas[i] = "000" + folioN;
+                        }
+                        if (folioN.length() == 3) {
+                            filas[i] = "00" + folioN;
+                        }
+                        if (folioN.length() == 4) {
+                            filas[i] = "0" + folioN;
+                        }
+                        if (folioN.length() == 4) {
+                            filas[i] = folioN;
+                        }
+
+                    } else if (i == 2) {
+                        //Calcular edad
+                        stringDate = rs.getString("fecha_nacimiento");
+                        String[] parts = stringDate.split("-");
+                        int anioNacimiento = Integer.parseInt(parts[0]); // año
+                        int mesNacimiento = Integer.parseInt(parts[1]); // mes
+                        int diaNacimiento = Integer.parseInt(parts[2]);//día
+
+                        LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
+                        LocalDate end = LocalDate.now();
+                        long years = ChronoUnit.YEARS.between(start, end);
+
+                        filas[i] = years;
+
+                    } else {
+
+                        filas[i] = rs.getObject(i + 1);
                     }
-                     if( folioN.length()==2){
-                     filas[i] ="000"+folioN;
-                    }
-                      if( folioN.length()==3){
-                     filas[i] ="00"+folioN;
-                    }
-                       if( folioN.length()==4){
-                     filas[i] ="0"+folioN;
-                    }
-                       if( folioN.length()==4){
-                     filas[i] = folioN;
-                    }
-
-                }else if (i==2){
-                    //Calcular edad
-                    stringDate = rs.getString("fecha_nacimiento");
-                    String[] parts = stringDate.split("-");
-                    int anioNacimiento = Integer.parseInt(parts[0]) ; // año
-                    int mesNacimiento = Integer.parseInt(parts[1]); // mes
-                    int diaNacimiento = Integer.parseInt(parts[2]);//día
-
-                    LocalDate start = LocalDate.of(anioNacimiento, mesNacimiento, diaNacimiento);
-                    LocalDate end = LocalDate.now();
-                    long years = ChronoUnit.YEARS.between(start, end);
-
-                  filas[i] = years;
-
-
-
-                }else{
-
-                    filas[i] = rs.getObject(i + 1);}
                 }
                 datos.add(filas);
             }
@@ -165,7 +162,7 @@ public static String idNowModify;
                 dtm.addRow(datos.get(i));
             }
         }
-    
+
     }
 
     public void limpiarTabla(JTable tabla) {
@@ -233,6 +230,11 @@ public static String idNowModify;
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
 
         jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         back.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 640, 170, 40));
 
         jButton2.setText("Modificar Datos");
@@ -270,7 +272,7 @@ public static String idNowModify;
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -289,6 +291,11 @@ public static String idNowModify;
         jtAlumnos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jtAlumnos.setShowHorizontalLines(false);
         jtAlumnos.setShowVerticalLines(false);
+        jtAlumnos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtAlumnosFocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtAlumnos);
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 780, 280));
@@ -330,15 +337,15 @@ public static String idNowModify;
                 int fila = jtAlumnos.getSelectedRow();
                 // int noControl = Integer.parseInt(jtAlumnos.getValueAt(fila, 0).toString());
                 String noControl = jtAlumnos.getValueAt(fila, 0).toString();
-                int noControlFinal= Integer.parseInt(noControl);
-               
-                idNow= (noControlFinal+"");
+                int noControlFinal = Integer.parseInt(noControl);
+
+                idNow = (noControlFinal + "");
                 // lblIdAlumno.setText(noControlFinal+"");
                 //lblEsNuevo.setText("No");
-                 
+
                 VerDatosAlumno ver = new VerDatosAlumno();
-                
-                ver.setSize(1070,730);
+
+                ver.setSize(1070, 730);
                 ver.setLocation(0, 0);
 
                 rightPanelAdmin.removeAll();
@@ -346,11 +353,11 @@ public static String idNowModify;
                 rightPanelAdmin.revalidate();
                 rightPanelAdmin.repaint();
                 ver.setVisible(true);
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
             }
- 
+
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
@@ -358,38 +365,38 @@ public static String idNowModify;
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      if (jtAlumnos.getSelectedRowCount() == 1) {
-          
-          int fila = jtAlumnos.getSelectedRow();
-         
-          String noControl = jtAlumnos.getValueAt(fila, 0).toString();
-          int noControlFinal= Integer.parseInt(noControl);
-          
-          idNowModify= (noControlFinal+"");
-          
-          ModificarAlumno ver = null;
-          try {
-              ver = new ModificarAlumno();
-          } catch (ParseException ex) {
-              Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          ver.setSize(1070,730);
-          ver.setLocation(0, 0);
-          
-          rightPanelAdmin.removeAll();
-          rightPanelAdmin.add(ver, BorderLayout.CENTER);
-          rightPanelAdmin.revalidate();
-          rightPanelAdmin.repaint();
-          
-          ver.setVisible(true);
- 
+        if (jtAlumnos.getSelectedRowCount() == 1) {
+
+            int fila = jtAlumnos.getSelectedRow();
+
+            String noControl = jtAlumnos.getValueAt(fila, 0).toString();
+            int noControlFinal = Integer.parseInt(noControl);
+
+            idNowModify = (noControlFinal + "");
+
+            ModificarAlumno ver = null;
+            try {
+                ver = new ModificarAlumno();
+            } catch (ParseException ex) {
+                Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ver.setSize(1070, 730);
+            ver.setLocation(0, 0);
+
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(ver, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+
+            ver.setVisible(true);
+
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-private TableRowSorter trsFiltro;
+    private TableRowSorter trsFiltro;
     private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
-txtBusqueda.addKeyListener(new KeyAdapter() {
+        txtBusqueda.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(final KeyEvent e) {
                 String cadena = (txtBusqueda.getText());
@@ -402,6 +409,54 @@ txtBusqueda.addKeyListener(new KeyAdapter() {
         trsFiltro = new TableRowSorter(jtAlumnos.getModel());
         jtAlumnos.setRowSorter(trsFiltro);             // TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (jtAlumnos.getSelectedRowCount() == 1) {
+            int fila = jtAlumnos.getSelectedRow();
+
+            String noControl = jtAlumnos.getValueAt(fila, 0).toString();
+            String nombre = jtAlumnos.getValueAt(fila, 1).toString();
+            int id = Integer.parseInt(noControl);
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Seguro que quiere eliminar a "+ nombre+"?", "Pagar mensualidad", dialogButton);
+            if (dialogResult == 0) {
+                System.out.println("Yes option");
+                try {
+
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
+                    ConexionBD conn = new ConexionBD();
+                    Connection con = conn.conectar();
+
+                    String sql = "UPDATE alumnos "
+                            + "SET "
+                            + "activo=0 "
+                            + "WHERE id =? ";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, id);
+
+                    ps.execute();
+                    JOptionPane.showMessageDialog(null, "Se a eliminado a "+nombre);
+                } catch (SQLException ex) {
+                    System.err.println(ex.toString());
+                }
+            } else {
+                System.out.println("No Option");
+               
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jtAlumnosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtAlumnosFocusGained
+        limpiarTabla(jtAlumnos);
+        try {
+            llenarTabla(jtAlumnos);        // TODO add your handling code here:
+        } catch (Exception ex) {
+            Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jtAlumnosFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

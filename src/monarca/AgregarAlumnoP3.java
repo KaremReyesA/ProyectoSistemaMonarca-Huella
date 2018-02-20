@@ -3,70 +3,68 @@ package monarca;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.AgregarAlumno.labelID;
-import static monarca.AgregarAlumnoP2.inicial;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
 public class AgregarAlumnoP3 extends javax.swing.JPanel {
- public static int inicial = 0;
+
+    ConexionBD con = new ConexionBD();
+    public static int inicial = 0;
+
     public AgregarAlumnoP3() {
         initComponents();
 
         lblInstructorId.setVisible(false);
         lblDeporte.setVisible(false);
-        txtDeporte.setVisible(false);  
+        txtDeporte.setVisible(false);
         Verifique.setVisible(false);
         Necesario.setVisible(false);
         SiDeporte.setVisible(false);
         NoDeporte.setVisible(false);
 
-      try {
+        txtDeporte.setText("Ninguno");
 
-        Connection c = con.conectar();
-        ResultSet rs;
-        PreparedStatement ps;
-        ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
+        try {
 
-        rs= ps.executeQuery();
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
 
-        if(rs.next()){
-            if(rs.getString("deportes")!=null){
-                inicial=1;
-               
-                cbCinta.setSelectedItem(rs.getString("cinta"));
-                txtDeporte.setText(rs.getString("deportes"));
-                SiCinta.setVisible(true);
-                
-                if(txtDeporte.getText().equals("Ninguno")){
-                    rbDeporteNo.setSelected(true);
-                   
-                }else {
-                     //Si tiene "si"
-                     rbDeporteSi.setSelected(true);
-                    lblDeporte.setVisible(true);
-                    txtDeporte.setVisible(true);
-                   
-                    
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                if (rs.getString("deportes") != null) {
+                    inicial = 1;
+
+                    cbCinta.setSelectedItem(rs.getString("cinta"));
+                    txtDeporte.setText(rs.getString("deportes"));
+                    SiCinta.setVisible(true);
+
+                    if (txtDeporte.getText().equals("Ninguno")) {
+                        rbDeporteNo.setSelected(true);
+
+                    } else {
+                        //Si tiene "si"
+                        rbDeporteSi.setSelected(true);
+                        lblDeporte.setVisible(true);
+                        txtDeporte.setVisible(true);
+
+                    }
+
                 }
-
-               }
-        }}
-
-        // TODO add your handling code here:
-     catch (SQLException ex) {
-        Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } // TODO add your handling code here:
+        catch (SQLException ex) {
+            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -275,112 +273,117 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
 
     private void rbDeporteNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteNoActionPerformed
         lblDeporte.setVisible(false);
-        txtDeporte.setVisible(false);   
-        SiDeporte.setVisible(false);   
-        NoDeporte.setVisible(false);   
+        txtDeporte.setVisible(false);
+        SiDeporte.setVisible(false);
+        NoDeporte.setVisible(false);
         Verifique.setVisible(false);
-        Necesario.setVisible(false); 
+        Necesario.setVisible(false);
+        txtDeporte.setText("Ninguno");
     }//GEN-LAST:event_rbDeporteNoActionPerformed
 
     private void rbDeporteSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteSiActionPerformed
-    lblDeporte.setVisible(true);
-        txtDeporte.setVisible(true);    
+        lblDeporte.setVisible(true);
+        txtDeporte.setVisible(true);
         txtDeporte.setText("");
-        
-        
+
+
     }//GEN-LAST:event_rbDeporteSiActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        try { 
+        try {
             String deporteFile = txtDeporte.getText();
-            
+
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
             String deporte = null;
 
-            if (rbDeporteNo.isSelected()==true){
-                    deporte="Ninguno";
-                      PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET cinta=?, deportes =? WHERE id=?");
+            if (rbDeporteNo.isSelected() == true) {
+                deporte = "Ninguno";
+                PreparedStatement modificarAlumno = c.prepareStatement(
+                        "UPDATE alumnos "
+                        + "SET cinta=?, "
+                        + "deportes =? "
+                        + "WHERE id=?");
 
+                modificarAlumno.setString(1, cbCinta.getSelectedItem().toString());
+                modificarAlumno.setString(2, deporte);
+                modificarAlumno.setInt(3, obtenerId());
 
-                    modificarAlumno.setString(1, cbCinta.getSelectedItem().toString());
-                    modificarAlumno.setString(2, deporte);
-                    modificarAlumno.setString(3, labelID.getText());
+                modificarAlumno.execute();
+                modificarAlumno.close();
+                AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
+                articulos.setSize(1070, 730);
+                articulos.setLocation(0, 0);
 
-                    modificarAlumno.execute();
-                    modificarAlumno.close(); 
-                    AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
-                            articulos.setSize(1070,730);
-                            articulos.setLocation(0, 0);
+                rightPanelAdmin.removeAll();
+                rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+                rightPanelAdmin.revalidate();
+                rightPanelAdmin.repaint();
 
-                            rightPanelAdmin.removeAll();
-                            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-                            rightPanelAdmin.revalidate();
-                            rightPanelAdmin.repaint();
-                    
-            } else{
-                    deporte=txtDeporte.getText();
+            } else {
+                deporte = txtDeporte.getText();
             }
 
-            if (rbDeporteSi.isSelected()){
-                if (deporteFile.isEmpty()){
+            if (rbDeporteSi.isSelected()) {
+                if (deporteFile.isEmpty()) {
                     Necesario.setVisible(true);
-                }else{
-                    
-                     if(deporte.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
-                          SiDeporte.setVisible(true);
-                           Verifique.setVisible(false);
-                   NoDeporte.setVisible(false);
-                     Necesario.setVisible(false);
-                      
-                         PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET cinta=?, deportes =? WHERE id=?");
+                } else {
 
+                    if (deporte.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+                        SiDeporte.setVisible(true);
+                        Verifique.setVisible(false);
+                        NoDeporte.setVisible(false);
+                        Necesario.setVisible(false);
 
-                    modificarAlumno.setString(1, cbCinta.getSelectedItem().toString());
-                    modificarAlumno.setString(2, deporte);
-                    modificarAlumno.setString(3, labelID.getText());
+                        PreparedStatement modificarAlumno = c.prepareStatement(
+                                "UPDATE alumnos "
+                                + "SET cinta=?,"
+                                + " deportes =?"
+                                + " WHERE id=?");
 
-                    modificarAlumno.execute();
-                    modificarAlumno.close();
+                        modificarAlumno.setString(1, cbCinta.getSelectedItem().toString());
+                        modificarAlumno.setString(2, deporte);
+                        modificarAlumno.setInt(3, obtenerId());
+
+                        modificarAlumno.execute();
+                        modificarAlumno.close();
 //                   
-                             AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
-                            articulos.setSize(1070,730);
-                            articulos.setLocation(0, 0);
+                        AgregarAlumnoP4 articulos = new AgregarAlumnoP4();
+                        articulos.setSize(1070, 730);
+                        articulos.setLocation(0, 0);
 
-                            rightPanelAdmin.removeAll();
-                            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-                            rightPanelAdmin.revalidate();
-                            rightPanelAdmin.repaint();
-                    
+                        rightPanelAdmin.removeAll();
+                        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+                        rightPanelAdmin.revalidate();
+                        rightPanelAdmin.repaint();
+
+                    } else {
+                        Verifique.setVisible(true);
+                        NoDeporte.setVisible(true);
+                        Necesario.setVisible(false);
+                        SiDeporte.setVisible(false);
+
                     }
-                    else{
-                   Verifique.setVisible(true);
-                   NoDeporte.setVisible(true);
-                     Necesario.setVisible(false);
-                      SiDeporte.setVisible(false);
-
-                }}
+                }
             }
-               
+
         } catch (SQLException ex) {
             System.out.println("error al guardar los datos: " + ex);
             JOptionPane.showMessageDialog(null, "Error al guardar los datos");
         } finally {
             con.desconectar();
         }
-        
+
 //        
 
-        
-        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
-        articulos.setSize(1070,730);
+        articulos.setSize(1070, 730);
         articulos.setLocation(0, 0);
 
         rightPanelAdmin.removeAll();
@@ -393,18 +396,18 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
 
     private void txtDeporteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDeporteFocusLost
 
-        if (txtDeporte.getText().isEmpty()){
+        if (txtDeporte.getText().isEmpty()) {
             Necesario.setVisible(true);
             SiDeporte.setVisible(false);
             Verifique.setVisible(false);
             NoDeporte.setVisible(false);
-        }else{
-            if(txtDeporte.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")){
+        } else {
+            if (txtDeporte.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
                 SiDeporte.setVisible(true);
                 Verifique.setVisible(false);
                 NoDeporte.setVisible(false);
                 Necesario.setVisible(false);
-            }else{
+            } else {
                 SiDeporte.setVisible(false);
                 Verifique.setVisible(true);
                 NoDeporte.setVisible(true);
@@ -413,7 +416,7 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
             }
         }
 
-       
+
     }//GEN-LAST:event_txtDeporteFocusLost
 
     private void txtDeporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDeporteActionPerformed
@@ -422,63 +425,33 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
 
     private void backFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_backFocusLost
 
-JOptionPane.showMessageDialog(null, "Los datos se perderán");
+        JOptionPane.showMessageDialog(null, "Los datos se perderán");
         // TODO add your handling code here:
     }//GEN-LAST:event_backFocusLost
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Error al guardar los datos2");        // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
 
-    
-    ConexionBD con = new ConexionBD();
-    
-     void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, float peso, float altura,
-            String tSangre, String direccion, String cinta,
-            String tutor, String parentesco, String tCelular,
-            String alergias, String enfermedades, String deporte,
-            int instructor) {
+    public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ConexionBD conn = new ConexionBD();
 
-        try {
-            Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,"
-                    + "peso,t_sangre,altura,direccion,cinta,nombre_tutor,"
-                    + "parentesco,tutor_celular,alrgias,enfermedades,deportes,"
-                    + "instructor_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM alumnos\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
 
-            agregarAlumno.setString(1, nombre);
-            agregarAlumno.setString(2, aPaterno);
-            agregarAlumno.setString(3, aMaterno);
-            agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setFloat(5, peso);
-            agregarAlumno.setString(6, tSangre);
-            agregarAlumno.setFloat(7, altura);
-            agregarAlumno.setString(8, direccion);
-            agregarAlumno.setString(9, cinta);
-            agregarAlumno.setString(10, tutor);
-            agregarAlumno.setString(11, parentesco);
-            agregarAlumno.setString(12, tCelular);
-            agregarAlumno.setString(13, alergias);
-            agregarAlumno.setString(14, enfermedades);
-            agregarAlumno.setString(15, deporte);
-            agregarAlumno.setInt(16, instructor);
+        rs = ps.executeQuery();
 
-            agregarAlumno.execute();
-            agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
+        while (rs.next()) {
+            id = rs.getInt("id");
         }
-    }
 
-    void vaciar() {
-     
-        
-
+        return id;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

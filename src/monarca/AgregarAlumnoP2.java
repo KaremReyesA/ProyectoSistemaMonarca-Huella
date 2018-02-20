@@ -3,17 +3,13 @@ package monarca;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarAlumno.labelID;
 
 public class AgregarAlumnoP2 extends javax.swing.JPanel {
  public static int inicial = 0;
@@ -326,13 +322,18 @@ try {
             ResultSet rs;
             PreparedStatement ps;
           
-            PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET direccion=?, nombre_tutor =?, parentesco =?, tutor_celular=? WHERE id=?");
+            PreparedStatement modificarAlumno = c.prepareStatement(
+                    "UPDATE alumnos SET direccion=?"
+                    + ", nombre_tutor =?"
+                    + ", parentesco =?, "
+                    + "tutor_celular=? "
+                    + "WHERE id=?");
             
             modificarAlumno.setString(1, txtaDireccion.getText());
             modificarAlumno.setString(2, txtTutor1.getText());
             modificarAlumno.setString(3, cbParentesco.getSelectedItem().toString());
             modificarAlumno.setString(4, txtTelefono1.getText());
-            modificarAlumno.setString(5, labelID.getText());
+            modificarAlumno.setInt(5,obtenerId());
            
             modificarAlumno.execute();
             modificarAlumno.close();
@@ -363,16 +364,20 @@ try {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
-            AgregarAlumno articulos = new AgregarAlumno();
-                articulos.setSize(1070,730);
-                articulos.setLocation(0, 0);
-
-                rightPanelAdmin.removeAll();
-                rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-                rightPanelAdmin.revalidate();
-                rightPanelAdmin.repaint();
-        // TODO add your handling code here:
+     try {
+         //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
+         AgregarAlumno articulos = new AgregarAlumno();
+         articulos.setSize(1070,730);
+         articulos.setLocation(0, 0);
+         
+         rightPanelAdmin.removeAll();
+         rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+         rightPanelAdmin.revalidate();
+         rightPanelAdmin.repaint();
+         // TODO add your handling code here:
+     } catch (SQLException ex) {
+         Logger.getLogger(AgregarAlumnoP2.class.getName()).log(Level.SEVERE, null, ex);
+     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtaDireccionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtaDireccionFocusLost
@@ -445,7 +450,26 @@ try {
         }
     }
     
-    
+    public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ConexionBD conn = new ConexionBD();
+
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM alumnos\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
     
   
 
