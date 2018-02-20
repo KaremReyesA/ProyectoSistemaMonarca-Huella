@@ -18,16 +18,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author josue
  */
-public class AgregarArticuloTicket extends javax.swing.JFrame {
+public class AgregarArticuloTicket_1 extends javax.swing.JFrame {
 
     ConexionBD con = new ConexionBD();
 
     /**
      * Creates new form AgregarArticuloTicket
      */
-    public AgregarArticuloTicket() {
+    public AgregarArticuloTicket_1() {
         initComponents();
-        ModificarTicketDetalles m=new ModificarTicketDetalles();
+        ModificarTicketDetalles_1 m=new ModificarTicketDetalles_1();
         lblTotalRest.setText(""+m.totalRest);
     }
 
@@ -59,6 +59,7 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
         lblTotalRest = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(290, 0));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -161,7 +162,7 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
         int cantidad;
         float precio, total,nvoTotal;
         String articulo, marca;
-        ModificarTicketDetalles m=new ModificarTicketDetalles();
+        ModificarTicketDetalles_1 m=new ModificarTicketDetalles_1();
         
         cantidad = Integer.parseInt(spnCantidad.getValue().toString());
         articulo = txtArticulo.getText();
@@ -220,21 +221,23 @@ public class AgregarArticuloTicket extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarArticuloTicket().setVisible(true);
+                new AgregarArticuloTicket_1().setVisible(true);
             }
         });
     }

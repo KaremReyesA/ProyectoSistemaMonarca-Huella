@@ -15,11 +15,11 @@ import javax.swing.JOptionPane;
  *
  * @author josue
  */
-public class AgregarTicketAgregarArticuloTicket extends javax.swing.JFrame {
+public class AgregarTicketAgregarArticuloTicket_1 extends javax.swing.JFrame {
 
     ConexionBD con = new ConexionBD();
     public static int folio;
-    public AgregarTicketAgregarArticuloTicket() {
+    public AgregarTicketAgregarArticuloTicket_1() {
         initComponents();
         System.out.println(folio);
     }
@@ -50,6 +50,8 @@ public class AgregarTicketAgregarArticuloTicket extends javax.swing.JFrame {
         spnPrecio = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(290, 0));
+        setUndecorated(true);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -204,14 +206,18 @@ public class AgregarTicketAgregarArticuloTicket extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTicketAgregarArticuloTicket_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -220,7 +226,7 @@ public class AgregarTicketAgregarArticuloTicket extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarTicketAgregarArticuloTicket().setVisible(true);
+                new AgregarTicketAgregarArticuloTicket_1().setVisible(true);
             }
         });
     }

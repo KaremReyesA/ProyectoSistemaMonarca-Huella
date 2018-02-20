@@ -20,10 +20,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -31,11 +29,10 @@ import javax.swing.table.TableRowSorter;
  *
  * @author josue
  */
-public class AgregarTicketAlumnos extends javax.swing.JFrame {
+public class VerAdeudos_1 extends javax.swing.JFrame {
 
     private TableRowSorter trsFiltro;
     float abono;
-    int folio;
 
     public void setAbono(float abono) {
         this.abono = abono;
@@ -46,7 +43,7 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
 
-    public AgregarTicketAlumnos() {
+    public VerAdeudos_1() {
         initComponents();
         try {
             llenarTabla(jtArtPend);
@@ -54,7 +51,6 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error:" + e.getMessage());
             System.out.println("error: " + e.getMessage());
         }
-        folio = obtenerID();
 
     }
 
@@ -62,18 +58,24 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
 
         Connection c = conn.conectar();
 
-        ps = c.prepareStatement("SELECT id, concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno) "
-                + "FROM alumnos "
-                + "WHERE  alumnos.activo=1");
+        ps = c.prepareStatement("SELECT tickets.id, concat_ws(' ',alumnos.nombre, alumnos.a_paterno, alumnos.a_materno),tickets.fecha, tickets.monto_total, tickets.monto_pendiente "
+                + "FROM alumnos INNER JOIN tickets ON alumnos.id = tickets.alumno_id "
+                + "WHERE  tickets.activo=1 and alumnos.activo=1");
         rs = ps.executeQuery();
         rsm = rs.getMetaData();
         ArrayList<Object[]> datos = new ArrayList<>();
         while (rs.next()) {
             Object[] filas = new Object[rsm.getColumnCount()];
             for (int i = 0; i < filas.length; i++) {
-                
+                if (i == 2) {
+                    SimpleDateFormat formateador2 = new SimpleDateFormat("dd'/'MMM'/'yyyy", new Locale("ES", "MX"));
+                    Date fecha = java.sql.Date.valueOf(rs.getObject(i + 1).toString());
+                    String fechaDate2 = formateador2.format(fecha);
+
+                    filas[i] = fechaDate2;
+                } else {
                     filas[i] = rs.getObject(i + 1);
-                
+                }
             }
             datos.add(filas);
         }
@@ -104,16 +106,21 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
         TitlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
-        btnAgregarTicket = new javax.swing.JButton();
+        btnLiquidar = new javax.swing.JButton();
+        btnAbono = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        jButton4 = new javax.swing.JButton();
+        btnMod = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtArtPend = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(290, 0));
+        setUndecorated(true);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
                 formWindowGainedFocus(evt);
@@ -136,39 +143,47 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Alumnos");
+        jLabel1.setText("Artículos pendientes");
 
         javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
         TitlePanel.setLayout(TitlePanelLayout);
         TitlePanelLayout.setHorizontalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
-                .addContainerGap(474, Short.MAX_VALUE)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(449, 449, 449)
                 .addComponent(jLabel1)
-                .addGap(460, 460, 460))
+                .addContainerGap(301, Short.MAX_VALUE))
         );
         TitlePanelLayout.setVerticalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TitlePanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         back.add(TitlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1070, 80));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
 
-        btnAgregarTicket.setText("Generar Ticket");
-        btnAgregarTicket.addActionListener(new java.awt.event.ActionListener() {
+        btnLiquidar.setText("Liquidar adeudo");
+        btnLiquidar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarTicketActionPerformed(evt);
+                btnLiquidarActionPerformed(evt);
             }
         });
-        back.add(btnAgregarTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 640, 170, 40));
+        back.add(btnLiquidar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 640, 170, 40));
+
+        btnAbono.setText("Abonar pago");
+        btnAbono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbonoActionPerformed(evt);
+            }
+        });
+        back.add(btnAbono, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 640, 170, 40));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Seleccione un alumno y genere el ticket");
-        back.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, -1, -1));
+        jLabel2.setText("Seleccione primero un registro de la tabla y después elija una opción de los botones");
+        back.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Buscar por nombre o apellido del alumno");
@@ -190,6 +205,23 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
         back.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 150, 260, 40));
         back.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 190, 330, 20));
 
+        jButton4.setText("Ver Ticket");
+        jButton4.setActionCommand("Ver  Datos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        back.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 640, 170, 40));
+
+        btnMod.setText("Modificar adeudo");
+        btnMod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModActionPerformed(evt);
+            }
+        });
+        back.add(btnMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 640, 170, 40));
+
         jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtArtPend.setAutoCreateRowSorter(true);
@@ -200,14 +232,14 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre completo"
+                "Folio", "Nombre completo", "Fecha", "Monto total", "Pendiente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -233,7 +265,13 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
             jtArtPend.getColumnModel().getColumn(0).setResizable(false);
             jtArtPend.getColumnModel().getColumn(0).setPreferredWidth(54);
             jtArtPend.getColumnModel().getColumn(1).setResizable(false);
-            jtArtPend.getColumnModel().getColumn(1).setPreferredWidth(554);
+            jtArtPend.getColumnModel().getColumn(1).setPreferredWidth(252);
+            jtArtPend.getColumnModel().getColumn(2).setResizable(false);
+            jtArtPend.getColumnModel().getColumn(2).setPreferredWidth(99);
+            jtArtPend.getColumnModel().getColumn(3).setResizable(false);
+            jtArtPend.getColumnModel().getColumn(3).setPreferredWidth(99);
+            jtArtPend.getColumnModel().getColumn(4).setResizable(false);
+            jtArtPend.getColumnModel().getColumn(4).setPreferredWidth(99);
         }
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, 610, 300));
@@ -276,82 +314,92 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel1formFocusGained
-        folio = obtenerID();
+
     }//GEN-LAST:event_jPanel1formFocusGained
 
-    private void btnAgregarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTicketActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+  
+        if (jtArtPend.getSelectedRowCount() == 1) {
+            int fila = jtArtPend.getSelectedRow();
+            String folio = jtArtPend.getValueAt(fila, 0).toString();
+            String nombre = jtArtPend.getValueAt(fila, 1).toString();
+            String monto_total = jtArtPend.getValueAt(fila, 3).toString();
+            String monto_deuda = jtArtPend.getValueAt(fila, 4).toString();
+            VerTicketDetalles_1 ver = new VerTicketDetalles_1();
+            ver.lblId.setText(folio);
+            ver.lblNombre.setText(nombre);
+            ver.lblTotalRestante.setText(monto_deuda);
+            ver.lblTotal.setText(monto_total);
+            ver.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnLiquidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidarActionPerformed
         if (jtArtPend.getSelectedRowCount() == 1) {
             Connection c = conn.conectar();
             int fila = jtArtPend.getSelectedRow();
-            int id_alumno=(int)jtArtPend.getValueAt(fila, 0);
+            String folio = jtArtPend.getValueAt(fila, 0).toString();
             String nombre = jtArtPend.getValueAt(fila, 1).toString();
-            crearTicket(id_alumno);
-            AgregarTicketDetalles a = new AgregarTicketDetalles();
-            System.out.println(""+folio);
-            System.out.println(nombre);
-            AgregarTicketDetalles.folio = folio;
-            AgregarTicketDetalles.total = 0;
-            AgregarTicketDetalles.nombre = nombre;
-           
-            a.lblTotal.setText("0");
+            String monto_total = jtArtPend.getValueAt(fila, 3).toString();
+            String monto_deuda = jtArtPend.getValueAt(fila, 4).toString();
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a saldado la deuda de este recibo?", "Liquidar Adeudo", dialogButton);
+            if (dialogResult == 0) {
+                System.out.println("Yes option");
+                try {
+                    ps = c.prepareStatement("UPDATE tickets SET activo= 0, monto_pendiente=0 WHERE id=?");
+                    ps.setInt(1, Integer.parseInt(folio));
+                    ps.execute();
+                    limpiarTabla(jtArtPend);
+                    llenarTabla(jtArtPend);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex);
+                }
+                JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);
+            } else {
+                System.out.println("No Option");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
+        }
 
+
+    }//GEN-LAST:event_btnLiquidarActionPerformed
+
+    private void btnAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonoActionPerformed
+        if (jtArtPend.getSelectedRowCount() == 1) {
+            Connection c = conn.conectar();
+            int fila = jtArtPend.getSelectedRow();
+            String folio = jtArtPend.getValueAt(fila, 0).toString();
+            String nombre = jtArtPend.getValueAt(fila, 1).toString();
+            String fecha = jtArtPend.getValueAt(fila, 2).toString();
+            String monto_total = jtArtPend.getValueAt(fila, 3).toString();
+            String monto_deuda = jtArtPend.getValueAt(fila, 4).toString();
+            Abonar_1 a = new Abonar_1();
+            a.lblAlumno.setText(nombre);
+            a.lblFolio.setText(folio);
+            a.lblMonto.setText(monto_deuda);
             a.setVisible(true);
 
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
-    }//GEN-LAST:event_btnAgregarTicketActionPerformed
+    }//GEN-LAST:event_btnAbonoActionPerformed
 
-    int obtenerID() {
-        int id = 0;
-        Connection c = conn.conectar();
-        try {
-            PreparedStatement obtenerId = c.prepareStatement(
-                    "SELECT MAX(id) AS id FROM tickets");
-            rs = obtenerId.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("" + id);
-        return id + 1;
-    }
-
-    void crearTicket(int id_ticket) {
-        try {
-            SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
-            java.util.Date fecha2 = new Date();
-            String fechaDate2 = formateador2.format(fecha2);
-            System.out.println(fechaDate2);
-            Connection c = conn.conectar();
-            PreparedStatement agregarTicket = c.prepareStatement(
-                    "INSERT INTO tickets(alumno_id,fecha,monto_total,monto_pendiente)"
-                    + " VALUES (?,?,?,?) ");
-
-            agregarTicket.setInt(1, id_ticket);
-            agregarTicket.setString(2, fechaDate2);
-            agregarTicket.setFloat(3, 0);
-            agregarTicket.setFloat(4, 0);
-
-            agregarTicket.execute();
-            agregarTicket.close();
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al crear el ticket intentelo de nuevo.");
-        } finally {
-            conn.desconectar();
-        }
-
-    }
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         limpiarTabla(jtArtPend);
         try {
             llenarTabla(jtArtPend);
         } catch (Exception ex) {
-            Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowGainedFocus
 
@@ -365,14 +413,36 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
                 String cadena = (txtBusqueda.getText());
                 txtBusqueda.setText(cadena);
                 repaint();
-                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 1));
+               trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 1));
             }
         });
-
+        
         trsFiltro = new TableRowSorter(jtArtPend.getModel());
         jtArtPend.setRowSorter(trsFiltro);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void btnModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModActionPerformed
+
+        if (jtArtPend.getSelectedRowCount() == 1) {
+            int fila = jtArtPend.getSelectedRow();
+            String folio = jtArtPend.getValueAt(fila, 0).toString();
+            String nombre = jtArtPend.getValueAt(fila, 1).toString();
+            String monto_total = jtArtPend.getValueAt(fila, 3).toString();
+            String monto_deuda = jtArtPend.getValueAt(fila, 4).toString();
+            ModificarTicketDetalles_1 ver = new ModificarTicketDetalles_1();
+            ver.lblId.setText(folio);
+            ver.lblNombre.setText(nombre);
+            ver.lblTotalRestante.setText(monto_deuda);
+            ModificarTicketDetalles_1.totalRest=Float.parseFloat(monto_deuda);
+            ModificarTicketDetalles_1.total=Float.parseFloat(monto_total);
+            ModificarTicketDetalles_1.folio=Integer.parseInt(folio);
+            ver.lblTotal.setText(monto_total);
+            ver.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModActionPerformed
 
     /**
      * @param args the command line arguments
@@ -391,13 +461,13 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerAdeudos_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerAdeudos_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerAdeudos_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarTicketAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerAdeudos_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -407,7 +477,7 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarTicketAlumnos().setVisible(true);
+                new VerAdeudos_1().setVisible(true);
             }
         });
     }
@@ -415,7 +485,10 @@ public class AgregarTicketAlumnos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel back;
-    private javax.swing.JButton btnAgregarTicket;
+    private javax.swing.JButton btnAbono;
+    private javax.swing.JButton btnLiquidar;
+    private javax.swing.JButton btnMod;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

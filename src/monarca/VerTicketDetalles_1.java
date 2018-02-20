@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class VerTicketDetalles extends javax.swing.JFrame {
+public class VerTicketDetalles_1 extends javax.swing.JFrame {
 
     DefaultTableModel tabla;
     int folio;
@@ -28,7 +28,7 @@ public class VerTicketDetalles extends javax.swing.JFrame {
     ResultSetMetaData rsm;
     DefaultTableModel dtm;
 
-    public VerTicketDetalles() {
+    public VerTicketDetalles_1() {
         initComponents();
         lblInstructorId.setVisible(false);
 
@@ -62,6 +62,8 @@ public class VerTicketDetalles extends javax.swing.JFrame {
         lblTotalRestante = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(290, 0));
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -250,7 +252,7 @@ public class VerTicketDetalles extends javax.swing.JFrame {
 
     private void btnLiquidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidarActionPerformed
         Connection c=conn.conectar();
-        VerAdeudosF A=new VerAdeudosF();
+        VerAdeudos_1 A=new VerAdeudos_1();
         String nombre = lblNombre.getText();
         int ticket_id=Integer.parseInt(lblId.getText());
         int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -265,10 +267,10 @@ public class VerTicketDetalles extends javax.swing.JFrame {
                 A.limpiarTabla(A.jtArtPend);
                 A.llenarTabla(A.jtArtPend);
             } catch (SQLException ex) {
-                Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             } catch (Exception ex) {
-                Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             }
             JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);
@@ -348,14 +350,18 @@ public class VerTicketDetalles extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerTicketDetalles_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerTicketDetalles_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerTicketDetalles_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VerTicketDetalles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerTicketDetalles_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -364,13 +370,13 @@ public class VerTicketDetalles extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VerTicketDetalles().setVisible(true);
+                new VerTicketDetalles_1().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableVerArticulosPendientes;
+    public javax.swing.JTable TableVerArticulosPendientes;
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel back;
     private javax.swing.JButton btnAbonar;
@@ -383,7 +389,7 @@ public class VerTicketDetalles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblInstructorId;
+    public javax.swing.JLabel lblInstructorId;
     public javax.swing.JLabel lblNombre;
     public javax.swing.JLabel lblTotal;
     public javax.swing.JLabel lblTotalRestante;

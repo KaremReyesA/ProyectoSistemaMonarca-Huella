@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author josue
  */
-public class Abonar extends javax.swing.JFrame {
+public class Abonar_1 extends javax.swing.JFrame {
 
     ConexionBD conn = new ConexionBD();
     ResultSet rs;
@@ -31,7 +31,7 @@ public class Abonar extends javax.swing.JFrame {
     /**
      * Creates new form Abonar
      */
-    public Abonar() {
+    public Abonar_1() {
         initComponents();
 
     }
@@ -57,6 +57,8 @@ public class Abonar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(290, 0));
+        setUndecorated(true);
 
         spnAbono.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 1.0f));
         spnAbono.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -162,7 +164,7 @@ public class Abonar extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         Connection c = conn.conectar();
-        VerAdeudosF ver = new VerAdeudosF();
+        VerAdeudos_1 ver = new VerAdeudos_1();
         int folio = Integer.parseInt(lblFolio.getText());
         String nombre = lblAlumno.getText();
         float abonodb, abono = (float) spnAbono.getValue();
@@ -180,10 +182,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                 JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre + "."
@@ -198,10 +200,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                 JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);
@@ -215,10 +217,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudos_1.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                     this.dispose();
@@ -255,21 +257,23 @@ public class Abonar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Abonar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Abonar_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Abonar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Abonar_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Abonar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Abonar_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Abonar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Abonar_1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Abonar().setVisible(true);
+                new Abonar_1().setVisible(true);
             }
         });
     }

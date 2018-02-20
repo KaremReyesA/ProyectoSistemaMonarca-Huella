@@ -478,25 +478,13 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMensualidades1ActionPerformed
 
     private void btnAdeudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdeudosActionPerformed
-         VerAdeudosF adeudos = new VerAdeudosF();
-        adeudos.setSize(1070,730);
-        adeudos.setLocation(0, 0);
-
-        rightPanelAdmin.removeAll();
-        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
-        rightPanelAdmin.revalidate();
-        rightPanelAdmin.repaint();
+         VerAdeudos_1 adeudos = new VerAdeudos_1();
+         adeudos.setVisible(true);
     }//GEN-LAST:event_btnAdeudosActionPerformed
 
     private void btnAgregarAdeudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAdeudosActionPerformed
-//        AgregarTicketD adeudos = new AgregarTicketD();
-//        adeudos.setSize(1070,730);
-//        adeudos.setLocation(0, 0);
-//
-//        rightPanelAdmin.removeAll();
-//        rightPanelAdmin.add(adeudos, BorderLayout.CENTER);
-//        rightPanelAdmin.revalidate();
-//        rightPanelAdmin.repaint();
+       AgregarTicketAlumnos_1 adeudos = new AgregarTicketAlumnos_1();
+         adeudos.setVisible(true);
     }//GEN-LAST:event_btnAgregarAdeudosActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed

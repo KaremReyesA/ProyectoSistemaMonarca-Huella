@@ -374,7 +374,7 @@ public class mainAmbos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarAlumActionPerformed
 
     private void btnAgregarArticuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarArticuActionPerformed
-        AgregarTicketDetalles adeudos = new AgregarTicketDetalles();
+        AgregarTicketDetalles_1 adeudos = new AgregarTicketDetalles_1();
         adeudos.setSize(1070,730);
         adeudos.setLocation(0, 0);
 
