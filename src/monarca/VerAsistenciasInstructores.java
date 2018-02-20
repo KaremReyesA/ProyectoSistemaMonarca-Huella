@@ -301,14 +301,17 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         if (dtFechaInicio.getDate() != null && dtFechaFinal.getDate() != null) {
             java.util.Date fecha1 = dtFechaInicio.getDate();
             java.util.Date fecha2 = dtFechaFinal.getDate();
-
-            String fecha1F = formateador2.format(fecha1);
-            String fecha2F = formateador2.format(fecha2);
-            limpiarTabla(jTable1);
-            try {
-                llenarTabla(jTable1, fecha1F, fecha2F);
-            } catch (Exception ex) {
-                Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+            if (fecha2.before(fecha1)) {
+                JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor que la fecha final");
+            } else {
+                String fecha1F = formateador2.format(fecha1);
+                String fecha2F = formateador2.format(fecha2);
+                limpiarTabla(jTable1);
+                try {
+                    llenarTabla(jTable1, fecha1F, fecha2F);
+                } catch (Exception ex) {
+                    Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor ingrese las fechas que quiere revisar.");

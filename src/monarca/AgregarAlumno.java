@@ -523,7 +523,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
             String fNacimiento) {
 // String usuario_id
         try {
-             JOptionPane.showMessageDialog(null, "You are here");
+//             JOptionPane.showMessageDialog(null, "You are here");
             //int usuar=Integer.valueOf(usuario_id);
             Connection c = con.conectar();
             PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento) "
@@ -537,7 +537,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
            
             agregarAlumno.execute();
             agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+//            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
             //System.out.println("error al guardar los datos: " + ex);
             //JOptionPane.showMessageDialog(null, "Error al guardar los datos");

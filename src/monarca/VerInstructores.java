@@ -10,9 +10,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 import static monarca.mainAdmin.rightPanelAdmin;
 import static monarca.VerDatosInstructor.idNowInstructores;
 import static monarca.login.usuario_rol;
@@ -53,21 +52,27 @@ public static String idNowModifyInst;
         Connection c = conn.conectar();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
+
             ps = c.prepareStatement("SELECT id,concat_ws(' ', nombre, apellido_paterno, apellido_materno), celular, rol  from usuarios where activo=1");
+
+            ps = c.prepareStatement(
+                    "SELECT concat_ws(' ', nombre, apellido_paterno, apellido_materno), "
+                    + "celular , "
+                    + "rol  "
+                    + "from usuarios where activo=1");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
             ArrayList<Object[]> datos = new ArrayList<>();
             while (rs.next()) {
                 Object[] filas = new Object[rsm.getColumnCount()];
                 for (int i = 0; i < filas.length; i++) {
-
                  filas[i] = rs.getObject(i + 1);
                 }
                 datos.add(filas);
             }
             dtm = (DefaultTableModel) tabla.getModel();
-            for (int i = 0; i < datos.size(); i++) {
-                dtm.addRow(datos.get(i));
+            for (int i = 0; i < datos.size()-1; i++) {
+                dtm.addRow(datos.get(i+1));
             }
          
       

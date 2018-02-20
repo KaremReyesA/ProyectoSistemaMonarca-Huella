@@ -301,20 +301,23 @@ public final class VerAsistenciasAlumnos extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
 
-        if (dtFechaInicio.getDate() != null && dtFechaFinal.getDate()!= null ) {
+        if (dtFechaInicio.getDate() != null && dtFechaFinal.getDate() != null) {
             java.util.Date fecha1 = dtFechaInicio.getDate();
             java.util.Date fecha2 = dtFechaFinal.getDate();
-
-            String fecha1F = formateador2.format(fecha1);
-            String fecha2F = formateador2.format(fecha2);
-            limpiarTabla(jTable1);
-            try {
-                llenarTabla(jTable1, fecha1F, fecha2F);
-            } catch (Exception ex) {
-                Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+            if (fecha2.before(fecha1)) {
+                JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor que la fecha final");
+            } else {
+                String fecha1F = formateador2.format(fecha1);
+                String fecha2F = formateador2.format(fecha2);
+                limpiarTabla(jTable1);
+                try {
+                    llenarTabla(jTable1, fecha1F, fecha2F);
+                } catch (Exception ex) {
+                    Logger.getLogger(VerAsistenciasAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }else{
-        JOptionPane.showMessageDialog(null, "Por favor ingrese las fechas que quiere revisar.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese las fechas que quiere revisar.");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
