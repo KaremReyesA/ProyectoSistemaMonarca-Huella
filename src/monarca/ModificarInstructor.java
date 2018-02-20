@@ -13,11 +13,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import static monarca.mainAdmin.rightPanelAdmin;
+import static monarca.VerInstructores.idNowModifyInst;
 
-public class AgregarAlumno extends javax.swing.JPanel {
+public class ModificarInstructor extends javax.swing.JPanel {
  public static int inicial = 0;
 //If any key is typed, set message with error
-    public AgregarAlumno() throws SQLException { 
+    public ModificarInstructor() { 
         
         initComponents();
 
@@ -39,58 +40,38 @@ public class AgregarAlumno extends javax.swing.JPanel {
         
         FechaRequerida.setVisible(false);
         SiFecha.setVisible(false);
+        labelIDI.setVisible(false);
         
-        
-        
-        String stringDate="1938/12/30";
-        String stringDate2="2012/12/30";
-       java.util.Date date1=  new java.util.Date(stringDate);
-       java.util.Date date2=  new java.util.Date(stringDate2);
-      
-        
-        dtNacimiento.setSelectableDateRange(date1, date2);
-       
         
     //////////////////////////////////////////////////////
     
-//         
-//        try {
-//            
-//            Connection c = con.conectar();
-//            ResultSet rs;
-//            PreparedStatement ps;
-//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-//            
-//            rs= ps.executeQuery();
-//            
-//            if(rs.next()){
-//                if( rs.getString("enfermedades")==null || ((rs.getString("enfermedades")).equals("")))
-//                      {
-//                    inicial=1;
-//                    txtNombre.setText(rs.getString("nombre"));
-//                    txtAPat.setText(rs.getString("a_paterno"));
-//                    txtAMat.setText(rs.getString("a_materno"));
-//                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
-//                    labelID.setText(rs.getString("id"));
-//                      
-//                    ValidarNombre(txtNombre.getText());
-//                    ValidarAPaterno(txtAPat.getText());
-//                    ValidarAMaterno(txtAMat.getText());
-//                     
-//                    if(dtNacimiento.getDate()!=null){
-//                    SiFecha.setVisible(true);
-//                    }
-//                   }
-//            }}
-//            
-//            // TODO add your handling code here:
-//         catch (SQLException ex) {
-//            Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        catch (NullPointerException ex) {
-//            
-//            JOptionPane.showInputDialog("no");
-//        }
+         
+        try {
+            
+            Connection c = con.conectar();
+            ResultSet rs;
+            PreparedStatement ps;
+             int numcontrol= Integer.parseInt(idNowModifyInst);
+             ps = c.prepareStatement("SELECT * FROM `usuarios` WHERE id=?");
+            ps.setInt(1,numcontrol);
+            rs= ps.executeQuery();
+            
+            if(rs.next()){
+                    txtNombre.setText(rs.getString("nombre"));
+                    txtAPat.setText(rs.getString("apellido_paterno"));
+                    txtAMat.setText(rs.getString("apellido_materno"));
+                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
+                    
+            }
+           
+        
+        
+        }
+            
+            // TODO add your handling code here:
+         catch (SQLException ex) {
+            Logger.getLogger(ModificarInstructor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
@@ -109,16 +90,12 @@ public class AgregarAlumno extends javax.swing.JPanel {
         txtAPat = new javax.swing.JTextField();
         txtAMat = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
+        dtNacimiento = new com.toedter.calendar.JDateChooser();
         jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         IcoCorreNombre = new javax.swing.JLabel();
@@ -133,9 +110,12 @@ public class AgregarAlumno extends javax.swing.JPanel {
         NombreRequerido = new javax.swing.JLabel();
         ApellidoPRequerido = new javax.swing.JLabel();
         FechaRequerida = new javax.swing.JLabel();
-        labelID = new javax.swing.JLabel();
+        labelIDInstructor = new javax.swing.JLabel();
         SiFecha = new javax.swing.JLabel();
-        dtNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        labelIDI = new javax.swing.JLabel();
 
         back.setBackground(new java.awt.Color(255, 255, 255));
         back.setPreferredSize(new java.awt.Dimension(970, 720));
@@ -145,14 +125,14 @@ public class AgregarAlumno extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Inscripción de alumno");
+        jLabel1.setText("Modificación de Instructor");
 
         javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
         TitlePanel.setLayout(TitlePanelLayout);
         TitlePanelLayout.setHorizontalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
-                .addContainerGap(420, Short.MAX_VALUE)
+                .addContainerGap(377, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(418, 418, 418))
         );
@@ -202,11 +182,6 @@ public class AgregarAlumno extends javax.swing.JPanel {
         jLabel6.setText("Apellido materno:");
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 460, -1, 20));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Huella Digital");
-        back.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 130, -1, -1));
-
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Fecha de nacimiento:");
         back.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 550, -1, -1));
@@ -234,26 +209,26 @@ public class AgregarAlumno extends javax.swing.JPanel {
         jLabel14.setText("Nombre:");
         back.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, -1, -1));
         back.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 10));
+
+        dtNacimiento.setToolTipText("");
+        dtNacimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dtNacimientoMouseClicked(evt);
+            }
+        });
+        dtNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtNacimientoKeyTyped(evt);
+            }
+        });
+        back.add(dtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 570, 250, 30));
         back.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 980, 20));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Información personal");
-        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText("Información de contacto");
-        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel10.setText("Información deportiva");
-        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 130, -1, -1));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel11.setText("Información médica");
-        back.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 130, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel13.setText("Información personal");
@@ -269,7 +244,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
         back.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 640, 290, 40));
 
         IcoCorreNombre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
-        back.add(IcoCorreNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 310, 50, 40));
+        back.add(IcoCorreNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 310, 50, 40));
 
         iconIncoNombre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
         back.add(iconIncoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 310, 50, 40));
@@ -315,31 +290,27 @@ public class AgregarAlumno extends javax.swing.JPanel {
         FechaRequerida.setForeground(java.awt.Color.red);
         FechaRequerida.setText("Este campo es requerido");
         back.add(FechaRequerida, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 560, 240, 110));
-
-        labelID.setForeground(new java.awt.Color(255, 255, 255));
-        back.add(labelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 200, 50, 20));
+        back.add(labelIDInstructor, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 220, 110, 40));
 
         SiFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Ok_30px.png"))); // NOI18N
         back.add(SiFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 570, 50, 40));
 
-        dtNacimiento.setToolTipText("");
-        dtNacimiento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                dtNacimientoMouseClicked(evt);
-            }
-        });
-        dtNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                dtNacimientoKeyTyped(evt);
-            }
-        });
-        back.add(dtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 570, 250, 30));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Información personal");
+        back.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel9.setText("Información de contacto");
+        back.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel10.setText("Información de la cuenta");
+        back.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 130, -1, -1));
+
+        labelIDI.setForeground(new java.awt.Color(255, 255, 255));
+        back.add(labelIDI, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 220, 50, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -380,19 +351,19 @@ public class AgregarAlumno extends javax.swing.JPanel {
             int anio = dtNacimiento.getCalendar().get(Calendar.YEAR);
             int mes = dtNacimiento.getCalendar().get(Calendar.MONTH) + 1;
             int dia = dtNacimiento.getCalendar().get(Calendar.DAY_OF_MONTH);
-            String fNacimiento = String.valueOf(anio) + "-" + String.valueOf(mes) + "-" + String.valueOf(dia);
+            String fNacimiento = String.valueOf(anio) + "/" + String.valueOf(mes) + "/" + String.valueOf(dia);
             
             ValidarNombre(nombre);
             ValidarAPaterno(aPaterno);
             ValidarAMaterno(aMaterno);
             ///////    
-            if(inicial == 0){
+            if(inicial == 0 && (idNowModifyInst==null|| idNowModifyInst.equals(0))){
                 //PrimeraVez sin datos
                
                 if(!nombre.isEmpty() && !aPaterno.isEmpty() && IcoCorreNombre.isVisible()&& IcoCorreApellidoP.isVisible()){
                     agregarAlumnoBD(nombre, aPaterno, aMaterno, fNacimiento);
                     
-                    AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+                    ModificarInstructorP2 articulos = new ModificarInstructorP2();
                     articulos.setSize(1070,730);
                     articulos.setLocation(0, 0);
 
@@ -413,26 +384,25 @@ public class AgregarAlumno extends javax.swing.JPanel {
                         ResultSet rs;
                         PreparedStatement ps;
 
-                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET nombre=?, a_paterno =?, a_materno =?, fecha_nacimiento=? WHERE id=?");
+                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE usuarios SET nombre=?, apellido_paterno =?, apellido_materno =?, fecha_nacimiento=? WHERE id=?");
 
                         modificarAlumno.setString(1, txtNombre.getText());
                         modificarAlumno.setString(2, txtAPat.getText());
                         modificarAlumno.setString(3, txtAMat.getText());
                         modificarAlumno.setString(4, fNacimiento);
-                     
-                        modificarAlumno.setString(5, labelID.getText());
+                        modificarAlumno.setString(5, idNowModifyInst);
 
                         modificarAlumno.execute();
                         modificarAlumno.close();
-                       // System.err.println("MODIFICADO");
+                        System.err.println("MODIFICADO");
 
                     } catch (SQLException ex) {
-                       // System.out.println("error al guardar los datos: " + ex);
-                      //  JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+                        System.out.println("error al guardar los datos: " + ex);
+                        JOptionPane.showMessageDialog(null, "Error al guardar los datos");
                     } finally {
                         con.desconectar();
                     }
-                    AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
+                   ModificarInstructorP2 articulos = new ModificarInstructorP2();
                     articulos.setSize(1070,730);
                     articulos.setLocation(0, 0);
 
@@ -442,12 +412,11 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     rightPanelAdmin.repaint();
                 }
             }
-    }catch(Exception a){
-              FechaRequerida.setVisible(true);  
-//               JOptionPane.showConfirmDialog(dtNacimiento, a);
-//               System.out.println(a);
+        }catch(Exception a){
+                FechaRequerida.setVisible(true);  
         }
       
+       ///////////////////////////////////////////////////////////////////////////////
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -477,10 +446,40 @@ public class AgregarAlumno extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAMatFocusLost
 
+    private void dtNacimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtNacimientoMouseClicked
+        FechaRequerida.setVisible(false);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoMouseClicked
+
     private void txtNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNombreMouseClicked
         NombreRequerido.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreMouseClicked
+
+    private void dtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyTyped
+        //If any key is typed, set message with error
+         JOptionPane.showMessageDialog(null, "Ño2");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyTyped
+
+    private void dtNacimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyPressed
+
+//If any key is typed, set message with error
+
+   
+      JOptionPane.showMessageDialog(null, "Ño");
+   
+    
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyPressed
+
+    private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
+
+ JOptionPane.showMessageDialog(null, "Ño3");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtNacimientoKeyReleased
 
     private void txtAPatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAPatMouseClicked
 
@@ -489,55 +488,28 @@ public class AgregarAlumno extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAPatMouseClicked
 
-    private void dtNacimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtNacimientoMouseClicked
-        FechaRequerida.setVisible(false);
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoMouseClicked
-
-    private void dtNacimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyPressed
-
-        //If any key is typed, set message with error
-
-        // JOptionPane.showMessageDialog(null, "Ño");
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoKeyPressed
-
-    private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
-
-        //JOptionPane.showMessageDialog(null, "Ño3");
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dtNacimientoKeyReleased
-
-    private void dtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyTyped
-        
-    }//GEN-LAST:event_dtNacimientoKeyTyped
-
     ConexionBD con = new ConexionBD();
     
      void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
             String fNacimiento) {
-// String usuario_id
+
         try {
-//             JOptionPane.showMessageDialog(null, "You are here");
-            //int usuar=Integer.valueOf(usuario_id);
             Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento) "
+            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  usuarios (nombre,apellido_paterno,apellido_materno,fecha_nacimiento) "
                     + "VALUES (?,?,?,?)");
 
             agregarAlumno.setString(1, nombre);
             agregarAlumno.setString(2, aPaterno);
             agregarAlumno.setString(3, aMaterno);
             agregarAlumno.setString(4, fNacimiento);
-            //agregarAlumno.setInt(5, usuar);
            
+
             agregarAlumno.execute();
             agregarAlumno.close();
-//            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
-            //System.out.println("error al guardar los datos: " + ex);
-            //JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+            System.out.println("error al guardar los datos: " + ex);
+            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
         } finally {
             con.desconectar();
         }
@@ -635,17 +607,16 @@ public class AgregarAlumno extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;
-    public static javax.swing.JLabel labelID;
+    public static javax.swing.JLabel labelIDI;
+    public static javax.swing.JLabel labelIDInstructor;
     public javax.swing.JLabel lblInstructorId;
     public javax.swing.JTextField txtAMat;
     public javax.swing.JTextField txtAPat;

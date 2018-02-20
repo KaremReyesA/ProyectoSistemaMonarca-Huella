@@ -41,6 +41,17 @@ public class AgregarInstructor extends javax.swing.JPanel {
         SiFecha.setVisible(false);
         
         
+         Calendar cL = Calendar.getInstance();
+        cL.add(Calendar.YEAR, -16);
+        
+        String stringDate="1938/12/30";
+        String stringDate2="2001/12/30";
+       java.util.Date date1=  new java.util.Date(stringDate);
+       java.util.Date date2=  new java.util.Date(stringDate2);
+      
+        
+        dtNacimiento.setSelectableDateRange(date1, date2);
+        
     //////////////////////////////////////////////////////
     
          

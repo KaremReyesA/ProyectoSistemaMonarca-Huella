@@ -25,6 +25,7 @@ import static monarca.VerDatosInstructor.idNowInstructores;
 import static monarca.login.usuario_rol;
 
 
+
 public class VerInstructores extends javax.swing.JPanel {
 public static String idNowModifyInst;
     ConexionBD conn = new ConexionBD();
@@ -55,11 +56,7 @@ public static String idNowModifyInst;
 
             ps = c.prepareStatement("SELECT id,concat_ws(' ', nombre, apellido_paterno, apellido_materno), celular, rol  from usuarios where activo=1");
 
-            ps = c.prepareStatement(
-                    "SELECT concat_ws(' ', nombre, apellido_paterno, apellido_materno), "
-                    + "celular , "
-                    + "rol  "
-                    + "from usuarios where activo=1");
+          
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
             ArrayList<Object[]> datos = new ArrayList<>();
@@ -247,7 +244,7 @@ txtBusqueda.addKeyListener(new KeyAdapter() {
                 String cadena = (txtBusqueda.getText());
                 txtBusqueda.setText(cadena);
                 repaint();
-                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 0));
+                trsFiltro.setRowFilter(RowFilter.regexFilter(txtBusqueda.getText(), 1));
             }
         });
 
@@ -294,12 +291,8 @@ txtBusqueda.addKeyListener(new KeyAdapter() {
 
             idNowModifyInst = (noControlFinal + "");
 
-            ModificarAlumno ver = null;
-            try {
-                ver = new ModificarAlumno();
-            } catch (ParseException ex) {
-                Logger.getLogger(VerAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ModificarInstructor ver= new ModificarInstructor();
+           
             ver.setSize(1070, 730);
             ver.setLocation(0, 0);
 

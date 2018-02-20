@@ -49,9 +49,7 @@ public class ModificarAlumno extends javax.swing.JPanel {
         SiFecha.setVisible(false);
         //año, mes dia
        
-        
-         Calendar cL = Calendar.getInstance();
-        cL.add(Calendar.YEAR, -10);
+      
         
         String stringDate="1938/12/30";
         String stringDate2="2002/12/30";
@@ -69,36 +67,6 @@ public class ModificarAlumno extends javax.swing.JPanel {
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
-            
-//            if(idNowModify==null|| idNowModify.equals(0)){
-//                
-//            ps = c.prepareStatement("SELECT * FROM `alumnos` ORDER BY `id` DESC LIMIT 1");
-//            
-//            rs= ps.executeQuery();
-//            
-//            if(rs.next()){
-//                if(rs.getString("enfermedades")==null){
-//                    inicial=1;
-//                    txtNombre.setText(rs.getString("nombre"));
-//                    txtAPat.setText(rs.getString("a_paterno"));
-//                    txtAMat.setText(rs.getString("a_materno"));
-//                    dtNacimiento.setDate(rs.getDate("fecha_nacimiento"));
-//                    labelID.setText(rs.getString("id"));
-//                      
-//                    ValidarNombre(txtNombre.getText());
-//                    ValidarAPaterno(txtAPat.getText());
-//                    ValidarAMaterno(txtAMat.getText());
-//                    
-//                    idNowModify = labelID.getText().toString();
-//                    
-//                    if(dtNacimiento.getDate()!=null){
-//                    SiFecha.setVisible(true);
-//                    FechaRequerida.setVisible(false);
-//                    }
-//                   }
-//            }
-//        
-//        }else{
            
               int numcontrol= Integer.parseInt(idNowModify);
              ps = c.prepareStatement("SELECT * FROM `alumnos` WHERE id=?");
