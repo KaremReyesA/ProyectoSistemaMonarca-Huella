@@ -195,7 +195,7 @@ public class ModificarInstructorP3 extends javax.swing.JPanel {
         });
         back1.add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 220, 30));
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Instructor y Administrador de Finanzas", "Administrador General" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Administrador General" }));
         cbRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbRolActionPerformed(evt);
@@ -424,7 +424,7 @@ public class ModificarInstructorP3 extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;
     public javax.swing.JLabel lblInstructorId;
-    private javax.swing.JLabel lblInstructorId1;
+    public javax.swing.JLabel lblInstructorId1;
     private javax.swing.JTextField txtusuario;
     private javax.swing.JLabel usuarioMal;
     private javax.swing.JLabel usuarioMalNoNumeros;

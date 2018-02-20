@@ -53,12 +53,14 @@ public final class VerAsistenciasInstructores extends javax.swing.JPanel {
         ConexionBD conn = new ConexionBD();
         int max = 0;
         Connection c = conn.conectar();
-        ps = c.prepareStatement("SELECT count(instructor_id) asistencias \n"
-                + "FROM asistencias_instructores\n"
-                + "WHERE fecha BETWEEN ? AND ? \n"
-                + "GROUP BY instructor_id\n"
-                + "HAVING COUNT(instructor_id)\n"
-                + "ORDER BY  asistencias DESC \n"
+        ps = c.prepareStatement("SELECT  count(asistencias_instructores.instructor_id) asistencias\n"
+                + "FROM asistencias_instructores \n"
+                + "INNER JOIN usuarios\n"
+                + "ON usuarios.id = asistencias_instructores.instructor_id\n"
+                + "WHERE fecha BETWEEN ? AND ? AND usuarios.activo=1\n"
+                + "GROUP BY instructor_id \n"
+                + "HAVING count(asistencias_instructores.instructor_id) \n"
+                + "ORDER BY  asistencias DESC\n"
                 + "LIMIT 1");
         ps.setString(1, fecha1);
         ps.setString(2, fecha2);

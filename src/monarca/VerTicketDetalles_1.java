@@ -31,7 +31,7 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
     public VerTicketDetalles_1() {
         initComponents();
         lblInstructorId.setVisible(false);
-
+        btnAbonar.setVisible(false);
     }
 
     /**
@@ -64,6 +64,13 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(290, 0));
         setUndecorated(true);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -107,7 +114,7 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
                 btnAbonarActionPerformed(evt);
             }
         });
-        back.add(btnAbonar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 590, 300, 40));
+        back.add(btnAbonar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 670, 300, 40));
 
         lblTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTotal.setText("@Sumatoria");
@@ -199,7 +206,7 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
                 btnCerrarActionPerformed(evt);
             }
         });
-        back.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 670, 300, 40));
+        back.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 300, 40));
 
         jLabel28.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel28.setText("Adeudo:");
@@ -251,12 +258,12 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAbonarActionPerformed
 
     private void btnLiquidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidarActionPerformed
-        Connection c=conn.conectar();
-        VerAdeudos_1 A=new VerAdeudos_1();
+        Connection c = conn.conectar();
+        VerAdeudos_1 A = new VerAdeudos_1();
         String nombre = lblNombre.getText();
-        int ticket_id=Integer.parseInt(lblId.getText());
+        int ticket_id = Integer.parseInt(lblId.getText());
         int dialogButton = JOptionPane.YES_NO_OPTION;
-        
+
         int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a saldado la deuda de este recibo?", "Liquidar Adeudo", dialogButton);
         if (dialogResult == 0) {
             System.out.println("Yes option");
@@ -330,8 +337,16 @@ public class VerTicketDetalles_1 extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
- this.dispose();
+
+        VerAdeudos_1 a = new VerAdeudos_1();
+        a.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+// TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
 
     /**
      * @param args the command line arguments

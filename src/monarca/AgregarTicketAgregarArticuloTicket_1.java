@@ -52,6 +52,13 @@ public class AgregarTicketAgregarArticuloTicket_1 extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(290, 0));
         setUndecorated(true);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -111,7 +118,7 @@ public class AgregarTicketAgregarArticuloTicket_1 extends javax.swing.JFrame {
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel3.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 210, 180, 40));
 
-        spnCantidad.setModel(new javax.swing.SpinnerNumberModel(10, 10, 30, 1));
+        spnCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
         jPanel3.add(spnCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 80, 40));
 
         lblNombre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -163,7 +170,12 @@ public class AgregarTicketAgregarArticuloTicket_1 extends javax.swing.JFrame {
         
         
         this.dispose();
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+       // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
 
     public void agregarArticuloDB(int id_ticket, int cantidad, float precio, String articulo, String marca) {
 

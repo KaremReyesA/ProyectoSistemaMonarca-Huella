@@ -126,6 +126,7 @@ public class VerAdeudos_1 extends javax.swing.JFrame {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
             }
         });
 
@@ -149,10 +150,10 @@ public class VerAdeudos_1 extends javax.swing.JFrame {
         TitlePanel.setLayout(TitlePanelLayout);
         TitlePanelLayout.setHorizontalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TitlePanelLayout.createSequentialGroup()
-                .addGap(449, 449, 449)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
+                .addContainerGap(391, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addGap(359, 359, 359))
         );
         TitlePanelLayout.setVerticalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,7 +319,7 @@ public class VerAdeudos_1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1formFocusGained
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-  
+     
         if (jtArtPend.getSelectedRowCount() == 1) {
             int fila = jtArtPend.getSelectedRow();
             String folio = jtArtPend.getValueAt(fila, 0).toString();
@@ -331,6 +332,7 @@ public class VerAdeudos_1 extends javax.swing.JFrame {
             ver.lblTotalRestante.setText(monto_deuda);
             ver.lblTotal.setText(monto_total);
             ver.setVisible(true);
+            this.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
@@ -439,10 +441,15 @@ public class VerAdeudos_1 extends javax.swing.JFrame {
             ModificarTicketDetalles_1.folio=Integer.parseInt(folio);
             ver.lblTotal.setText(monto_total);
             ver.setVisible(true);
+            this.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnModActionPerformed
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
 
     /**
      * @param args the command line arguments

@@ -10,14 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static monarca.mainAdmin.rightPanelAdmin;
-import static monarca.AgregarInstructor.labelIDInstructor;
 
 public class AgregarInstructorP2 extends javax.swing.JPanel {
  public static int inicial = 0;
  public static String celular;
+  public static String IDInstructor;
     public AgregarInstructorP2() {
         initComponents();
-
+       
         lblInstructorId.setVisible(false);
         NecesitaDirecc.setVisible(false);
         SiDireccion.setVisible(false);
@@ -42,6 +42,7 @@ public class AgregarInstructorP2 extends javax.swing.JPanel {
                     inicial=1;
                     txtaDireccion.setText(rs.getString("direccion"));
                     txtTelefono1.setText(rs.getString("celular"));
+                    IDInstructor= rs.getString("id");
                    }
             }}
             
@@ -52,6 +53,26 @@ public class AgregarInstructorP2 extends javax.swing.JPanel {
        
     }
     ConexionBD con = new ConexionBD();
+    public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ConexionBD conn = new ConexionBD();
+
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM usuarios\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
      @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -273,24 +294,27 @@ public class AgregarInstructorP2 extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Modificar
+        System.out.println(IDInstructor);
         if(!txtaDireccion.getText().isEmpty() && !txtTelefono1.getText().isEmpty()&& SiTelefono.isVisible()){
-
+            
             try {
                 Connection c = con.conectar();
                 ResultSet rs;
                 PreparedStatement ps;
 
-                PreparedStatement modificarAlumno = c.prepareStatement("UPDATE usuarios SET direccion=?, celular =? WHERE id=?");
-
-                modificarAlumno.setString(1, txtaDireccion.getText());
-             
-                modificarAlumno.setString(4, txtTelefono1.getText());
-                modificarAlumno.setString(5, labelIDInstructor.getText());
-
-                modificarAlumno.execute();
-                modificarAlumno.close();
+                try (PreparedStatement modificarAlumno = c.prepareStatement(
+                        "UPDATE usuarios SET"
+                                + " direccion= ?, celular = ? WHERE id= ?")) {
+                    modificarAlumno.setString(1, txtaDireccion.getText());
+                    
+                    modificarAlumno.setString(2, txtTelefono1.getText());
+                    modificarAlumno.setInt(3, obtenerId());
+                    
+                    modificarAlumno.execute(); 
+                    modificarAlumno.close();
+                }
                 System.err.println("MODIFICADO");
-                JOptionPane.showMessageDialog(null, "Modificado");
+               // JOptionPane.showMessageDialog(null, "Modificado");
 
             } catch (SQLException ex) {
                 System.out.println("error al guardar los datos: " + ex);

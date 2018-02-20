@@ -476,7 +476,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                         ps.setInt(2, Integer.parseInt(id));
 
                         ps.execute();
-                        JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+                        JOptionPane.showMessageDialog(null, "Se ha hecho el cambio");
                     } catch (SQLException ex) {
                         System.err.println(ex.toString());
                     } catch (ParseException ex) {
@@ -503,7 +503,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
             String pago = jtMensualidades.getValueAt(fila, 5).toString();
 
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a pagado la mensualidad?", "Pagar mensualidad", dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se ha pagado la mensualidad?", "Pagar mensualidad", dialogButton);
             if (dialogResult == 0) {
                 System.out.println("Yes option");
                 fecha = buscarFecha(Integer.parseInt(id));
@@ -527,7 +527,7 @@ public class ControlMensualidades extends javax.swing.JPanel {
                     ps.setInt(2, Integer.parseInt(id));
 
                     ps.execute();
-                    JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+                    JOptionPane.showMessageDialog(null, "Se ha hecho el cambio.");
                 } catch (SQLException ex) {
                     System.err.println(ex.toString());
                 } catch (ParseException ex) {

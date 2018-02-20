@@ -3,12 +3,9 @@ package monarca;
 
 import java.awt.BorderLayout;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static monarca.mainAmbos.rightPanel;
 public class mainAdmin extends javax.swing.JFrame {
 
     public mainAdmin() {
@@ -54,6 +51,10 @@ public class mainAdmin extends javax.swing.JFrame {
          btnAsistenciasAlumnos.setOpaque(false);
         btnAsistenciasAlumnos.setContentAreaFilled(false);
         btnAsistenciasAlumnos.setBorderPainted(false);
+        
+        btnCerrarSesion.setOpaque(false);
+        btnCerrarSesion.setContentAreaFilled(false);
+        btnCerrarSesion.setBorderPainted(false);
 
     }
     
@@ -460,10 +461,10 @@ public class mainAdmin extends javax.swing.JFrame {
         mensualidades.setSize(1070,730);
         mensualidades.setLocation(0, 0);
 
-        rightPanel.removeAll();
-        rightPanel.add(mensualidades, BorderLayout.CENTER);
-        rightPanel.revalidate();
-        rightPanel.repaint();        // TODO add your handling code here:
+        rightPanelAdmin.removeAll();
+        rightPanelAdmin.add(mensualidades, BorderLayout.CENTER);
+        rightPanelAdmin.revalidate();
+        rightPanelAdmin.repaint();        // TODO add your handling code here:
     }//GEN-LAST:event_btnMensualidadesActionPerformed
 
     private void btnMensualidades1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualidades1ActionPerformed

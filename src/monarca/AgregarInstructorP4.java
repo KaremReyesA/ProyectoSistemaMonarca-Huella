@@ -2,6 +2,7 @@ package monarca;
 
 import java.awt.BorderLayout;
 import static monarca.mainAdmin.rightPanelAdmin;
+import static monarca.VerDatosInstructor.idNowInstructores;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -25,18 +26,34 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import db.ConexionBD;
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AgregarInstructorP4 extends javax.swing.JPanel {
 
     public AgregarInstructorP4() {
         initComponents();
-
+        Iniciar();
+        start();
+        EstadoHuellas();
+        btnFinalizar.setEnabled(false);
         lblInstructorId.setVisible(false);
-      
+        try {
+            idNowInstructores = ""+obtenerId();
+        } catch (SQLException ex) {
+            Logger.getLogger(AgregarInstructorP4.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -184,30 +201,53 @@ public class AgregarInstructorP4 extends javax.swing.JPanel {
             .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ConexionBD conn = new ConexionBD();
 
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM usuarios\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
-        
-//         guardarHuella();
-        Reclutador.clear();
-        lblImagenHuella.setIcon(null);
-        start();
-        
-      //  VerDatosAlumno articulos = new VerDatosAlumno();
-//        articulos.setSize(1070,730);
-//        articulos.setLocation(0, 0);
-//
-//       rightPanelAdmin.removeAll();
-//        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-//        rightPanelAdmin.revalidate();
-//        rightPanelAdmin.repaint();
-        // TODO add your handling code here:
+        try {
+           guardarHuella();
+            Reclutador.clear();
+            lblImagenHuella.setIcon(null);
+            start();
+
+            VerDatosInstructor articulos = new VerDatosInstructor();
+            articulos.setSize(1070, 730);
+            articulos.setLocation(0, 0);
+
+            rightPanelAdmin.removeAll();
+            rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+            rightPanelAdmin.revalidate();
+            rightPanelAdmin.repaint();
+            stop();
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(AgregarInstructorP4.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
-        articulos.setSize(1070,730);
+        ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
+        articulos.setSize(1070, 730);
         articulos.setLocation(0, 0);
 
         rightPanelAdmin.removeAll();
@@ -217,10 +257,9 @@ ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
     ConexionBD con = new ConexionBD();
-    
-     void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
+
+    void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
             String fNacimiento, float peso, float altura,
             String tSangre, String direccion, String cinta,
             String tutor, String parentesco, String tCelular,
@@ -253,7 +292,7 @@ ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
 
             agregarAlumno.execute();
             agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+           // JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
             System.out.println("error al guardar los datos: " + ex);
             JOptionPane.showMessageDialog(null, "Error al guardar los datos");
@@ -263,12 +302,9 @@ ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
     }
 
     void vaciar() {
-     
-        
 
     }
-    
-    
+
     //Varible que permite iniciar el dispositivo de lector de huella conectado
 // con sus distintos metodos.
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
@@ -443,39 +479,34 @@ ModificarAlumnoP4 articulos = new ModificarAlumnoP4();
         firePropertyChange(TEMPLATE_PROPERTY, old, template);
     }
 
-   
 //
-//    /*
-//  * Guarda los datos de la huella digital actual en la base de datos
-//     */
-//    public void guardarHuella() {
-//        SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
-//        java.util.Date fecha2 = new Date();
-//        String fechaDate2 = formateador2.format(fecha2);
-//        //Obtiene los datos del template de la huella actual
-//        ByteArrayInputStream datosHuella = new ByteArrayInputStream(template.serialize());
-//        Integer tamañoHuella = template.serialize().length;
-//        try {
-//            //Establece los valores para la sentencia SQL
-//            Connection c = con.getConexion(); //establece la conexion con la BD
-//
-//            PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO alumno_huellas(huella, alumno_id,created_at,updated_at) values(?,?,?,?)");
-//
-//            guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
-//            guardarStmt.setInt(2, Integer.parseInt(AgregarHuellasAlumnos.lblId.getText()));
-//            guardarStmt.setString(3, fechaDate2);
-//            guardarStmt.setString(4, fechaDate2);
-//
-//            //Ejecuta la sentencia
-//            guardarStmt.execute();
-//            guardarStmt.close();
-//            this.dispose();
-//            JOptionPane.showMessageDialog(null, "Huella Guardada Correctamente");
-//        } catch (SQLException ex) {
-//            //Si ocurre un error lo indica en la consola
-//            EnviarTexto("Error al guardar los datos de la huella.");
-//        } 
-//    }
+//   
+    public void guardarHuella() {
+        SimpleDateFormat formateador2 = new SimpleDateFormat("yyyy'-'MM'-'dd", new Locale("es_ES"));
+        java.util.Date fecha2 = new Date();
+        String fechaDate2 = formateador2.format(fecha2);
+        //Obtiene los datos del template de la huella actual
+        ByteArrayInputStream datosHuella = new ByteArrayInputStream(template.serialize());
+        Integer tamañoHuella = template.serialize().length;
+        try {
+            //Establece los valores para la sentencia SQL
+            Connection c = con.conectar(); //establece la conexion con la BD
+
+            PreparedStatement guardarStmt = c.prepareStatement("INSERT INTO huellas_instructores"
+                    + "(huella, instructor_id) values(?,?)");
+
+            guardarStmt.setBinaryStream(1, datosHuella, tamañoHuella);
+            guardarStmt.setInt(2, obtenerId());
+          
+            //Ejecuta la sentencia
+            guardarStmt.execute();
+            guardarStmt.close();
+            JOptionPane.showMessageDialog(null, "Huella Guardada Correctamente");
+        } catch (SQLException ex) {
+            //Si ocurre un error lo indica en la consola
+            EnviarTexto("Error al guardar los datos de la huella.");
+        } 
+    }
 //
 //    /**
 //     * Verifica la huella digital actual contra otra en la base de datos

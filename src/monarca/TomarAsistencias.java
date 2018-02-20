@@ -37,6 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class TomarAsistencias extends javax.swing.JPanel {
@@ -52,12 +53,11 @@ public class TomarAsistencias extends javax.swing.JPanel {
         
          try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             JOptionPane.showMessageDialog(null, "Imposible modificar el tema visual", "Lookandfeel inválido.",
                     JOptionPane.ERROR_MESSAGE);
         }
         initComponents();
-        
         Iniciar();
         start();
         lblFecha.setText(fechaDate);
@@ -87,6 +87,7 @@ public class TomarAsistencias extends javax.swing.JPanel {
             @Override
             public void dataAcquired(final DPFPDataEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         EnviarTexto(2, "La Huella Digital ha sido Capturada");
                         ProcesarCaptura(e.getSample());
@@ -99,6 +100,7 @@ public class TomarAsistencias extends javax.swing.JPanel {
             @Override
             public void readerConnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         EnviarTexto(2, "El Sensor de Huella Digital esta Activado o Conectado");
                     }
@@ -108,6 +110,7 @@ public class TomarAsistencias extends javax.swing.JPanel {
             @Override
             public void readerDisconnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         EnviarTexto(1, "El Sensor de Huella Digital esta Desactivado o no Conectado");
                     }
@@ -119,6 +122,7 @@ public class TomarAsistencias extends javax.swing.JPanel {
             @Override
             public void fingerTouched(final DPFPSensorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         EnviarTexto(3, "El dedo ha sido colocado sobre el Lector de Huella");
                     }
@@ -128,6 +132,7 @@ public class TomarAsistencias extends javax.swing.JPanel {
             @Override
             public void fingerGone(final DPFPSensorEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         EnviarTexto(3, "El dedo ha sido quitado del Lector de Huella");
                     }
@@ -268,8 +273,8 @@ public class TomarAsistencias extends javax.swing.JPanel {
             PreparedStatement identificarStmt = c.prepareStatement(
                     "SELECT * "
                     + "FROM alumnos "
-                    + "INNER JOIN alumno_huellas "
-                    + "ON alumnos.id=alumno_huellas.alumno_id");
+                    + "INNER JOIN huellas_alumnos "
+                    + "ON alumnos.id=huellas_alumnos.alumno_id");
             ResultSet rs = identificarStmt.executeQuery();
             System.out.println(rs);
             //Si se encuentra el nombre en la base de datos
@@ -296,13 +301,11 @@ public class TomarAsistencias extends javax.swing.JPanel {
                     lblnombre.setText(nombre);
                     try {
                         PreparedStatement asistenciaStmt = c.prepareStatement(
-                                "INSERT INTO `asistencias_alumnos`"
-                                + "(`alumno_id`, `fecha`,created_at,updated_at)"
-                                + " VALUES (?,?,?,?)");
+                                "INSERT INTO asistencias_alumnos"
+                                + "(alumno_id, fecha)"
+                                + " VALUES (?,?)");
                         asistenciaStmt.setInt(1, id);
                         asistenciaStmt.setString(2, fechaDate2);
-                        asistenciaStmt.setString(3, fechaDate2);
-                        asistenciaStmt.setString(4, fechaDate2);
                         asistenciaStmt.execute();
                         JOptionPane.showMessageDialog(null, "asistencia de alumno registrada");
                     } catch (HeadlessException | SQLException ex) {
@@ -335,8 +338,8 @@ public class TomarAsistencias extends javax.swing.JPanel {
             PreparedStatement identificarStmt = c.prepareStatement(
                     "SELECT * "
                     + "FROM usuarios "
-                    + "INNER JOIN administrador_huellas "
-                    + "ON usuarios.id=administrador_huellas.usuario_id");
+                    + "INNER JOIN huellas_instructores "
+                    + "ON usuarios.id=huellas_inatructores.instructor_id");
             ResultSet rs = identificarStmt.executeQuery();
             System.out.println(rs);
             //Si se encuentra el nombre en la base de datos
@@ -363,11 +366,11 @@ public class TomarAsistencias extends javax.swing.JPanel {
                     int id = rs.getInt("id");
                     lblnombre.setText(nombre);
                     try {
-                        PreparedStatement asistenciaStmt = c.prepareStatement("INSERT INTO `asistencias_instructors`(`usuario_id`, `fecha`,created_at,updated_at) VALUES (?,?,?,?)");
+                        PreparedStatement asistenciaStmt = c.prepareStatement(
+                                "INSERT INTO asistencias_instructores "
+                                        + "(instructor_id, fecha) VALUES (?,?)");
                         asistenciaStmt.setInt(1, id);
                         asistenciaStmt.setString(2, fechaDate2);
-                        asistenciaStmt.setString(3, fechaDate2);
-                        asistenciaStmt.setString(4, fechaDate2);
                         asistenciaStmt.execute();
                         JOptionPane.showMessageDialog(null, "asistencia de instructor registrada");
                     } catch (HeadlessException | SQLException ex) {
@@ -411,6 +414,9 @@ public class TomarAsistencias extends javax.swing.JPanel {
         txtArea = new javax.swing.JTextArea();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 formFocusLost(evt);
             }
@@ -585,6 +591,11 @@ public class TomarAsistencias extends javax.swing.JPanel {
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+      
+      
+    }//GEN-LAST:event_formFocusGained
 
     
      

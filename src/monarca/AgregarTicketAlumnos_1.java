@@ -121,6 +121,7 @@ public class AgregarTicketAlumnos_1 extends javax.swing.JFrame {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
             }
         });
 
@@ -298,7 +299,7 @@ public class AgregarTicketAlumnos_1 extends javax.swing.JFrame {
             a.lblTotal.setText("0");
 
             a.setVisible(true);
-
+            this.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
@@ -375,6 +376,10 @@ public class AgregarTicketAlumnos_1 extends javax.swing.JFrame {
         jtArtPend.setRowSorter(trsFiltro);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+       // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
 
     /**
      * @param args the command line arguments

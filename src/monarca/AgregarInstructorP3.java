@@ -10,47 +10,49 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static monarca.AgregarInstructor.labelIDInstructor;
+import static monarca.AgregarInstructorP2.IDInstructor;
 import static monarca.mainAdmin.rightPanelAdmin;
 
 public class AgregarInstructorP3 extends javax.swing.JPanel {
- public static int inicial = 0;
- public static String celular;
+
+    public static int inicial = 0;
+    public static String celular;
+    public static String idInstructor;
+
     public AgregarInstructorP3() {
         initComponents();
 
         lblInstructorId.setVisible(false);
-        
+
         SiRol.setVisible(false);
-        
+
         SiUsuario.setVisible(false);
         usuarioMal.setVisible(false);
         usuarioMalNoNumeros.setVisible(false);
         usuarioRequerido.setVisible(false);
-        
+
         SiPass.setVisible(false);
-        passMal.setVisible(false);   
-        passRequerida.setVisible(false);  
-        
-        SiPassCheck.setVisible(false);  
-        passCheckMal.setVisible(false);  
-        passCheckRequerida.setVisible(false); 
-        
-        NoIguales.setVisible(false);  
+        passMal.setVisible(false);
+        passRequerida.setVisible(false);
+
+        SiPassCheck.setVisible(false);
+        passCheckMal.setVisible(false);
+        passCheckRequerida.setVisible(false);
+
+        NoIguales.setVisible(false);
 /////////////////
-  try {
-            
+        try {
+
             Connection c = con.conectar();
             ResultSet rs;
             PreparedStatement ps;
             //CREAS USUARIO
-            
-             
-            
-            ps = c.prepareStatement("SELECT * FROM `instructores` ORDER BY `id` DESC LIMIT 1");
-            
-            rs= ps.executeQuery();
-            
-            if(rs.next()){
+
+            ps = c.prepareStatement("SELECT * FROM `usuarios` ORDER BY `id` DESC LIMIT 1");
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
 //                if(rs.getString("direccion")!=null){
 //                    inicial=1;
 //                    txtaDireccion.setText(rs.getString("direccion"));
@@ -65,16 +67,17 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
 //                    VerificarTutor(txtTutor1.getText());
 //                    SiParentesco.setVisible(true);
 //                   }
-            }}
-            
-            // TODO add your handling code here:
-         catch (SQLException ex) {
+                rs.getString("id");
+            }
+        } // TODO add your handling code here:
+        catch (SQLException ex) {
             Logger.getLogger(ModificarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
     ConexionBD con = new ConexionBD();
-     @SuppressWarnings("unchecked")
+
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -248,7 +251,7 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
         });
         back1.add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 220, 30));
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Instructor y Administrador de Finanzas", "Administrador General" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor", "Administrador General" }));
         cbRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbRolActionPerformed(evt);
@@ -340,15 +343,15 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnteriorP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorP3ActionPerformed
-            //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
-            ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
-                articulos.setSize(1070,730);
-                articulos.setLocation(0, 0);
+        //SELECT * FROM `usuario` ORDER BY `id` DESC LIMIT 1
+        ModificarAlumnoP2 articulos = new ModificarAlumnoP2();
+        articulos.setSize(1070, 730);
+        articulos.setLocation(0, 0);
 
-                rightPanelAdmin.removeAll();
-                rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-                rightPanelAdmin.revalidate();
-                rightPanelAdmin.repaint();
+        rightPanelAdmin.removeAll();
+        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+        rightPanelAdmin.revalidate();
+        rightPanelAdmin.repaint();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAnteriorP3ActionPerformed
 
@@ -357,52 +360,72 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtusuarioFocusLost
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-                AgregarInstructorP3 articulos = new AgregarInstructorP3();
-                articulos.setSize(1070,730);
-                articulos.setLocation(0, 0);
+        AgregarInstructorP4 articulos = new AgregarInstructorP4();
+        articulos.setSize(1070, 730);
+        articulos.setLocation(0, 0);
 
-                rightPanelAdmin.removeAll();
-                rightPanelAdmin.add(articulos, BorderLayout.CENTER);
-                rightPanelAdmin.revalidate();
-                rightPanelAdmin.repaint();
+        rightPanelAdmin.removeAll();
+        rightPanelAdmin.add(articulos, BorderLayout.CENTER);
+        rightPanelAdmin.revalidate();
+        rightPanelAdmin.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
+public static int obtenerId() throws SQLException {
+        int id = 0;
+        ResultSet rs;
+        PreparedStatement ps;
+        ConexionBD conn = new ConexionBD();
 
+        Connection c = conn.conectar();
+        ps = c.prepareStatement("    SELECT id \n"
+                + "FROM usuarios\n"
+                + "ORDER BY id DESC\n"
+                + "LIMIT 1");
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        return id;
+    }
     private void btnContinuarP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarP3ActionPerformed
         String usuario = txtusuario.getText();
         String password = txtpassword.getText();
         String passwordCheck = txtpasswordCheck.getText();
-          
-      
 
-        ValidarUsuario(usuario);   
-        ValidarContraseña(password,passwordCheck);   
-            
+        ValidarUsuario(usuario);
+        ValidarContraseña(password, passwordCheck);
+
         //Modificar
-        if ( txtpassword.getText().equals(txtpasswordCheck.getText())
-            && !usuario.isEmpty() 
-            && !password.isEmpty() 
-            && !passwordCheck.isEmpty()
-            && SiUsuario.isVisible()
-            && SiPass.isVisible()
-            && SiPassCheck.isVisible() 
-        ){
- 
+        if (txtpassword.getText().equals(txtpasswordCheck.getText())
+                && !usuario.isEmpty()
+                && !password.isEmpty()
+                && !passwordCheck.isEmpty()
+                && SiUsuario.isVisible()
+                && SiPass.isVisible()
+                && SiPassCheck.isVisible()) {
+
             try {
                 Connection c = con.conectar();
                 ResultSet rs;
                 PreparedStatement ps;
 
-                PreparedStatement modificarUsuario = c.prepareStatement("UPDATE usuarios SET usuario=?, pass =?, rol =? WHERE id=?");
+                PreparedStatement modificarUsuario = c.prepareStatement(
+                        "UPDATE usuarios SET usuario=?,"
+                        + " pass =?, "
+                        + "rol =? "
+                        + "WHERE id=?");
 
                 modificarUsuario.setString(1, txtusuario.getText());
                 modificarUsuario.setString(2, txtpassword.getText());
                 modificarUsuario.setString(3, cbRol.getSelectedItem().toString());
-                modificarUsuario.setString(4, labelIDInstructor.getText());
+                modificarUsuario.setInt(4, obtenerId());
 
                 modificarUsuario.execute();
                 modificarUsuario.close();
                 System.err.println("MODIFICADO");
-                JOptionPane.showMessageDialog(null, "Modificado");
+                // JOptionPane.showMessageDialog(null, "Modificado");
 
             } catch (SQLException ex) {
                 System.out.println("error al guardar los datos: " + ex);
@@ -411,124 +434,89 @@ public class AgregarInstructorP3 extends javax.swing.JPanel {
                 con.desconectar();
             }
 
-            AgregarInstructorP3 articulos = new AgregarInstructorP3();
-            articulos.setSize(1070,730);
+            AgregarInstructorP4 articulos = new AgregarInstructorP4();
+            articulos.setSize(1070, 730);
             articulos.setLocation(0, 0);
 
             rightPanelAdmin.removeAll();
             rightPanelAdmin.add(articulos, BorderLayout.CENTER);
             rightPanelAdmin.revalidate();
             rightPanelAdmin.repaint();
-    }
+        }
     }//GEN-LAST:event_btnContinuarP3ActionPerformed
 
     private void cbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRolActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbRolActionPerformed
 
-    
-      void agregarUsuarioBD(String usuario, String pass, String rol) {
+    void ValidarUsuario(String usuario) {
 
-        try {
-            Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO usuarios (usuario,pass,rol_id,instructor) "
-                    + "VALUES (?,?,?,?)");
-
-//            agregarAlumno.setString(1, nombre);
-//            agregarAlumno.setString(2, aPaterno);
-//            agregarAlumno.setString(3, aMaterno);
-//            agregarAlumno.setString(4, fNacimiento);
-//           
-
-            agregarAlumno.execute();
-            agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-        } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
-        } finally {
-            con.desconectar();
-        }
-    }
-
-    
-    
-     void ValidarUsuario(String usuario){
-    
-      if(usuario.contains("1")
-          ||usuario.contains("2")
-          ||usuario.contains("3")
-          ||usuario.contains("4")
-          ||usuario.contains("5")
-          ||usuario.contains("6") 
-          ||usuario.contains("7") 
-          ||usuario.contains("8") 
-          ||usuario.contains("9") 
-          ||usuario.contains("10")
-    ){
-          //Sin numeros
+        if (usuario.contains("1")
+                || usuario.contains("2")
+                || usuario.contains("3")
+                || usuario.contains("4")
+                || usuario.contains("5")
+                || usuario.contains("6")
+                || usuario.contains("7")
+                || usuario.contains("8")
+                || usuario.contains("9")
+                || usuario.contains("10")) {
+            //Sin numeros
 //            JOptionPane.showMessageDialog(null, "Numeros");  
-          usuarioMal.setVisible(true);
-             usuarioMalNoNumeros.setVisible(true);
-             SiUsuario.setVisible(false);
-             usuarioRequerido.setVisible(false);
-             
-        } else{
-          JOptionPane.showMessageDialog(null, "No Numeros");  
-            if(usuario.isEmpty()){
+            usuarioMal.setVisible(true);
+            usuarioMalNoNumeros.setVisible(true);
+            SiUsuario.setVisible(false);
+            usuarioRequerido.setVisible(false);
+
+        } else {
+            // JOptionPane.showMessageDialog(null, "No Numeros");
+            if (usuario.isEmpty()) {
                 usuarioMal.setVisible(false);
                 usuarioMalNoNumeros.setVisible(false);
                 SiUsuario.setVisible(false);
                 usuarioRequerido.setVisible(true);
+            } else {
+
+                usuarioMal.setVisible(false);
+                usuarioMalNoNumeros.setVisible(false);
+                SiUsuario.setVisible(true);
+                usuarioRequerido.setVisible(false);
             }
-            else{
-            
-             usuarioMal.setVisible(false);
-             usuarioMalNoNumeros.setVisible(false);
-             SiUsuario.setVisible(true);
-             usuarioRequerido.setVisible(false);
-            }
-         }
-    
-    }
-     
-     
-     void ValidarContraseña(String pass, String passCheck){
-        
-         if (pass.isEmpty()){
-            passRequerida.setVisible(true);
         }
-         else if (passCheck.isEmpty()){
+
+    }
+
+    void ValidarContraseña(String pass, String passCheck) {
+
+        if (pass.isEmpty()) {
+            passRequerida.setVisible(true);
+        } else if (passCheck.isEmpty()) {
             passCheckRequerida.setVisible(true);
         } else {
-            if ( txtpassword.getText().equals(txtpasswordCheck.getText())){
-               passMal.setVisible(true);
-            passMal.setVisible(false);
-            passCheckMal.setVisible(false);
-            NoIguales.setVisible(false);
-            passRequerida.setVisible(false); 
-            passCheckRequerida.setVisible(false);
-            SiPass.setVisible(true);
-            SiPassCheck.setVisible(true);
+            if (txtpassword.getText().equals(txtpasswordCheck.getText())) {
+                passMal.setVisible(true);
+                passMal.setVisible(false);
+                passCheckMal.setVisible(false);
+                NoIguales.setVisible(false);
+                passRequerida.setVisible(false);
+                passCheckRequerida.setVisible(false);
+                SiPass.setVisible(true);
+                SiPassCheck.setVisible(true);
+            } else {
+                //no coinciden
+                passMal.setVisible(true);
+                passCheckMal.setVisible(true);
+                NoIguales.setVisible(true);
+                passRequerida.setVisible(false);
+                passCheckRequerida.setVisible(false);
+                SiPass.setVisible(false);
+                SiPassCheck.setVisible(false);
+
             }
-            else{
-            //no coinciden
-            passMal.setVisible(true);
-            passCheckMal.setVisible(true);
-            NoIguales.setVisible(true);
-            passRequerida.setVisible(false); 
-            passCheckRequerida.setVisible(false);
-            SiPass.setVisible(false);
-            SiPassCheck.setVisible(false);
-              
-            }
-            
+
         }
     }
-    
-    
-    
-  
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup AlergiasGroup;

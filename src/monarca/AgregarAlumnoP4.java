@@ -209,7 +209,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         jLabel6.setText("Tipo Sanguíneo:");
         back.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 120, -1));
 
-        cbSangre1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "O +", "O -", "A +", "A -", "B +", "B -", "AB +", "AB -" }));
+        cbSangre1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "O +", "O -", "A +", "A -", "B +", "B -", "AB +", "AB -", "No sabe" }));
         back.add(cbSangre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, 110, 30));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N

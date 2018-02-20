@@ -29,6 +29,8 @@ public class AgregarArticuloTicket_1 extends javax.swing.JFrame {
         initComponents();
         ModificarTicketDetalles_1 m=new ModificarTicketDetalles_1();
         lblTotalRest.setText(""+m.totalRest);
+        lbltotal.setVisible(false);
+        lblTotalRest.setVisible(false);
     }
 
     /**

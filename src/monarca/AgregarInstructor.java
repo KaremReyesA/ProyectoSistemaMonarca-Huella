@@ -486,7 +486,7 @@ public class AgregarInstructor extends javax.swing.JPanel {
 //If any key is typed, set message with error
 
    
-      JOptionPane.showMessageDialog(null, "Ño");
+      //JOptionPane.showMessageDialog(null, "Ño");
    
     
 
@@ -495,7 +495,7 @@ public class AgregarInstructor extends javax.swing.JPanel {
 
     private void dtNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtNacimientoKeyReleased
 
- JOptionPane.showMessageDialog(null, "Ño3");
+// JOptionPane.showMessageDialog(null, "Ño3");
         // TODO add your handling code here:
     }//GEN-LAST:event_dtNacimientoKeyReleased
 
@@ -524,7 +524,7 @@ public class AgregarInstructor extends javax.swing.JPanel {
 
             agregarAlumno.execute();
             agregarAlumno.close();
-            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+           // JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
             System.out.println("error al guardar los datos: " + ex);
             JOptionPane.showMessageDialog(null, "Error al guardar los datos");

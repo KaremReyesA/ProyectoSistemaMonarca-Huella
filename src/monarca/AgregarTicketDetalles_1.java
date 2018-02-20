@@ -19,6 +19,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
     DefaultTableModel tabla;
     public static int folio;
     public static String nombre;
+
     public AgregarTicketDetalles_1() {
         initComponents();
         lblInstructorId.setVisible(false);
@@ -27,7 +28,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
         lblValMarca.setVisible(false);
         lblValPrecio.setVisible(false);
         lblPrecioTotal.setVisible(false);
-        
+
     }
 
     ConexionBD conn = new ConexionBD();
@@ -377,7 +378,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
                     float total2 = Float.parseFloat(rs.getObject(2).toString()) * Float.parseFloat(rs.getObject(5).toString());
                     filas[i] = total2;
                     suma = suma + total2;
-                    total=suma;
+                    total = suma;
                 }
             }
             datos.add(filas);
@@ -430,7 +431,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
                     limpiarTabla(jtVerArticulosPendientes);
                     try {
                         lblTotal.setText("" + llenarTabla(jtVerArticulosPendientes));
-                        
+
                     } catch (SQLException ex) {
                         System.err.println(ex.toString());
                     }
@@ -458,7 +459,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(AgregarTicketDetalles_1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        lblId.setText(""+folio);
+        lblId.setText("" + folio);
         lblNombre.setText(nombre);
     }//GEN-LAST:event_formWindowOpened
 
@@ -467,6 +468,8 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
 
         modificarTicket(folio, precioTotal);
         this.dispose();
+        VerAdeudos_1 v = new VerAdeudos_1();
+        v.setVisible(true);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void jtVerArticulosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtVerArticulosPendientesMouseClicked
@@ -510,7 +513,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
             ps.setFloat(4, precio);
 
             ps.execute();
-            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+            JOptionPane.showMessageDialog(null, "Se ha hecho el cambio. ");
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
@@ -533,7 +536,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
             ps.setFloat(2, adeudoTotal);
 
             ps.execute();
-            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+            JOptionPane.showMessageDialog(null, "Se ha guardado el ticket.");
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
@@ -547,7 +550,6 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
         int cantidad = (int) spnCantidad.getValue();
         float precio = (float) spnPrecio.getValue();
         float totalNvo = cantidad * precio;
-       
 
         if (estaVacio(marca)) {
             lblValMarca.setVisible(true);
@@ -597,7 +599,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
         String id = lblId.getText();
 
         AgregarTicketAgregarArticuloTicket_1 add = new AgregarTicketAgregarArticuloTicket_1();
-        AgregarTicketAgregarArticuloTicket_1.folio=folio;
+        AgregarTicketAgregarArticuloTicket_1.folio = folio;
         add.lblId.setText(id);
         add.lblNombre.setText(nombre);
 
@@ -607,7 +609,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
-        // TODO add your handling code here:
+             // TODO add your handling code here:
     }//GEN-LAST:event_formWindowLostFocus
 
     private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost
@@ -660,7 +662,7 @@ public class AgregarTicketDetalles_1 extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(AgregarTicketDetalles_1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        lblId.setText(""+folio);
+        lblId.setText("" + folio);
         lblNombre.setText(nombre);
     }
 

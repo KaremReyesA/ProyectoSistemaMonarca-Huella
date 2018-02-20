@@ -177,6 +177,11 @@ public static String idNowModifyInst;
         jtInstructores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jtInstructores.setShowHorizontalLines(false);
         jtInstructores.setShowVerticalLines(false);
+        jtInstructores.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtInstructoresFocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtInstructores);
 
         back.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 780, 280));
@@ -326,7 +331,7 @@ txtBusqueda.addKeyListener(new KeyAdapter() {
                     ConexionBD conn = new ConexionBD();
                     Connection con = conn.conectar();
 
-                    String sql = "UPDATE alumnos "
+                    String sql = "UPDATE usuarios "
                     + "SET "
                     + "activo=0 "
                     + "WHERE id =? ";
@@ -346,6 +351,15 @@ txtBusqueda.addKeyListener(new KeyAdapter() {
             JOptionPane.showMessageDialog(null, "No se seleccionó ningun alumno, por favor seleccione uno.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jtInstructoresFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtInstructoresFocusGained
+    try {
+        limpiarTabla(jtInstructores);
+        llenarTabla(jtInstructores);        // TODO add your handling code here:
+    } catch (Exception ex) {
+        Logger.getLogger(VerInstructores.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }//GEN-LAST:event_jtInstructoresFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

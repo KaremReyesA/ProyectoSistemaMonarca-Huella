@@ -124,7 +124,6 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     void accederSistema(String usuario, String password) {
         mainAdmin adminGeneral = new mainAdmin();
-        mainAmbos menuAmbos = new mainAmbos();
         mainIntructor menuInstructor = new mainIntructor();
 
       
@@ -151,14 +150,6 @@ public class login extends javax.swing.JFrame {
                     adminGeneral.lblUsuario.setText(nombre);
                     adminGeneral.lblRolid.setText("1");
                     adminGeneral.lblInstructorId.setText(usuario_id);
-                    break;
-                case "Instructor y Administrador de Finanzas":
-                    JOptionPane.showMessageDialog(null, "Bienvenido Instructor");
-                    this.dispose();
-                    menuAmbos.setVisible(true);
-                    menuAmbos.lblUsuario.setText(nombre);
-                    menuAmbos.lblRolid.setText("2");
-                    menuAmbos.lblInstructorId.setText(usuario_id);
                     break;
                 case "Instructor":
                     JOptionPane.showMessageDialog(null, "Bienvenido Instructor");

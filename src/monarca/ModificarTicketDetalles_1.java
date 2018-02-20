@@ -290,7 +290,7 @@ public class ModificarTicketDetalles_1 extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        back.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 480, 280, 40));
+        back.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 480, 280, 40));
 
         lblCodigoProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         back.add(lblCodigoProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 140, 180, 20));
@@ -525,6 +525,9 @@ void vaciarCombos() {
         
         modificarTicket(folio, precioTotal);
         this.dispose();
+        VerAdeudos_1 adeudos = new VerAdeudos_1();
+         adeudos.setVisible(true);
+                
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void jtVerArticulosPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtVerArticulosPendientesMouseClicked
@@ -591,7 +594,7 @@ void vaciarCombos() {
             ps.setFloat(4, precio);
 
             ps.execute();
-            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+            JOptionPane.showMessageDialog(null, "Se ha hecho el cambio ");
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
@@ -614,7 +617,7 @@ void vaciarCombos() {
             ps.setFloat(2, totalRest);
 
             ps.execute();
-            JOptionPane.showMessageDialog(null, "se a hecho el cambio :3");
+            JOptionPane.showMessageDialog(null, "Se ha hecho el cambio");
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
@@ -735,7 +738,7 @@ void vaciarCombos() {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_formWindowLostFocus
 
     private void spnCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spnCantidadFocusLost

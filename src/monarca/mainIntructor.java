@@ -58,6 +58,8 @@ public class mainIntructor extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnAlumnos = new javax.swing.JButton();
         rightPanelInstructores = new javax.swing.JPanel();
+        TitlePanel = new javax.swing.JPanel();
+        lblAsistencias = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,15 +169,44 @@ public class mainIntructor extends javax.swing.JFrame {
 
         rightPanelInstructores.setBackground(new java.awt.Color(255, 255, 255));
 
+        TitlePanel.setBackground(new java.awt.Color(121, 72, 221));
+
+        lblAsistencias.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblAsistencias.setForeground(new java.awt.Color(255, 255, 255));
+        lblAsistencias.setText(" ");
+        lblAsistencias.setToolTipText("");
+
+        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
+        TitlePanel.setLayout(TitlePanelLayout);
+        TitlePanelLayout.setHorizontalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(239, 239, 239)
+                .addComponent(lblAsistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(536, Short.MAX_VALUE))
+        );
+        TitlePanelLayout.setVerticalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(lblAsistencias)
+                .addGap(19, 19, 19))
+        );
+
         javax.swing.GroupLayout rightPanelInstructoresLayout = new javax.swing.GroupLayout(rightPanelInstructores);
         rightPanelInstructores.setLayout(rightPanelInstructoresLayout);
         rightPanelInstructoresLayout.setHorizontalGroup(
             rightPanelInstructoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1160, Short.MAX_VALUE)
+            .addGroup(rightPanelInstructoresLayout.createSequentialGroup()
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 77, Short.MAX_VALUE))
         );
         rightPanelInstructoresLayout.setVerticalGroup(
             rightPanelInstructoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 760, Short.MAX_VALUE)
+            .addGroup(rightPanelInstructoresLayout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(589, Short.MAX_VALUE))
         );
 
         back.add(rightPanelInstructores, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 1160, 760));
@@ -189,6 +220,7 @@ public class mainIntructor extends javax.swing.JFrame {
         VerAsistenciasAlumnos asistencias = new VerAsistenciasAlumnos();
         asistencias.setSize(1070,730);
         asistencias.setLocation(0, 0);
+        
 
         rightPanelInstructores.removeAll();
         rightPanelInstructores.add(asistencias, BorderLayout.CENTER);
@@ -197,15 +229,13 @@ public class mainIntructor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsistenciasActionPerformed
 
     private void btnTomaAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTomaAsistenciasActionPerformed
-    TomarAsistencias asistencia = new TomarAsistencias();
+     asistenciaForm asistencia = new asistenciaForm();
         asistencia.setSize(1070,730);
-        asistencia.setLocation(0, 0);
-        asistencia.stop();
-
+        lblAsistencias.setText("Tomar Asistencias");
         rightPanelInstructores.removeAll();
-        rightPanelInstructores.add(asistencia, BorderLayout.CENTER);
-        rightPanelInstructores.revalidate();
-        rightPanelInstructores.repaint();        // TODO add your handling code here:
+        asistencia.stop();
+        asistencia.setVisible(true);
+              // TODO add your handling code here:
         
 //          TomarAsistencias asistenciaAlum = new TomarAsistencias();
 //        asistenciaAlum.stop();
@@ -271,6 +301,7 @@ public class mainIntructor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AlumnosMenu;
     private javax.swing.JPanel AsistenciasMenu;
+    private javax.swing.JPanel TitlePanel;
     private javax.swing.JPanel TomaAsisteMenu;
     private javax.swing.JPanel back;
     private javax.swing.JButton btnAlumnos;
@@ -286,6 +317,7 @@ public class mainIntructor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblAsistencias;
     public javax.swing.JLabel lblInstructorId;
     public javax.swing.JLabel lblRolid;
     public javax.swing.JLabel lblUsuario;

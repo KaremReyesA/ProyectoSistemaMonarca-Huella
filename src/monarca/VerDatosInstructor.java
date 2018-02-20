@@ -53,8 +53,8 @@ public static String idNowInstructores;
  
             if(rs.next()){
                 lblNombre.setText(rs.getString("nombre"));
-                lblApellidoP.setText(rs.getString("a_paterno"));
-                lblApellidoM.setText(rs.getString("a_materno"));
+                lblApellidoP.setText(rs.getString("apellido_paterno"));
+                lblApellidoM.setText(rs.getString("apellido_materno"));
                 lblNacimiento.setText(rs.getString("fecha_nacimiento"));
                 System.out.println("Se obtivo resultado");
                    

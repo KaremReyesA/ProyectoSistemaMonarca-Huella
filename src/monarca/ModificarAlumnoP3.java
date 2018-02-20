@@ -3,18 +3,14 @@ package monarca;
 import db.ConexionBD;
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static monarca.VerAlumnos.idNowModify;
 import static monarca.ModificarAlumno.labelID;
-import static monarca.ModificarAlumnoP2.inicial;
-import static monarca.mainAmbos.rightPanel;
 import static monarca.mainAdmin.rightPanelAdmin;
 
 public class ModificarAlumnoP3 extends javax.swing.JPanel {

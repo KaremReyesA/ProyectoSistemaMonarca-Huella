@@ -343,7 +343,7 @@ public class VerAlumnos extends javax.swing.JPanel {
                 // lblIdAlumno.setText(noControlFinal+"");
                 //lblEsNuevo.setText("No");
 
-                VerDatosInstructor ver = new VerDatosInstructor();
+                VerDatosAlumno ver = new VerDatosAlumno();
 
                 ver.setSize(1070, 730);
                 ver.setLocation(0, 0);
