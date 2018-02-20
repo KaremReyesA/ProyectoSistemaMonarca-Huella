@@ -33,30 +33,33 @@ public class Adeudos {
 //         NewJFrame n= new NewJFrame();
 //         n.setVisible(true);
 
-        int id= obtenerId();
-        System.out.println(id);
+//        int id= obtenerId();
+//        System.out.println(id);
+
+        login l = new login();
+        l.setVisible(true);
        
     }
- public static int obtenerId() throws java.sql.SQLException {
-        int id = 0;
-        ResultSet rs;
-        PreparedStatement ps;
-        ResultSetMetaData rsm;
-        DefaultTableModel dtm;
-        ConexionBD conn = new ConexionBD();
-
-        Connection c = conn.conectar();
-        ps = c.prepareStatement("    SELECT id \n"
-                + "FROM alumnos\n"
-                + "ORDER BY id DESC\n"
-                + "LIMIT 1");
-
-        rs = ps.executeQuery();
-
-        while (rs.next()) {
-            id = rs.getInt("id");
-        }
-
-        return id;
-    }
+// public static int obtenerId() throws java.sql.SQLException {
+//        int id = 0;
+//        ResultSet rs;
+//        PreparedStatement ps;
+//        ResultSetMetaData rsm;
+//        DefaultTableModel dtm;
+//        ConexionBD conn = new ConexionBD();
+//
+//        Connection c = conn.conectar();
+//        ps = c.prepareStatement("    SELECT id \n"
+//                + "FROM alumnos\n"
+//                + "ORDER BY id DESC\n"
+//                + "LIMIT 1");
+//
+//        rs = ps.executeQuery();
+//
+//        while (rs.next()) {
+//            id = rs.getInt("id");
+//        }
+//
+//        return id;
+//    }
 }

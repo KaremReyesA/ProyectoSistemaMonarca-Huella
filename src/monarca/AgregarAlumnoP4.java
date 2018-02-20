@@ -556,7 +556,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             VerifiqueAlergia.setVisible(false);
 
         } else {
-            if (txtAlergia.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+            if (txtAlergia.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ, ]*")) {
                 SiAlergia.setVisible(true);
                 NoAlergia.setVisible(false);
                 VerifiqueAlergia.setVisible(false);
@@ -641,7 +641,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             VerifiqueAlergia.setVisible(false);
             NoAlergia.setVisible(false);
             Necesario.setVisible(true);
-        } else if (alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+        } else if (alergia.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ, ]*")) {
             SiAlergia();
         } else {
             SiAlergia.setVisible(false);
@@ -660,7 +660,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
             VerifiqueEnfermedad.setVisible(false);
             NoEnfermedad.setVisible(false);
             NecesarioEnferm.setVisible(true);
-        } else if (enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ ]*")) {
+        } else if (enfermedad.matches("[a-zA-ZáéíóúÁÉÍÓÚÜüñÑ, ]*")) {
             SiEnfermedad();
 
         } else {
