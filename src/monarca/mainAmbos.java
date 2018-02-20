@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import static monarca.mainAdmin.rightPanelAdmin;
 public class mainAmbos extends javax.swing.JFrame {
 
@@ -44,10 +45,7 @@ public class mainAmbos extends javax.swing.JFrame {
         btnTomaAsistencias.setBorderPainted(false);
         
         
-         btnConfig.setOpaque(false);
-        btnConfig.setContentAreaFilled(false);
-        btnConfig.setBorderPainted(false);
-
+       
         
         
         btnCerrarSesion.setOpaque(false);
@@ -90,13 +88,11 @@ public class mainAmbos extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         btnMensualidades = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblUsuario = new javax.swing.JLabel();
         lblRolid = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
-        btnConfig = new javax.swing.JButton();
         rightPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -260,11 +256,6 @@ public class mainAmbos extends javax.swing.JFrame {
         jLabel1.setText("CERRAR SESIÓN");
         sidePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 670, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("CONFIGURACIÓN");
-        sidePanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 610, 140, -1));
-
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         sidePanel.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 640, 180, 20));
 
@@ -274,8 +265,13 @@ public class mainAmbos extends javax.swing.JFrame {
         sidePanel.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 180, 20));
         sidePanel.add(lblRolid, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 20, 10));
         sidePanel.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 20, 10));
+
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
         sidePanel.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 650, 190, 50));
-        sidePanel.add(btnConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 590, 180, 50));
 
         back.add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 300, 730));
 
@@ -385,6 +381,18 @@ public class mainAmbos extends javax.swing.JFrame {
         rightPanelAdmin.repaint();       
     }//GEN-LAST:event_btnAgregarArticuActionPerformed
 
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        
+        int dialogResult = JOptionPane.showConfirmDialog(this, "¿Desea realmente cerrar sesión?", "Cerrar Sesión", dialogButton);
+        if (dialogResult == 0) {
+            login log = new login();
+            log.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
   
     
     public static void main(String args[]) {
@@ -426,7 +434,6 @@ public class mainAmbos extends javax.swing.JFrame {
     private javax.swing.JButton btnArticulos;
     private javax.swing.JButton btnAsistencias;
     private javax.swing.JButton btnCerrarSesion;
-    private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnMensualidades;
     private javax.swing.JButton btnTomaAsistencias;
     private javax.swing.JLabel jLabel1;
@@ -437,7 +444,6 @@ public class mainAmbos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

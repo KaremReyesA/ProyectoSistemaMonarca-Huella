@@ -49,6 +49,8 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
             if(rs.next()){
                 if(rs.getString("direccion")!=null){
                     inicial=1;
+                    
+                    JOptionPane.showConfirmDialog(SiParentesco, "si tengo direccion");
                     txtaDireccion.setText(rs.getString("direccion"));
                     txtTutor1.setText(rs.getString("nombre_tutor"));
                     cbParentesco.setSelectedItem(rs.getString("parentesco"));
@@ -207,7 +209,7 @@ public class AgregarAlumnoP2 extends javax.swing.JPanel {
         jLabel16.setText("Parentesco del contacto:");
         back.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, -1, -1));
 
-        cbParentesco.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Padre", "Madre", "Abuelo", "Abuela", "Padrastro", "Madrastra", "Tio", "Tia", "Hermano", "Hermana", "Esposo", "Esposa", "Otro" }));
+        cbParentesco.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Padre", "Madre", "Abuelo", "Abuela", "Padrastro", "Madrastra", "Tío", "Tía", "Hermano", "Hermana", "Esposo", "Esposa", "Hijo", "Hija", "Primo", "Prima" }));
         back.add(cbParentesco, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, 180, 30));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N

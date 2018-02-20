@@ -50,6 +50,9 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
         NecesarioEnferm.setVisible(false);
         lblEnfermedad.setVisible(false);
         txtEnfermedad.setVisible(false);
+        
+          CuidadoPeso.setVisible(false);
+          CuidadoAltura.setVisible(false);
 
         //Modificar datos en caso que se encuentre agregando un alumno 
         try {
@@ -68,9 +71,6 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                     cbSangre1.setSelectedItem(rs.getString("t_sangre"));
                     spnAltura1.setValue(Float.parseFloat(rs.getString("altura")));
                     spnPeso1.setValue(Float.parseFloat(rs.getString("peso")));
-                   
-                  
-
                    
                     if (txtAlergia.getText().equals("Ninguno")) {
                         rbAlergiasNo1.setSelected(true);
@@ -483,9 +483,11 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                 validarEnfermedad(enfermedad);
                 
             }
-            
-            if(!NoEnfermedad.isVisible() && !NoAlergia.isVisible()
-            ){
+                  // !NoEnfermedad.isVisible() && !NoAlergia.isVisible()
+
+            if( (rbAlergiasSi1.isSelected() && SiAlergia.isVisible()) ||
+                (rbEnfermedadSi1.isSelected() && SiEnfermedad.isVisible())
+                    ){
                 idNow = labelID.getText();
                 try {
                     PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET t_sangre=?, peso =?, altura =?, alrgias =?, enfermedades=? WHERE id=?");
@@ -500,7 +502,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
                     modificarAlumno.execute();
                     modificarAlumno.close();
-                    JOptionPane.showInputDialog("ALumno guardado con éxito");
+                  //  JOptionPane.showInputDialog("ALumno guardado con éxito");
                     //Cambiar a 5
                      
                     
@@ -513,8 +515,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
                     rightPanelAdmin.revalidate();
                     rightPanelAdmin.repaint();
                     
-                   
-
+                  
                 } catch (SQLException ex) {
                     System.out.println("error al guardar los datos: " + ex);
                     JOptionPane.showMessageDialog(null, "Error al guardar los datos");
@@ -528,7 +529,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
 
                 } catch(RuntimeException j){
                 
-                    JOptionPane.showMessageDialog(null, "Verifique la conectividad del detector");
+                  //  JOptionPane.showMessageDialog(null, "Verifique la conectividad del detector");
                 }
                 finally {
                     con.desconectar();
@@ -782,7 +783,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     
     
     void validarAlergia(String alergia) {
-         if(alergia.isEmpty()){
+         if(alergia.isEmpty() || alergia.equals("")){
                     SiAlergia.setVisible(false);
                     VerifiqueAlergia.setVisible(false);
                     NoAlergia.setVisible(false);
@@ -803,7 +804,7 @@ public class AgregarAlumnoP4 extends javax.swing.JPanel {
     
     void validarEnfermedad(String enfermedad) {
                 
-            if(enfermedad.isEmpty()){
+            if(enfermedad.isEmpty()|| enfermedad.equals("")){
                     SiEnfermedad.setVisible(false);
                     VerifiqueEnfermedad.setVisible(false);
                     NoEnfermedad.setVisible(false);

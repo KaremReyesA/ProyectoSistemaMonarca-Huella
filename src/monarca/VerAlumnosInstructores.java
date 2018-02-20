@@ -26,7 +26,7 @@ import static monarca.VerDatosAlumno.idNow;
 import static monarca.login.usuario_rol;
 
 
-public class VerInstructores extends javax.swing.JPanel {
+public class VerAlumnosInstructores extends javax.swing.JPanel {
 public static String idNowModify;
     ConexionBD conn = new ConexionBD();
     ResultSet rs;
@@ -35,7 +35,7 @@ public static String idNowModify;
     DefaultTableModel dtm;
     String stringDate, folioN;
 
-    public VerInstructores() {
+    public VerAlumnosInstructores() {
         initComponents();
         idNowModify=null;
         limpiarTabla(jtAlumnos);
@@ -53,7 +53,10 @@ public static String idNowModify;
         Connection c = conn.conectar();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
-            ps = c.prepareStatement("SELECT concat_ws(' ', nombre, apellido_paterno, apellido_materno), celular , rol  from usuarios where activo=1");
+      
+        
+             
+            ps = c.prepareStatement("SELECT concat_ws(' ', nombre, a_paterno, a_materno), tutor_celular ,nombre_tutor, parentesco from alumnos where activo=1 ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
             ArrayList<Object[]> datos = new ArrayList<>();
@@ -61,7 +64,7 @@ public static String idNowModify;
                 Object[] filas = new Object[rsm.getColumnCount()];
                 for (int i = 0; i < filas.length; i++) {
 
-                 filas[i] = rs.getObject(i + 1);
+                    filas[i] = rs.getObject(i + 1);
                 }
                 datos.add(filas);
             }
@@ -70,7 +73,7 @@ public static String idNowModify;
                 dtm.addRow(datos.get(i));
             }
          
-      
+        
     
     }
 
@@ -113,16 +116,16 @@ public static String idNowModify;
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Instructores");
+        jLabel1.setText("Alumnos");
 
         javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
         TitlePanel.setLayout(TitlePanelLayout);
         TitlePanelLayout.setHorizontalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
-                .addContainerGap(466, Short.MAX_VALUE)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(449, 449, 449)
                 .addComponent(jLabel1)
-                .addGap(413, 413, 413))
+                .addContainerGap(485, Short.MAX_VALUE))
         );
         TitlePanelLayout.setVerticalGroup(
             TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,11 +152,11 @@ public static String idNowModify;
 
             },
             new String [] {
-                "Nombre completo", "Celular", "Rol"
+                "Nombre completo", "Número en caso de emergencia", "Nombre del contacto", "Parentesco"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

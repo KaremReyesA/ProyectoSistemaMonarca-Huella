@@ -25,7 +25,7 @@ import static monarca.login.usuario_id;
 public class AgregarAlumno extends javax.swing.JPanel {
  public static int inicial = 0;
 //If any key is typed, set message with error
-    public AgregarAlumno() { 
+    public AgregarAlumno() throws SQLException { 
         
         initComponents();
 
@@ -75,7 +75,8 @@ public class AgregarAlumno extends javax.swing.JPanel {
             rs= ps.executeQuery();
             
             if(rs.next()){
-                if(rs.getString("enfermedades")==null){
+                if( rs.getString("enfermedades")==null || ((rs.getString("enfermedades")).equals("")))
+                      {
                     inicial=1;
                     txtNombre.setText(rs.getString("nombre"));
                     txtAPat.setText(rs.getString("a_paterno"));
@@ -97,6 +98,10 @@ public class AgregarAlumno extends javax.swing.JPanel {
          catch (SQLException ex) {
             Logger.getLogger(AgregarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        catch (NullPointerException ex) {
+//            
+//            JOptionPane.showInputDialog("no");
+//        }
         
     }
     
@@ -386,7 +391,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
             int anio = dtNacimiento.getCalendar().get(Calendar.YEAR);
             int mes = dtNacimiento.getCalendar().get(Calendar.MONTH) + 1;
             int dia = dtNacimiento.getCalendar().get(Calendar.DAY_OF_MONTH);
-            String fNacimiento = String.valueOf(anio) + "/" + String.valueOf(mes) + "/" + String.valueOf(dia);
+            String fNacimiento = String.valueOf(anio) + "-" + String.valueOf(mes) + "-" + String.valueOf(dia);
             
             ValidarNombre(nombre);
             ValidarAPaterno(aPaterno);
@@ -396,7 +401,7 @@ public class AgregarAlumno extends javax.swing.JPanel {
                 //PrimeraVez sin datos
                
                 if(!nombre.isEmpty() && !aPaterno.isEmpty() && IcoCorreNombre.isVisible()&& IcoCorreApellidoP.isVisible()){
-                    agregarAlumnoBD(nombre, aPaterno, aMaterno, fNacimiento, usuario_id);
+                    agregarAlumnoBD(nombre, aPaterno, aMaterno, fNacimiento);
                     
                     AgregarAlumnoP2 articulos = new AgregarAlumnoP2();
                     articulos.setSize(1070,730);
@@ -419,22 +424,22 @@ public class AgregarAlumno extends javax.swing.JPanel {
                         ResultSet rs;
                         PreparedStatement ps;
 
-                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET nombre=?, a_paterno =?, a_materno =?, fecha_nacimiento=?, usuario_id=? WHERE id=?");
+                        PreparedStatement modificarAlumno = c.prepareStatement("UPDATE alumnos SET nombre=?, a_paterno =?, a_materno =?, fecha_nacimiento=? WHERE id=?");
 
                         modificarAlumno.setString(1, txtNombre.getText());
                         modificarAlumno.setString(2, txtAPat.getText());
                         modificarAlumno.setString(3, txtAMat.getText());
                         modificarAlumno.setString(4, fNacimiento);
-                        modificarAlumno.setInt(5, Integer.parseInt(usuario_id));
-                        modificarAlumno.setString(6, labelID.getText());
+                     
+                        modificarAlumno.setString(5, labelID.getText());
 
                         modificarAlumno.execute();
                         modificarAlumno.close();
-                        System.err.println("MODIFICADO");
+                       // System.err.println("MODIFICADO");
 
                     } catch (SQLException ex) {
-                        System.out.println("error al guardar los datos: " + ex);
-                        JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+                       // System.out.println("error al guardar los datos: " + ex);
+                      //  JOptionPane.showMessageDialog(null, "Error al guardar los datos");
                     } finally {
                         con.desconectar();
                     }
@@ -448,8 +453,10 @@ public class AgregarAlumno extends javax.swing.JPanel {
                     rightPanelAdmin.repaint();
                 }
             }
-        }catch(Exception a){
-                FechaRequerida.setVisible(true);  
+    }catch(Exception a){
+              FechaRequerida.setVisible(true);  
+//               JOptionPane.showConfirmDialog(dtNacimiento, a);
+//               System.out.println(a);
         }
       
         
@@ -521,26 +528,27 @@ public class AgregarAlumno extends javax.swing.JPanel {
     ConexionBD con = new ConexionBD();
     
      void agregarAlumnoBD(String nombre, String aPaterno, String aMaterno,
-            String fNacimiento, String usuario_id) {
-
+            String fNacimiento) {
+// String usuario_id
         try {
+             JOptionPane.showMessageDialog(null, "You are here");
+            //int usuar=Integer.valueOf(usuario_id);
             Connection c = con.conectar();
-            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento,usuario_id) "
-                    + "VALUES (?,?,?,?,?)");
+            PreparedStatement agregarAlumno = c.prepareStatement("INSERT INTO  alumnos (nombre,a_paterno,a_materno,fecha_nacimiento) "
+                    + "VALUES (?,?,?,?)");
 
             agregarAlumno.setString(1, nombre);
             agregarAlumno.setString(2, aPaterno);
             agregarAlumno.setString(3, aMaterno);
             agregarAlumno.setString(4, fNacimiento);
-            agregarAlumno.setInt(5, Integer.parseInt(usuario_id));
+            //agregarAlumno.setInt(5, usuar);
            
-
             agregarAlumno.execute();
             agregarAlumno.close();
-           // JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
+            JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
         } catch (SQLException ex) {
-            System.out.println("error al guardar los datos: " + ex);
-            JOptionPane.showMessageDialog(null, "Error al guardar los datos");
+            //System.out.println("error al guardar los datos: " + ex);
+            //JOptionPane.showMessageDialog(null, "Error al guardar los datos");
         } finally {
             con.desconectar();
         }

@@ -162,7 +162,7 @@ public class Abonar extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         Connection c = conn.conectar();
-        VerAdeudos ver = new VerAdeudos();
+        VerAdeudosF ver = new VerAdeudosF();
         int folio = Integer.parseInt(lblFolio.getText());
         String nombre = lblAlumno.getText();
         float abonodb, abono = (float) spnAbono.getValue();
@@ -180,10 +180,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                 JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre + "."
@@ -198,10 +198,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                 JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);
@@ -215,10 +215,10 @@ public class Abonar extends javax.swing.JFrame {
                     ver.limpiarTabla(ver.jtArtPend);
                     ver.llenarTabla(ver.jtArtPend);
                 } catch (SQLException ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                 }
                     this.dispose();

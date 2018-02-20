@@ -250,10 +250,11 @@ public class VerTicketDetalles extends javax.swing.JFrame {
 
     private void btnLiquidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidarActionPerformed
         Connection c=conn.conectar();
-        VerAdeudos A=new VerAdeudos();
+        VerAdeudosF A=new VerAdeudosF();
         String nombre = lblNombre.getText();
         int ticket_id=Integer.parseInt(lblId.getText());
         int dialogButton = JOptionPane.YES_NO_OPTION;
+        
         int dialogResult = JOptionPane.showConfirmDialog(this, "¿Se a saldado la deuda de este recibo?", "Liquidar Adeudo", dialogButton);
         if (dialogResult == 0) {
             System.out.println("Yes option");
@@ -264,10 +265,10 @@ public class VerTicketDetalles extends javax.swing.JFrame {
                 A.limpiarTabla(A.jtArtPend);
                 A.llenarTabla(A.jtArtPend);
             } catch (SQLException ex) {
-                Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             } catch (Exception ex) {
-                Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
             }
             JOptionPane.showMessageDialog(null, " Se a liquidado el recibo con el folio #" + folio + " del alumno " + nombre);

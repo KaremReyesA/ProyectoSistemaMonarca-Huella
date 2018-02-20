@@ -320,9 +320,6 @@ public class AgregarAlumnoP3 extends javax.swing.JPanel {
                             rightPanelAdmin.revalidate();
                             rightPanelAdmin.repaint();
                     
-                    
-                    
-                    
             } else{
                     deporte=txtDeporte.getText();
             }

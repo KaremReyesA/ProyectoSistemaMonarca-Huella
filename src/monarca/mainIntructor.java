@@ -2,6 +2,7 @@
 package monarca;
 
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import static monarca.mainAdmin.rightPanelAdmin;
 public class mainIntructor extends javax.swing.JFrame {
 
@@ -10,13 +11,6 @@ public class mainIntructor extends javax.swing.JFrame {
         lblRolid.setVisible(false);
         lblInstructorId.setVisible(false);
 
-
-        
-        btnAlumnos.setOpaque(false);
-        btnAlumnos.setContentAreaFilled(false);
-        btnAlumnos.setBorderPainted(false);
-        
-     
         btnAsistencias.setOpaque(false);
         btnAsistencias.setContentAreaFilled(false);
         btnAsistencias.setBorderPainted(false);
@@ -25,11 +19,11 @@ public class mainIntructor extends javax.swing.JFrame {
         btnTomaAsistencias.setContentAreaFilled(false);
         btnTomaAsistencias.setBorderPainted(false);
         
+    
+          btnAlumnos.setOpaque(false);
+        btnAlumnos.setContentAreaFilled(false);
+        btnAlumnos.setBorderPainted(false);
         
-         btnConfig.setOpaque(false);
-        btnConfig.setContentAreaFilled(false);
-        btnConfig.setBorderPainted(false);
-
         
         
         btnCerrarSesion.setOpaque(false);
@@ -45,10 +39,6 @@ public class mainIntructor extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         back = new javax.swing.JPanel();
         sidePanel = new javax.swing.JPanel();
-        AlumnosMenu = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        btnAlumnos = new javax.swing.JButton();
         AsistenciasMenu = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -58,14 +48,16 @@ public class mainIntructor extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         btnTomaAsistencias = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblUsuario = new javax.swing.JLabel();
         lblRolid = new javax.swing.JLabel();
         lblInstructorId = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
-        btnConfig = new javax.swing.JButton();
-        rightPanel = new javax.swing.JPanel();
+        AlumnosMenu = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnAlumnos = new javax.swing.JButton();
+        rightPanelInstructores = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -88,26 +80,6 @@ public class mainIntructor extends javax.swing.JFrame {
 
         sidePanel.setBackground(new java.awt.Color(54, 33, 89));
         sidePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        AlumnosMenu.setBackground(new java.awt.Color(84, 65, 118));
-        AlumnosMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Kicking_35px_1.png"))); // NOI18N
-        AlumnosMenu.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 40, 38));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Alumnos");
-        AlumnosMenu.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 82, 38));
-
-        btnAlumnos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlumnosActionPerformed(evt);
-            }
-        });
-        AlumnosMenu.add(btnAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, 70));
-
-        sidePanel.add(AlumnosMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 180, -1, 70));
 
         AsistenciasMenu.setBackground(new java.awt.Color(84, 65, 118));
         AsistenciasMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -154,11 +126,6 @@ public class mainIntructor extends javax.swing.JFrame {
         jLabel1.setText("CERRAR SESIÓN");
         sidePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 670, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("CONFIGURACIÓN");
-        sidePanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 610, 140, -1));
-
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         sidePanel.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 640, 180, 20));
 
@@ -168,51 +135,65 @@ public class mainIntructor extends javax.swing.JFrame {
         sidePanel.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 180, 20));
         sidePanel.add(lblRolid, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 20, 10));
         sidePanel.add(lblInstructorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 20, 10));
+
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
         sidePanel.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 650, 190, 50));
-        sidePanel.add(btnConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 590, 180, 50));
+
+        AlumnosMenu.setBackground(new java.awt.Color(84, 65, 118));
+        AlumnosMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Kicking_35px_1.png"))); // NOI18N
+        AlumnosMenu.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 40, 38));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Alumnos");
+        AlumnosMenu.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 82, 38));
+
+        btnAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlumnosActionPerformed(evt);
+            }
+        });
+        AlumnosMenu.add(btnAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 60));
+
+        sidePanel.add(AlumnosMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 560, 60));
 
         back.add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 300, 730));
 
-        rightPanel.setBackground(new java.awt.Color(255, 255, 255));
+        rightPanelInstructores.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
-        rightPanel.setLayout(rightPanelLayout);
-        rightPanelLayout.setHorizontalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout rightPanelInstructoresLayout = new javax.swing.GroupLayout(rightPanelInstructores);
+        rightPanelInstructores.setLayout(rightPanelInstructoresLayout);
+        rightPanelInstructoresLayout.setHorizontalGroup(
+            rightPanelInstructoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1160, Short.MAX_VALUE)
         );
-        rightPanelLayout.setVerticalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        rightPanelInstructoresLayout.setVerticalGroup(
+            rightPanelInstructoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 760, Short.MAX_VALUE)
         );
 
-        back.add(rightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 1160, 760));
+        back.add(rightPanelInstructores, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 1160, 760));
 
         getContentPane().add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
-        VerAlumnos alumnos = new VerAlumnos();
-        alumnos.setSize(1070,730);
-        alumnos.setLocation(0, 0);
-
-        rightPanel.removeAll();
-        rightPanel.add(alumnos, BorderLayout.CENTER);
-        rightPanel.revalidate();
-        rightPanel.repaint();
-    }//GEN-LAST:event_btnAlumnosActionPerformed
-
     private void btnAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciasActionPerformed
         VerAsistenciasAlumnos asistencias = new VerAsistenciasAlumnos();
         asistencias.setSize(1070,730);
         asistencias.setLocation(0, 0);
 
-        rightPanel.removeAll();
-        rightPanel.add(asistencias, BorderLayout.CENTER);
-        rightPanel.revalidate();
-        rightPanel.repaint(); 
+        rightPanelInstructores.removeAll();
+        rightPanelInstructores.add(asistencias, BorderLayout.CENTER);
+        rightPanelInstructores.revalidate();
+        rightPanelInstructores.repaint(); 
     }//GEN-LAST:event_btnAsistenciasActionPerformed
 
     private void btnTomaAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTomaAsistenciasActionPerformed
@@ -220,10 +201,10 @@ public class mainIntructor extends javax.swing.JFrame {
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
 
-        rightPanel.removeAll();
-        rightPanel.add(asistencia, BorderLayout.CENTER);
-        rightPanel.revalidate();
-        rightPanel.repaint();        // TODO add your handling code here:
+        rightPanelInstructores.removeAll();
+        rightPanelInstructores.add(asistencia, BorderLayout.CENTER);
+        rightPanelInstructores.revalidate();
+        rightPanelInstructores.repaint();        // TODO add your handling code here:
         
 //          TomarAsistencias asistenciaAlum = new TomarAsistencias();
 //        asistenciaAlum.stop();
@@ -234,6 +215,29 @@ public class mainIntructor extends javax.swing.JFrame {
 //        rightPanelAdmin.revalidate();
 //        rightPanelAdmin.repaint();   // TODO add your handling code here: // TODO add your handling code here:
     }//GEN-LAST:event_btnTomaAsistenciasActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        
+        int dialogResult = JOptionPane.showConfirmDialog(this, "¿Desea realmente cerrar sesión?", "Cerrar Sesión", dialogButton);
+        if (dialogResult == 0) {
+            login log = new login();
+            log.setVisible(true);
+            this.setVisible(false);
+        }       
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
+        VerAlumnosInstructores alumnos = new VerAlumnosInstructores();
+        alumnos.setSize(1070,730);
+        alumnos.setLocation(0, 0);
+
+        rightPanelInstructores.removeAll();
+        rightPanelInstructores.add(alumnos, BorderLayout.CENTER);
+        rightPanelInstructores.revalidate();
+        rightPanelInstructores.repaint();
+    }//GEN-LAST:event_btnAlumnosActionPerformed
 
   
     
@@ -271,12 +275,10 @@ public class mainIntructor extends javax.swing.JFrame {
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAsistencias;
     private javax.swing.JButton btnCerrarSesion;
-    private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnTomaAsistencias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -286,7 +288,7 @@ public class mainIntructor extends javax.swing.JFrame {
     public javax.swing.JLabel lblInstructorId;
     public javax.swing.JLabel lblRolid;
     public javax.swing.JLabel lblUsuario;
-    public static transient volatile javax.swing.JPanel rightPanel;
+    public static transient volatile javax.swing.JPanel rightPanelInstructores;
     private javax.swing.JPanel sidePanel;
     // End of variables declaration//GEN-END:variables
 }

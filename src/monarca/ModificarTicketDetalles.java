@@ -446,10 +446,10 @@ void vaciarCombos() {
                             System.err.println(ex.toString());
                         }
                     } catch (SQLException ex) {
-                        Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println(ex);
                     } catch (Exception ex) {
-                        Logger.getLogger(VerAdeudos.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(VerAdeudosF.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println(ex);
                     }
 

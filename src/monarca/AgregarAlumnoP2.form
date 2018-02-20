@@ -281,20 +281,23 @@
         <Component class="javax.swing.JComboBox" name="cbParentesco">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="13">
+              <StringArray count="16">
                 <StringItem index="0" value="Padre"/>
                 <StringItem index="1" value="Madre"/>
                 <StringItem index="2" value="Abuelo"/>
                 <StringItem index="3" value="Abuela"/>
                 <StringItem index="4" value="Padrastro"/>
                 <StringItem index="5" value="Madrastra"/>
-                <StringItem index="6" value="Tio"/>
-                <StringItem index="7" value="Tia"/>
+                <StringItem index="6" value="T&#xed;o"/>
+                <StringItem index="7" value="T&#xed;a"/>
                 <StringItem index="8" value="Hermano"/>
                 <StringItem index="9" value="Hermana"/>
                 <StringItem index="10" value="Esposo"/>
                 <StringItem index="11" value="Esposa"/>
-                <StringItem index="12" value="Otro"/>
+                <StringItem index="12" value="Hijo"/>
+                <StringItem index="13" value="Hija"/>
+                <StringItem index="14" value="Primo"/>
+                <StringItem index="15" value="Prima"/>
               </StringArray>
             </Property>
           </Properties>

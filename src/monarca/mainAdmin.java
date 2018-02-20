@@ -2,10 +2,12 @@
 package monarca;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import static monarca.mainAmbos.rightPanel;
 public class mainAdmin extends javax.swing.JFrame {
 
@@ -90,7 +92,6 @@ public class mainAdmin extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         btnAgregarIns = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblUsuario = new javax.swing.JLabel();
         lblRolid = new javax.swing.JLabel();
@@ -106,6 +107,7 @@ public class mainAdmin extends javax.swing.JFrame {
         btnAgregarAdeudos = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         btnAdeudos = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
         rightPanelAdmin = new javax.swing.JPanel();
         AddAlumno = new javax.swing.JPanel();
 
@@ -268,11 +270,6 @@ public class mainAdmin extends javax.swing.JFrame {
         jLabel1.setText("CERRAR SESIÓN");
         sidePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 650, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("CONFIGURACIÓN");
-        sidePanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 580, 140, -1));
-
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         sidePanel.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 620, 180, 20));
 
@@ -338,6 +335,13 @@ public class mainAdmin extends javax.swing.JFrame {
         Instructores1.add(btnAdeudos, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 10, 260, 60));
 
         sidePanel.add(Instructores1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 310, 80));
+
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        sidePanel.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 630, 190, 50));
 
         back.add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 300, 730));
 
@@ -423,7 +427,12 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsistenciasInstrucActionPerformed
 
     private void btnAgregarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlumActionPerformed
-   AgregarAlumno asistencia = new AgregarAlumno();
+   AgregarAlumno asistencia = null;
+        try {
+            asistencia = new AgregarAlumno();
+        } catch (SQLException ex) {
+            Logger.getLogger(mainAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
         asistencia.setSize(1070,730);
         asistencia.setLocation(0, 0);
@@ -469,7 +478,7 @@ public class mainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMensualidades1ActionPerformed
 
     private void btnAdeudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdeudosActionPerformed
-         VerAdeudos adeudos = new VerAdeudos();
+         VerAdeudosF adeudos = new VerAdeudosF();
         adeudos.setSize(1070,730);
         adeudos.setLocation(0, 0);
 
@@ -489,6 +498,18 @@ public class mainAdmin extends javax.swing.JFrame {
 //        rightPanelAdmin.revalidate();
 //        rightPanelAdmin.repaint();
     }//GEN-LAST:event_btnAgregarAdeudosActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+
+        int dialogResult = JOptionPane.showConfirmDialog(this, "¿Desea realmente cerrar sesión?", "Cerrar Sesión", dialogButton);
+        if (dialogResult == 0) {
+            login log = new login();
+            log.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
   
     
@@ -539,6 +560,7 @@ public class mainAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAsistenciasAlumnos;
     private javax.swing.JButton btnAsistenciasInstruc;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnInstructores;
     private javax.swing.JButton btnMensualidades;
     private javax.swing.JButton btnMensualidades1;
@@ -555,7 +577,6 @@ public class mainAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
